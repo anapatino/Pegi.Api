@@ -1,6 +1,6 @@
 namespace Pegi.Api.Test;
 
-public class Pegi.ApiTest
+public class Pegi
 {
     [Fact]
     public void TestSum()
