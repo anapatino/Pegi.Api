@@ -1,6 +1,7 @@
+using Data.Repositories.Shared;
 using Entities;
 
-namespace Data;
+namespace Data.Repositories;
 
 public class UsersRepository : Repository<User>
 {

@@ -4,10 +4,6 @@ public record Void;
 
 public record Response<TData>
 {
-    public string? Message   { get; set; }
-    public TData?  Data      { get; set; }
-    public bool    HasErrors { get; set; }
-
     public Response(string? message, TData? data, bool hasErrors)
     {
         Message   = message;
@@ -42,4 +38,8 @@ public record Response<TData>
         Message   = message;
         HasErrors = true;
     }
+
+    public string? Message   { get; set; }
+    public TData?  Data      { get; set; }
+    public bool    HasErrors { get; set; }
 }

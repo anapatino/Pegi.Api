@@ -12,7 +12,7 @@ public static class DatabaseProvider
     {
         MySqlServerVersion mysqlVersion = new(new Version(8, 0));
         options.UseMySql(connectionString, mysqlVersion,
-            builder => builder.MigrationsAssembly(MigrationsAssembly))
+                builder => builder.MigrationsAssembly(MigrationsAssembly))
             .EnableDetailedErrors();
         return options;
     }

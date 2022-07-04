@@ -3,6 +3,7 @@ using System;
 using Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Api.Migrations
 {
     [DbContext(typeof(PegiDbContext))]
-    partial class PegiDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220704232708_DateTimeType")]
+    partial class DateTimeType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -108,10 +110,10 @@ namespace Api.Migrations
                         .HasColumnType("longtext")
                         .HasColumnName("person_first_name");
 
-                    b.Property<string>("IdentificationType")
+                    b.Property<string>("Identification")
                         .IsRequired()
                         .HasColumnType("longtext")
-                        .HasColumnName("person_identification_type");
+                        .HasColumnName("person_identification");
 
                     b.Property<string>("InstitutionalMail")
                         .IsRequired()

@@ -6,46 +6,42 @@ namespace Entities;
 [Table("people")]
 public class Person
 {
-    [Key, Column("person_document")]
+    [Key]
+    [Column("person_document")]
     public string Document { get; set; }
 
-    [Column("person_identification")]
-    public string Identification { get; set; }
+    [Column("person_identification_type")]
+    public string IdentificationType { get; set; }
 
-    [Column("person_firstName")]
+    [Column("person_first_name")]
     public string FirstName { get; set; }
 
-    [Column("person_secondName")]
-    public string SecondName { get; set; }
+    [Column("person_second_name")]
+    public string? SecondName { get; set; }
 
-    [Column("person_firstLastName")]
+    [Column("person_first_last_name")]
     public string FirstLastName { get; set; }
 
-    [Column("person_secondLastName")]
-    public string SecondLastName { get; set; }
+    [Column("person_second_last_name")]
+    public string? SecondLastName { get; set; }
 
-    [Column("person_civilState")]
+    [Column("person_civil_state")]
     public string CivilState { get; set; }
 
     [Column("person_sex")]
     public string Sex { get; set; }
 
-    [Column("person_birthDate")]
-    public string BirthDate { get; set; }
+    [Column("person_birth_date")]
+    public DateTime BirthDate { get; set; }
 
-    [Column("person_nationality")]
-    public string Nationality { get; set; }
+    public string CountryCode { get; set; }
 
-    public string CityCode { get; set; }
-    [ForeignKey("CityCode")]
-    public City City { get; set; }
-
-    [Column("person_birthPlace")]
-    public string BirthPlace { get; set; }
+    [ForeignKey("CountryCode")]
+    public Country Nationality { get; set; }
 
     [Column("person_phone")]
     public string Phone { get; set; }
 
-    [Column("person_institutionalMail")]
+    [Column("person_institutional_email")]
     public string InstitutionalMail { get; set; }
 }

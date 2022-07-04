@@ -1,4 +1,4 @@
-using Data;
+using Data.Repositories;
 using Services;
 
 namespace Api;
@@ -10,6 +10,7 @@ public static class DependencyInjection
         repositories.AddScoped<UsersRepository>();
         repositories.AddScoped<DepartmentsRepository>();
         repositories.AddScoped<CitiesRepository>();
+        repositories.AddScoped<CountriesRepository>();
         repositories.AddScoped<PeopleRepository>();
     }
 
