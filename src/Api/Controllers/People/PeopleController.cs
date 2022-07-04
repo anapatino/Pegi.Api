@@ -1,12 +1,12 @@
-﻿using Services;
-using Entities;
+﻿using Entities;
 using Microsoft.AspNetCore.Mvc;
+using Services;
 
 namespace Api.Controllers.People;
 
 [ApiController]
 [Route("people")]
-public class PeopleController:ControllerBase
+public class PeopleController : ControllerBase
 {
     private readonly PeopleService _peopleService;
 
@@ -21,15 +21,14 @@ public class PeopleController:ControllerBase
     {
         try
         {
-            Person person = CreatePerson(createPersonRequest);
-            string message = _peopleService.SavePerson(person);
-            return Ok(new Response<Void>(message, hasErrors: false));
+            var person = CreatePerson(createPersonRequest);
+            var message = _peopleService.SavePerson(person);
+            return Ok(new Response<Void>(message, false));
         }
         catch (Exception e)
         {
             return BadRequest(new Response<Void>(e.Message));
         }
-
     }
 
     public Person CreatePerson(CreatePersonRequest createPersonRequest)
@@ -46,7 +45,7 @@ public class PeopleController:ControllerBase
             Sex = createPersonRequest.Sex,
             BirthDate = createPersonRequest.BirthDate,
             Nationality = createPersonRequest.Nationality,
-            CityCode= createPersonRequest.CityCode,
+            CityCode = createPersonRequest.CityCode,
             BirthPlace = createPersonRequest.BirthPlace,
             Phone = createPersonRequest.Phone,
             InstitutionalMail = createPersonRequest.InstitutionalMail
@@ -59,9 +58,10 @@ public class PeopleController:ControllerBase
     {
         try
         {
-            Person? person = _peopleService.SearchPerson(document);
+            var person = _peopleService.SearchPerson(document);
             if (person == null)
-                return BadRequest(new Response<Void>("No se ha encontrado a la persona"));
+                return BadRequest(
+                    new Response<Void>("No se ha encontrado a la persona"));
             return Ok(new Response<Person>(person));
         }
         catch (Exception e)
@@ -75,8 +75,8 @@ public class PeopleController:ControllerBase
     {
         try
         {
-            string message = _peopleService.DeletePerson(document);
-            return Ok(new Response<Void>(message, hasErrors: false));
+            var message = _peopleService.DeletePerson(document);
+            return Ok(new Response<Void>(message, false));
         }
         catch (Exception e)
         {
