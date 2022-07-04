@@ -18,5 +18,6 @@ public static class DependencyInjection
         services.AddScoped<AuthService>();
         services.AddScoped<UsersService>();
         services.AddScoped<LocationsService>();
+        services.AddScoped<PeopleService>();
     }
 }

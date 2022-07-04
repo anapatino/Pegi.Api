@@ -31,7 +31,7 @@ public class PeopleController : ControllerBase
         }
     }
 
-    public Person CreatePerson(CreatePersonRequest createPersonRequest)
+    private Person CreatePerson(CreatePersonRequest createPersonRequest)
     {
         Person person = new()
         {
@@ -53,7 +53,7 @@ public class PeopleController : ControllerBase
         return person;
     }
 
-    [HttpGet]
+    [HttpGet("{document}")]
     public ActionResult GetPerson([FromRoute] string document)
     {
         try
@@ -70,7 +70,7 @@ public class PeopleController : ControllerBase
         }
     }
 
-    [HttpDelete]
+    [HttpDelete("{document}")]
     public ActionResult DeletePerson([FromRoute] string document)
     {
         try
