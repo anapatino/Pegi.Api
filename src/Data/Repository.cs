@@ -28,6 +28,11 @@ public class Repository<TEntity> where TEntity : class
         return Context.Set<TEntity>().FirstOrDefault(predicate);
     }
 
+    public List<TEntity> Filter(Expression<Func<TEntity, bool>> predicate)
+    {
+        return Context.Set<TEntity>().Where(predicate).ToList();
+    }
+
     public virtual IEnumerable<TEntity> GetAll()
     {
         return Context.Set<TEntity>().AsNoTracking().ToList();

@@ -1,0 +1,16 @@
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+
+namespace Entities;
+[Table( "cities")]
+public class City
+{
+    [Key, Column("city_code")]
+    public string Code { get; set; }
+    [Column("city_name")]
+    public string Name { get; set; }
+    public  Department Department { get; set; }
+
+
+}
