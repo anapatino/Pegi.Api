@@ -6,7 +6,7 @@ namespace Api.Controllers.Locations;
 
 [ApiController]
 [Route("locations")]
-public class LocationsController: ControllerBase
+public class LocationsController : ControllerBase
 {
     private readonly LocationsService _locationsService;
 
@@ -15,7 +15,7 @@ public class LocationsController: ControllerBase
         _locationsService = locationsService;
     }
 
-    [HttpGet ("departments")]
+    [HttpGet("departments")]
     public ActionResult GetDepartments()
     {
         List<Department> departments = _locationsService.GetDepartments();
@@ -28,5 +28,4 @@ public class LocationsController: ControllerBase
         List<City> cities = _locationsService.GetCities(department);
         return Ok(new Response<List<City>>(cities));
     }
-
 }

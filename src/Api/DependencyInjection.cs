@@ -17,8 +17,6 @@ public static class DependencyInjection
     {
         services.AddScoped<AuthService>();
         services.AddScoped<UsersService>();
-        services.AddScoped<CitiesRepository>();
-        services.AddScoped<PersonsRepository>();
-
+        services.AddScoped<LocationsService>();
     }
 }
