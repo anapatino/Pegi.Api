@@ -1,13 +1,17 @@
 using Api;
 using Data;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 ConfigurationManager configuration = builder.Configuration;
+string connectionString =
+    configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<PegiDbContext>(options =>
-    options.SetupDatabaseEngine(
-        configuration.GetConnectionString("DefaultConnection")));
+    options.SetupDatabaseEngine(connectionString)
+        .UseSnakeCaseNamingConvention()
+);
 
 builder.Services.AddRepositories();
 builder.Services.AddServices();

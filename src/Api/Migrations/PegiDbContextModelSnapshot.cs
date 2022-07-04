@@ -26,18 +26,21 @@ namespace Api.Migrations
 
                     b.Property<string>("DepartmentCode")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("department_code");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("longtext")
                         .HasColumnName("city_name");
 
-                    b.HasKey("Code");
+                    b.HasKey("Code")
+                        .HasName("pk_cities");
 
-                    b.HasIndex("DepartmentCode");
+                    b.HasIndex("DepartmentCode")
+                        .HasDatabaseName("ix_cities_department_code");
 
-                    b.ToTable("cities");
+                    b.ToTable("cities", (string)null);
                 });
 
             modelBuilder.Entity("Entities.Department", b =>
@@ -51,9 +54,10 @@ namespace Api.Migrations
                         .HasColumnType("longtext")
                         .HasColumnName("department_name");
 
-                    b.HasKey("Code");
+                    b.HasKey("Code")
+                        .HasName("pk_departments");
 
-                    b.ToTable("departments");
+                    b.ToTable("departments", (string)null);
                 });
 
             modelBuilder.Entity("Entities.Person", b =>
@@ -74,7 +78,8 @@ namespace Api.Migrations
                         .HasColumnName("person_placeBirth");
 
                     b.Property<string>("CityCode")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("city_code");
 
                     b.Property<string>("CivilState")
                         .IsRequired()
@@ -82,7 +87,8 @@ namespace Api.Migrations
                         .HasColumnName("person_civilState");
 
                     b.Property<string>("DepartmentCode")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("department_code");
 
                     b.Property<string>("FirstLastName")
                         .IsRequired()
@@ -129,13 +135,16 @@ namespace Api.Migrations
                         .HasColumnType("longtext")
                         .HasColumnName("person_sex");
 
-                    b.HasKey("Document");
+                    b.HasKey("Document")
+                        .HasName("pk_people");
 
-                    b.HasIndex("CityCode");
+                    b.HasIndex("CityCode")
+                        .HasDatabaseName("ix_people_city_code");
 
-                    b.HasIndex("DepartmentCode");
+                    b.HasIndex("DepartmentCode")
+                        .HasDatabaseName("ix_people_department_code");
 
-                    b.ToTable("people");
+                    b.ToTable("people", (string)null);
                 });
 
             modelBuilder.Entity("Entities.User", b =>
@@ -160,12 +169,14 @@ namespace Api.Migrations
                         .HasColumnType("longtext")
                         .HasColumnName("user_role");
 
-                    b.HasKey("Code");
+                    b.HasKey("Code")
+                        .HasName("pk_users");
 
                     b.HasIndex("Name")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasDatabaseName("ix_users_user_name");
 
-                    b.ToTable("users");
+                    b.ToTable("users", (string)null);
                 });
 
             modelBuilder.Entity("Entities.City", b =>
@@ -174,7 +185,8 @@ namespace Api.Migrations
                         .WithMany()
                         .HasForeignKey("DepartmentCode")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_cities_departments_department_code");
 
                     b.Navigation("Department");
                 });
@@ -183,11 +195,13 @@ namespace Api.Migrations
                 {
                     b.HasOne("Entities.City", "City")
                         .WithMany()
-                        .HasForeignKey("CityCode");
+                        .HasForeignKey("CityCode")
+                        .HasConstraintName("fk_people_cities_city_code");
 
                     b.HasOne("Entities.Department", "Department")
                         .WithMany()
-                        .HasForeignKey("DepartmentCode");
+                        .HasForeignKey("DepartmentCode")
+                        .HasConstraintName("fk_people_departments_department_code");
 
                     b.Navigation("City");
 
