@@ -4,20 +4,20 @@ using Entities.Exceptions;
 
 namespace Services;
 
-public class PersonsService
+public class PeopleService
 {
-    private readonly PersonsRepository _personsRepository;
+    private readonly PeopleRepository _peopleRepository;
 
-    public PersonsService(PersonsRepository personsRepository)
+    public PeopleService(PeopleRepository peopleRepository)
     {
-        _personsRepository = personsRepository;
+        _peopleRepository = peopleRepository;
     }
 
     public string SavePerson(Person person)
     {
         try
         {
-            _personsRepository.Save(person);
+            _peopleRepository.Save(person);
             throw new PersonException("Registro realizado con exito");
         }
         catch (Exception e)
@@ -26,19 +26,19 @@ public class PersonsService
         }
     }
 
-    public Person? SearchPerson(int document)
+    public Person? SearchPerson(string document)
     {
-        return _personsRepository.Find(person=> person.Document == document);
+        return _peopleRepository.Find(person=> person.Document == document);
     }
 
-    public string DeletePerson(int document)
+    public string DeletePerson(string document)
     {
         try
         {
             Person? foundPerson = SearchPerson(document);
             if (foundPerson == null)
                 throw new PersonException("Persona no encontrada");
-            _personsRepository.Delete(foundPerson);
+            _peopleRepository.Delete(foundPerson);
             return "Registro eliminado";
         }
         catch (Exception e)

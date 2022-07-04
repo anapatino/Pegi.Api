@@ -7,7 +7,7 @@ namespace Entities;
 public class Person
 {
     [Key, Column("person_document")]
-    public int Document { get; set; }
+    public string Document { get; set; }
 
     [Column("person_identification")]
     public string Identification { get; set; }
@@ -30,17 +30,17 @@ public class Person
     [Column("person_sex")]
     public string Sex { get; set; }
 
-    [Column("person_dateBirth")]
+    [Column("person_birthDate")]
     public string BirthDate { get; set; }
 
     [Column("person_nationality")]
     public string Nationality { get; set; }
 
-    public Department Department { get; set; }
-
+    public string CityCode { get; set; }
+    [ForeignKey("CityCode")]
     public City City { get; set; }
 
-    [Column("person_placeBirth")]
+    [Column("person_birthPlace")]
     public string BirthPlace { get; set; }
 
     [Column("person_phone")]

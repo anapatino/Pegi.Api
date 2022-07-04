@@ -10,7 +10,7 @@ public static class DependencyInjection
         repositories.AddScoped<UsersRepository>();
         repositories.AddScoped<DepartmentsRepository>();
         repositories.AddScoped<CitiesRepository>();
-        repositories.AddScoped<PersonsRepository>();
+        repositories.AddScoped<PeopleRepository>();
     }
 
     public static void AddServices(this IServiceCollection services)
@@ -18,7 +18,7 @@ public static class DependencyInjection
         services.AddScoped<AuthService>();
         services.AddScoped<UsersService>();
         services.AddScoped<CitiesRepository>();
-        services.AddScoped<PersonsRepository>();
+        services.AddScoped<PeopleRepository>();
 
     }
 }
