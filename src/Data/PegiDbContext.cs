@@ -16,6 +16,7 @@ public class PegiDbContext : DbContext
     public DbSet<Country> Countries { get; set; }
     public DbSet<Study> Studies { get; set; }
     public DbSet<Experience> Experiences { get; set; }
+    public DbSet<Teacher> Teachers { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
