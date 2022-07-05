@@ -1,7 +1,7 @@
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 
-namespace Data;
+namespace Data.Repositories.Shared;
 
 public class Repository<TEntity> where TEntity : class
 {
@@ -23,12 +23,12 @@ public class Repository<TEntity> where TEntity : class
         return Context.Set<TEntity>().Any(predicate);
     }
 
-    public TEntity? Find(Expression<Func<TEntity, bool>> predicate)
+    public virtual TEntity? Find(Expression<Func<TEntity, bool>> predicate)
     {
         return Context.Set<TEntity>().FirstOrDefault(predicate);
     }
 
-    public List<TEntity> Filter(Expression<Func<TEntity, bool>> predicate)
+    public virtual List<TEntity> Filter(Expression<Func<TEntity, bool>> predicate)
     {
         return Context.Set<TEntity>().Where(predicate).ToList();
     }

@@ -22,6 +22,13 @@ public class LocationsController : ControllerBase
         return Ok(new Response<List<Department>>(departments));
     }
 
+    [HttpGet("countries")]
+    public ActionResult GetCountries()
+    {
+        List<Country> countries = _locationsService.GetCountries();
+        return Ok(new Response<List<Country>>(countries));
+    }
+
     [HttpGet("cities")]
     public ActionResult GetCities([FromQuery] string department)
     {

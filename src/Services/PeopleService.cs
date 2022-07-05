@@ -1,4 +1,4 @@
-﻿using Data;
+﻿using Data.Repositories;
 using Entities;
 using Entities.Exceptions;
 
@@ -18,17 +18,18 @@ public class PeopleService
         try
         {
             _peopleRepository.Save(person);
-            throw new PersonException("Registro realizado con exito");
+            return "Registro realizado con exito";
         }
         catch (Exception e)
         {
-            throw new PersonException($"Ha ocurrido un error al registrar {e.Message}");
+            throw new PersonException(
+                $"Ha ocurrido un error al registrar {e.Message}");
         }
     }
 
     public Person? SearchPerson(string document)
     {
-        return _peopleRepository.Find(person=> person.Document == document);
+        return _peopleRepository.Find(person => person.Document == document);
     }
 
     public string DeletePerson(string document)
@@ -43,7 +44,8 @@ public class PeopleService
         }
         catch (Exception e)
         {
-            throw new PersonException($"Ha ocurrido un error al eliminar {e.Message}");
+            throw new PersonException(
+                $"Ha ocurrido un error al eliminar {e.Message}");
         }
     }
 }

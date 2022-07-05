@@ -1,17 +1,18 @@
-﻿namespace Api.Controllers.People;
+using Entities;
 
-public record CreatePersonRequest
-(
+namespace Api.Controllers.People;
+
+public record PersonResponse(
     string Document,
     string IdentificationType,
     string FirstName,
     string SecondName,
     string FirstLastName,
-    string SecondLastName,
+    string SecondLatName,
     string CivilState,
     string Sex,
     DateTime BirthDate,
-    string CountryCode,
+    Country Nationality,
     string Phone,
     string InstitutionalMail
 );

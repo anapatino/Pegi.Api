@@ -1,4 +1,4 @@
-using Data;
+using Data.Repositories;
 using Entities;
 using Microsoft.EntityFrameworkCore;
 using Encryptor = BCrypt.Net.BCrypt;

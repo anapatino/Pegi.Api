@@ -1,5 +1,6 @@
 using Entities;
 using Entities.Exceptions;
+using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using Services;
 
@@ -25,7 +26,7 @@ public class AuthController : ControllerBase
         {
             string message = _authService.LogIn(loginRequest.Name,
                 loginRequest.Password);
-            return Ok(new Response<Void>(message, hasErrors: false));
+            return Ok(new Response<Void>(message, false));
         }
         catch (AuthException e)
         {
@@ -37,17 +38,10 @@ public class AuthController : ControllerBase
     [HttpPost("sign-up")]
     public ActionResult SignUp([FromBody] SignUpRequest signUpRequest)
     {
-        User user = new()
-        {
-            Name = signUpRequest.Username,
-            Password = signUpRequest.Password,
-            Role = signUpRequest.Role
-        };
+        var user = signUpRequest.Adapt<User>();
         if (_usersService.SaveUser(user))
-        {
             return Ok(new Response<Void>("Usuario creado con exito",
-                hasErrors: false));
-        }
+                false));
 
         return BadRequest(
             new Response<Void>("No se pudo registrar el usuario"));
