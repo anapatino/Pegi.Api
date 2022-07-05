@@ -12,6 +12,9 @@ public static class DependencyInjection
         repositories.AddScoped<CitiesRepository>();
         repositories.AddScoped<CountriesRepository>();
         repositories.AddScoped<PeopleRepository>();
+        repositories.AddScoped<CVRepository>();
+        repositories.AddScoped<StudentsRepository>();
+        repositories.AddScoped<ProgramsRepository>();
     }
 
     public static void AddServices(this IServiceCollection services)
@@ -20,5 +23,8 @@ public static class DependencyInjection
         services.AddScoped<UsersService>();
         services.AddScoped<LocationsService>();
         services.AddScoped<PeopleService>();
+        services.AddScoped<CVService>();
+        services.AddScoped<StudentsService>();
+        services.AddScoped<ProgramsService>();
     }
 }
