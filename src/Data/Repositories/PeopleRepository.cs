@@ -15,6 +15,8 @@ public class PeopleRepository : Repository<Person>
     {
         return Context.People
             .Include(person => person.Nationality)
+            .Include(person => person.Studies)
+            .Include(person => person.Experiences )
             .FirstOrDefault(predicate);
     }
 }

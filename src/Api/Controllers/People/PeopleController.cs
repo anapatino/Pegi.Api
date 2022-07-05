@@ -22,8 +22,8 @@ public class PeopleController : ControllerBase
     {
         try
         {
-            var    person  = createPersonRequest.Adapt<Person>();
-            string message = _peopleService.SavePerson(person);
+            var person = createPersonRequest.Adapt<Person>();
+            var message = _peopleService.SavePerson(person);
             return Ok(new Response<Void>(message, false));
         }
         catch (Exception e)
@@ -37,7 +37,7 @@ public class PeopleController : ControllerBase
     {
         try
         {
-            Person? person = _peopleService.SearchPerson(document);
+            var person = _peopleService.SearchPerson(document);
             if (person == null)
                 return BadRequest(
                     new Response<Void>("No se ha encontrado a la persona"));
@@ -55,7 +55,7 @@ public class PeopleController : ControllerBase
     {
         try
         {
-            string message = _peopleService.DeletePerson(document);
+            var message = _peopleService.DeletePerson(document);
             return Ok(new Response<Void>(message, false));
         }
         catch (Exception e)

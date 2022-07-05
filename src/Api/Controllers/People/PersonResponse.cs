@@ -14,5 +14,7 @@ public record PersonResponse(
     DateTime BirthDate,
     Country Nationality,
     string Phone,
-    string InstitutionalMail
+    string InstitutionalMail,
+    ICollection<Study> Studies,
+    ICollection<Experience> Experiences
 );

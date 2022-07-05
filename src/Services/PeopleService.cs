@@ -36,7 +36,7 @@ public class PeopleService
     {
         try
         {
-            Person? foundPerson = SearchPerson(document);
+            var foundPerson = SearchPerson(document);
             if (foundPerson == null)
                 throw new PersonException("Persona no encontrada");
             _peopleRepository.Delete(foundPerson);
