@@ -22,7 +22,7 @@ public class ProgramsService
         }
         catch (Exception e)
         {
-            throw new ProgramsException(
+            throw new ProgramException(
                 $"Ha ocurrido un error al registrar {e.Message}");
         }
     }
@@ -39,13 +39,13 @@ public class ProgramsService
         {
             var foundProgram = SearchProgram(code);
             if (foundProgram == null)
-                throw new ProgramsException("Programa no encontrado");
+                throw new ProgramException("Programa no encontrado");
             _programsRepository.Delete(foundProgram);
             return "Registro eliminado";
         }
         catch (Exception e)
         {
-            throw new ProgramsException(
+            throw new ProgramException(
                 $"Ha ocurrido un error al eliminar {e.Message}");
         }
     }
