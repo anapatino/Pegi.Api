@@ -25,6 +25,9 @@ public class PegiDbContext : DbContext
     public DbSet<SublineInvestigation> SublinesInvestigation { get; set; }
     public DbSet<ThematicArea> ThematicAreas { get; set; }
 
+    public DbSet<Proposal> Proposals { get; set; }
+    //public DbSet<Project> Projects { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<User>()
