@@ -33,6 +33,11 @@ public class ThematicAreasService
             thematicArea.Code == code);
     }
 
+    public List<ThematicArea?> AllThematicAreas()
+    {
+        return (List<ThematicArea?>)_thematicAreasRepository.GetAll();
+    }
+
     public string DeleteThematicArea(string code)
     {
         try

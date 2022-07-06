@@ -27,17 +27,22 @@ public class ProjectsService
         }
     }
 
-    public Project? SearchProject(string code)
+    public Project? SearchProject(string title)
     {
         return _projectsRepository.Find(project =>
-            project.Code == code);
+            project.Title == title);
     }
 
-    public string DeleteProject(string code)
+    public List<Project?> AllProject()
+    {
+        return (List<Project?>)_projectsRepository.GetAll();
+    }
+
+    public string DeleteProject(string title)
     {
         try
         {
-            var foundProject = SearchProject(code);
+            var foundProject = SearchProject(title);
             if (foundProject == null)
                 throw new StudentException("Proyecto no encontrado");
             _projectsRepository.Delete(foundProject);

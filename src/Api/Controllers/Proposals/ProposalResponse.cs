@@ -1,4 +1,6 @@
-﻿namespace Api.Controllers.Proposals;
+﻿using Entities;
+
+namespace Api.Controllers.Proposals;
 
 public record ProposalResponse
 (
@@ -11,5 +13,6 @@ public record ProposalResponse
     string JustificationProblem,
     string GeneralObjective,
     string SpecificObjective,
-    string Bibliography
+    string Bibliography,
+    ICollection<Student> Students
 );

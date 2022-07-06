@@ -35,6 +35,12 @@ public class SublinesInvestigationService
             subline.Code == code);
     }
 
+    public List<SublineInvestigation?> AllSublines()
+    {
+        return (List<SublineInvestigation?>)_sublinesInvestigationRepository
+            .GetAll();
+    }
+
     public string DeleteLine(string code)
     {
         try

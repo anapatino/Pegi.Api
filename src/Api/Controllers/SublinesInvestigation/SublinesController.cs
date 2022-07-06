@@ -54,6 +54,27 @@ public class SublinesController : ControllerBase
         }
     }
 
+
+    [HttpGet]
+    public ActionResult GetAllSublines()
+    {
+        try
+        {
+            var subline =
+                _sublinesInvestigationService.AllSublines();
+            if (subline == null)
+                return BadRequest(
+                    new Response<Void>("No se han encontrado ninguna sublineas"));
+            return Ok(
+                new Response<SublineResponse>(
+                    subline.Adapt<SublineResponse>()));
+        }
+        catch (Exception e)
+        {
+            return BadRequest(new Response<Void>(e.Message));
+        }
+    }
+
     [HttpDelete("{code-subline}")]
     public ActionResult DeleteLine([FromRoute] string codeSubline)
     {

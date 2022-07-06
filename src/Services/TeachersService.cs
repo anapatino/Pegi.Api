@@ -33,6 +33,16 @@ public class TeachersService
             teacher.Document == document);
     }
 
+    public List<Teacher?> FilterTeachers(string position)
+    {
+        return (List<Teacher?>)_teachersRepository.Filter(teacher=> teacher.Position == position);
+    }
+
+    public List<Teacher?> AllTeachers()
+    {
+        return (List<Teacher?>) _teachersRepository.GetAll();
+    }
+
     public string DeleteTeacher(string document)
     {
         try

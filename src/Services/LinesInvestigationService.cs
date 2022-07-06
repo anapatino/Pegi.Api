@@ -33,6 +33,11 @@ public class LinesInvestigationService
         return _linesInvestigationRepository.Find(line => line.Code == code);
     }
 
+    public List<LineInvestigation?> AllLines()
+    {
+        return (List<LineInvestigation?>)_linesInvestigationRepository.GetAll();
+    }
+
     public string DeleteLine(string code)
     {
         try

@@ -14,4 +14,5 @@ public class ProposalEvaluation
 
     [Column("proposal_evaluation_feedback")]
     public string Feedback { get; set; }
+
 }

@@ -31,4 +31,6 @@ public class Proposal
     public string SpecificObjective { get; set; }
 
     [Column("proposals_bibliography")] public string Bibliography { get; set; }
+
+    public ICollection<Student> Students { get; set; }
 }

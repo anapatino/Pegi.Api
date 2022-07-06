@@ -15,7 +15,6 @@ public static class DependencyInjection
         repositories.AddScoped<CVRepository>();
         repositories.AddScoped<StudentsRepository>();
         repositories.AddScoped<ProgramsRepository>();
-        repositories.AddScoped<CommitteesRepository>();
         repositories.AddScoped<LinesInvestigationRepository>();
         repositories.AddScoped<SublinesInvestigationRepository>();
         repositories.AddScoped<ThematicAreasRepository>();
@@ -34,7 +33,6 @@ public static class DependencyInjection
         services.AddScoped<CVService>();
         services.AddScoped<StudentsService>();
         services.AddScoped<ProgramsService>();
-        services.AddScoped<CommitteesService>();
         services.AddScoped<LinesInvestigationService>();
         services.AddScoped<SublinesInvestigationService>();
         services.AddScoped<ThematicAreasService>();

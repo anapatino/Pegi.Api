@@ -32,12 +32,12 @@ public class ProposalsController : ControllerBase
         }
     }
 
-    [HttpGet("{code-proposal}")]
-    public ActionResult GetProposal([FromBody] string codeProposal)
+    [HttpGet("{title}")]
+    public ActionResult GetProposal([FromBody] string title)
     {
         try
         {
-            var proposal = _proposalsService.SearchProposal(codeProposal);
+            var proposal = _proposalsService.SearchProposal(title);
             if (proposal == null)
                 return BadRequest(
                     new Response<Void>("No existe propuesta"));
@@ -51,12 +51,31 @@ public class ProposalsController : ControllerBase
         }
     }
 
-    [HttpDelete("{code-proposal}")]
-    public ActionResult DeleteProposal([FromRoute] string codeProposal)
+    [HttpGet]
+    public ActionResult GetAllProposals()
     {
         try
         {
-            var message = _proposalsService.DeleteProposal(codeProposal);
+            var proposal = _proposalsService.AllProposal();
+            if (proposal == null)
+                return BadRequest(
+                    new Response<Void>("No existen propuestas"));
+            return Ok(
+                new Response<ProposalResponse>(
+                    proposal.Adapt<ProposalResponse>()));
+        }
+        catch (Exception e)
+        {
+            return BadRequest(new Response<Void>(e.Message));
+        }
+    }
+
+    [HttpDelete("{title}")]
+    public ActionResult DeleteProposal([FromRoute] string title)
+    {
+        try
+        {
+            var message = _proposalsService.DeleteProposal(title);
             return Ok(new Response<Void>(message, false));
         }
         catch (Exception e)

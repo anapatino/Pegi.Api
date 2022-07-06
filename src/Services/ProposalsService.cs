@@ -27,17 +27,22 @@ public class ProposalsService
         }
     }
 
-    public Proposal? SearchProposal(string code)
+    public Proposal? SearchProposal(string title)
     {
         return _proposalsRepository.Find(proposal =>
-            proposal.Code == code);
+            proposal.Title == title);
     }
 
-    public string DeleteProposal(string code)
+    public List<Proposal?> AllProposal()
+    {
+        return (List<Proposal?>)_proposalsRepository.GetAll();
+    }
+
+    public string DeleteProposal(string title)
     {
         try
         {
-            var foundProposal = SearchProposal(code);
+            var foundProposal = SearchProposal(title);
             if (foundProposal == null)
                 throw new ProposalException("Propuesta no encontrada");
             _proposalsRepository.Delete(foundProposal);

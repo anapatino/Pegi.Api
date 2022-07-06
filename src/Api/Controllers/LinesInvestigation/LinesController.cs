@@ -51,6 +51,25 @@ public class LinesController : ControllerBase
         }
     }
 
+
+    [HttpGet]
+    public ActionResult GetAllLine()
+    {
+        try
+        {
+            var line = _linesInvestigationService.AllLines();
+            if (line == null)
+                return BadRequest(
+                    new Response<Void>("No se ha encontrado ninguna linea"));
+            return Ok(
+                new Response<LineResponse>(line.Adapt<LineResponse>()));
+        }
+        catch (Exception e)
+        {
+            return BadRequest(new Response<Void>(e.Message));
+        }
+    }
+
     [HttpDelete("{code-line}")]
     public ActionResult DeleteLine([FromRoute] string codeLine)
     {

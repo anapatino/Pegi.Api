@@ -6,7 +6,7 @@ namespace Entities;
 [Table("studies")]
 public class Study
 {
-    [Key] [Column("study_study_code")] public string StudyCode { get; set; }
+    [Key] [Column("study_code")] public string Code { get; set; }
 
     [Column("study_institution")] public string Institution { get; set; }
 
@@ -18,6 +18,6 @@ public class Study
 
     [Column("study_end_date")] public DateTime EndDate { get; set; }
 
-    [Column("study_study_type")] public string StudyType { get; set; }
+    [Column("study_type")] public string Type { get; set; }
 
 }

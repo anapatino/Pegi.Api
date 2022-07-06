@@ -5,6 +5,8 @@ using Services;
 
 namespace Api.Controllers.Projects;
 
+[ApiController]
+[Route("project")]
 public class ProjectsController : ControllerBase
 {
     private readonly ProjectsService _projectsService;
@@ -30,12 +32,12 @@ public class ProjectsController : ControllerBase
         }
     }
 
-    [HttpGet("{code-project}")]
-    public ActionResult GetProject([FromBody] string codeProject)
+    [HttpGet("{title-project}")]
+    public ActionResult GetProject([FromBody] string titleProject)
     {
         try
         {
-            var project = _projectsService.SearchProject(codeProject);
+            var project = _projectsService.SearchProject(titleProject);
             if (project == null)
                 return BadRequest(
                     new Response<Void>("No existe projecto"));
@@ -49,12 +51,31 @@ public class ProjectsController : ControllerBase
         }
     }
 
-    [HttpDelete("{code-project}")]
-    public ActionResult DeleteProject([FromRoute] string codeProject)
+    [HttpGet]
+    public ActionResult GetAllProject()
     {
         try
         {
-            var message = _projectsService.DeleteProject(codeProject);
+            var project = _projectsService.AllProject();
+            if (project == null)
+                return BadRequest(
+                    new Response<Void>("No existen projectos"));
+            return Ok(
+                new Response<ProjectResponse>(
+                    project.Adapt<ProjectResponse>()));
+        }
+        catch (Exception e)
+        {
+            return BadRequest(new Response<Void>(e.Message));
+        }
+    }
+
+    [HttpDelete("{title-project}")]
+    public ActionResult DeleteProject([FromRoute] string titleProject)
+    {
+        try
+        {
+            var message = _projectsService.DeleteProject(titleProject);
             return Ok(new Response<Void>(message, false));
         }
         catch (Exception e)

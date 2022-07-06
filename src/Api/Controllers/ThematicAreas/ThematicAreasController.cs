@@ -16,6 +16,7 @@ public class ThematicAreasController : ControllerBase
         _thematicAreasService = thematicAreasService;
     }
 
+    [HttpPost]
     public ActionResult RegisterThematicArea(
         [FromBody] CreateThematicAreaRequest createThematicAreaRequest)
     {
@@ -52,7 +53,28 @@ public class ThematicAreasController : ControllerBase
         }
     }
 
-    [HttpDelete("{code-thematic-area}")]
+    [HttpGet]
+    public ActionResult GetAllThematicArea()
+    {
+        try
+        {
+            var thematicArea =
+                _thematicAreasService.AllThematicAreas();
+            if (thematicArea == null)
+                return BadRequest(
+                    new Response<Void>(
+                        "No se ha encontrado ninguna de las areas tematicas"));
+            return Ok(
+                new Response<ThematicAreaResponse>(
+                    thematicArea.Adapt<ThematicAreaResponse>()));
+        }
+        catch (Exception e)
+        {
+            return BadRequest(new Response<Void>(e.Message));
+        }
+    }
+
+    [HttpDelete("{code-thematic-are}")]
     public ActionResult DeleteThematicArea([FromRoute] string codeThematicArea)
     {
         try

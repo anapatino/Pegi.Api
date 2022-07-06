@@ -1,8 +1,11 @@
-﻿namespace Api.Controllers.Projects;
+﻿using Entities;
+
+namespace Api.Controllers.Projects;
 
 public record CreateProjectRequest
 (
     string Code,
     string Title,
-    string Content
+    string Content,
+    ICollection<Student> Students
 );
