@@ -39,7 +39,7 @@ public class StudentsService
         {
             var foundStudent = SearchStudent(document);
             if (foundStudent == null)
-                throw new StudentException("Studenta no encontrada");
+                throw new StudentException("persona no encontrada");
             _studentsRepository.Delete(foundStudent);
             return "Registro eliminado";
         }

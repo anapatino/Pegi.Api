@@ -20,12 +20,12 @@ public class SublinesInvestigationService
         try
         {
             _sublinesInvestigationRepository.Save(subline);
-            return "Registro realizado exitoso";
+            return "Sublinea registrada con exito";
         }
         catch (Exception e)
         {
             throw new SublineInvestigationException(
-                $"Ha ocurrido un error al registrar {e.Message}");
+                $"Ha ocurrido un error al registrar la sublinea {e.Message}");
         }
     }
 
@@ -49,7 +49,7 @@ public class SublinesInvestigationService
         catch (Exception e)
         {
             throw new SublineInvestigationException(
-                $"Ha ocurrido un error al eliminar {e.Message}");
+                $"Ha ocurrido un error al eliminar  la sublinea{e.Message}");
         }
     }
 }

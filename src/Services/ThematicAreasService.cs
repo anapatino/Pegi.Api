@@ -18,12 +18,12 @@ public class ThematicAreasService
         try
         {
             _thematicAreasRepository.Save(thematicArea);
-            return "Registro realizado exitoso";
+            return "Area tematica registrada con exito";
         }
         catch (Exception e)
         {
             throw new ThematicAreasException(
-                $"Ha ocurrido un error al registrar {e.Message}");
+                $"Ha ocurrido un error al registrar la area tematica{e.Message}");
         }
     }
 
@@ -47,7 +47,7 @@ public class ThematicAreasService
         catch (Exception e)
         {
             throw new ThematicAreasException(
-                $"Ha ocurrido un error al eliminar {e.Message}");
+                $"Ha ocurrido un error al eliminar la area tematica {e.Message}");
         }
     }
 }

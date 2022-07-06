@@ -26,8 +26,8 @@ public class PegiDbContext : DbContext
     public DbSet<ThematicArea> ThematicAreas { get; set; }
     public DbSet<Proposal> Proposals { get; set; }
     public DbSet<Project> Projects { get; set; }
-    //public DbSet<ProposalEvaluation> ProposalEvaluations { get; set; }
-    //public DbSet<ProjectEvaluation> ProjectEvaluations { get; set; }
+    public DbSet<ProposalEvaluation> ProposalsEvaluation { get; set; }
+    public DbSet<ProjectEvaluation> ProjectsEvaluation { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

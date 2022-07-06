@@ -19,7 +19,7 @@ public class LinesInvestigationService
         try
         {
             _linesInvestigationRepository.Save(line);
-            return "Registro realizado exitoso";
+            return "Linea de investigacion registrada con exito";
         }
         catch (Exception e)
         {

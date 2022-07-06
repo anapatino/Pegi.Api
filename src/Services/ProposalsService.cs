@@ -18,12 +18,12 @@ public class ProposalsService
         try
         {
             _proposalsRepository.Save(proposal);
-            return "Registro realizado con exito";
+            return "Propuesta registrada  con exito";
         }
         catch (Exception e)
         {
             throw new ProposalException(
-                $"Ha ocurrido un error al registrar {e.Message}");
+                $"Ha ocurrido un error al registrar la propuesta {e.Message}");
         }
     }
 
@@ -39,14 +39,14 @@ public class ProposalsService
         {
             var foundProposal = SearchProposal(code);
             if (foundProposal == null)
-                throw new StudentException("Studenta no encontrada");
+                throw new ProposalException("Propuesta no encontrada");
             _proposalsRepository.Delete(foundProposal);
-            return "Registro eliminado";
+            return "Propuesta eliminada";
         }
         catch (Exception e)
         {
-            throw new StudentException(
-                $"Ha ocurrido un error al eliminar {e.Message}");
+            throw new ProposalException(
+                $"Ha ocurrido un error al eliminar la propuesta {e.Message}");
         }
     }
 }

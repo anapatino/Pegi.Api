@@ -18,12 +18,12 @@ public class ProjectsService
         try
         {
             _projectsRepository.Save(project);
-            return "Registro realizado con exito";
+            return "Proyecto registrado con exito";
         }
         catch (Exception e)
         {
             throw new ProjectException(
-                $"Ha ocurrido un error al registrar {e.Message}");
+                $"Ha ocurrido un error al registrar el proyecto{e.Message}");
         }
     }
 
@@ -39,14 +39,14 @@ public class ProjectsService
         {
             var foundProject = SearchProject(code);
             if (foundProject == null)
-                throw new StudentException("Studenta no encontrada");
+                throw new StudentException("Proyecto no encontrado");
             _projectsRepository.Delete(foundProject);
-            return "Registro eliminado";
+            return "Proyecto eliminado";
         }
         catch (Exception e)
         {
             throw new StudentException(
-                $"Ha ocurrido un error al eliminar {e.Message}");
+                $"Ha ocurrido un error al eliminar el proyecto {e.Message}");
         }
     }
 }

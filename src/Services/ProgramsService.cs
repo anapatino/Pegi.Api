@@ -18,7 +18,7 @@ public class ProgramsService
         try
         {
             _programsRepository.Save(program);
-            return "Registro realizado con exito";
+            return "Programa registrado con exito";
         }
         catch (Exception e)
         {
@@ -41,7 +41,7 @@ public class ProgramsService
             if (foundProgram == null)
                 throw new ProgramException("Programa no encontrado");
             _programsRepository.Delete(foundProgram);
-            return "Registro eliminado";
+            return "Programa eliminado";
         }
         catch (Exception e)
         {
