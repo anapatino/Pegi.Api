@@ -5,15 +5,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Data.Repositories;
 
-public class StudentsRepository : Repository<Student>
+public class MembersRepository : Repository<Member>
 {
-    public StudentsRepository(PegiDbContext context) : base(context)
+    public MembersRepository(PegiDbContext context) : base(context)
     {
     }
 
-    public override Student? Find(Expression<Func<Student, bool>> predicate)
+    public override Member? Find(Expression<Func<Member, bool>> predicate)
     {
-        return Context.Students
+        return Context.Members
             .Include(student => student.ProgramCode)
             .FirstOrDefault(predicate);
     }

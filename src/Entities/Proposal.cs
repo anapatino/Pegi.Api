@@ -32,5 +32,14 @@ public class Proposal
 
     [Column("proposals_bibliography")] public string Bibliography { get; set; }
 
-    public ICollection<Student> Students { get; set; }
+    [Column("proposals_evaluation_code")]
+    public string CodeEvaluation { get; set; }
+
+    [Column("proposals_evaluation_status")]
+    public string Status { get; set; }
+
+    [Column("proposals_evaluation_feedback")]
+    public string Feedback { get; set; }
+
+    public ICollection<Member> Members { get; set; }
 }

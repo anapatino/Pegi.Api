@@ -13,15 +13,13 @@ public static class DependencyInjection
         repositories.AddScoped<CountriesRepository>();
         repositories.AddScoped<PeopleRepository>();
         repositories.AddScoped<CVRepository>();
-        repositories.AddScoped<StudentsRepository>();
+        repositories.AddScoped<MembersRepository>();
         repositories.AddScoped<ProgramsRepository>();
         repositories.AddScoped<LinesInvestigationRepository>();
         repositories.AddScoped<SublinesInvestigationRepository>();
         repositories.AddScoped<ThematicAreasRepository>();
         repositories.AddScoped<ProposalsRepository>();
         repositories.AddScoped<ProjectsRepository>();
-        repositories.AddScoped<ProposalsEvaluationRepository>();
-        repositories.AddScoped<ProjectsEvaluationRepository>();
     }
 
     public static void AddServices(this IServiceCollection services)
@@ -31,14 +29,12 @@ public static class DependencyInjection
         services.AddScoped<LocationsService>();
         services.AddScoped<PeopleService>();
         services.AddScoped<CVService>();
-        services.AddScoped<StudentsService>();
+        services.AddScoped<MembersService>();
         services.AddScoped<ProgramsService>();
         services.AddScoped<LinesInvestigationService>();
         services.AddScoped<SublinesInvestigationService>();
         services.AddScoped<ThematicAreasService>();
         services.AddScoped<ProposalsService>();
         services.AddScoped<ProjectsService>();
-        services.AddScoped<ProposalsEvaluationService>();
-        services.AddScoped<ProjectsEvaluationService>();
     }
 }

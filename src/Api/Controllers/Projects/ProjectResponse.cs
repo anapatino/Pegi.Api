@@ -7,5 +7,8 @@ public record ProjectResponse
     string Code,
     string Title,
     string Content,
-    ICollection<Student> Students
+    string Status,
+    string Feedback,
+    string Qualification,
+    Proposal Proposal
 );

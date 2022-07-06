@@ -14,7 +14,7 @@ public class ProposalsRepository : Repository<Proposal>
     public override Proposal? Find(Expression<Func<Proposal, bool>> predicate)
     {
         return Context.Proposals
-            .Include(proposal => proposal.Students)
+            .Include(proposal => proposal.Members)
             .FirstOrDefault(predicate);
     }
 }

@@ -15,6 +15,9 @@ public record PersonResponse(
     Country Nationality,
     string Phone,
     string InstitutionalMail,
+    AcademicProgram AcademicProgram,
+    string Type,
+    string Position,
     ICollection<Study> Studies,
     ICollection<Experience> Experiences
 );

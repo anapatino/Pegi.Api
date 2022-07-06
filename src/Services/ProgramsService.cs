@@ -13,21 +13,21 @@ public class ProgramsService
         _programsRepository = programsRepository;
     }
 
-    public string SaveProgram(Program program)
+    public string SaveProgram(AcademicProgram academicProgram)
     {
         try
         {
-            _programsRepository.Save(program);
+            _programsRepository.Save(academicProgram);
             return "Programa registrado con exito";
         }
         catch (Exception e)
         {
-            throw new ProgramException(
+            throw new AcademicProgramException(
                 $"Ha ocurrido un error al registrar {e.Message}");
         }
     }
 
-    public Program? SearchProgram(string code)
+    public AcademicProgram? SearchProgram(string code)
     {
         return _programsRepository.Find(program =>
             program.Code == code);
@@ -39,13 +39,13 @@ public class ProgramsService
         {
             var foundProgram = SearchProgram(code);
             if (foundProgram == null)
-                throw new ProgramException("Programa no encontrado");
+                throw new AcademicProgramException("Programa no encontrado");
             _programsRepository.Delete(foundProgram);
             return "Programa eliminado";
         }
         catch (Exception e)
         {
-            throw new ProgramException(
+            throw new AcademicProgramException(
                 $"Ha ocurrido un error al eliminar {e.Message}");
         }
     }

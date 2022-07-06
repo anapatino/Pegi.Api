@@ -70,6 +70,25 @@ public class ProposalsController : ControllerBase
         }
     }
 
+    [HttpGet("{status}")]
+    public ActionResult GetFilterProposalStatus([FromBody] string status)
+    {
+        try
+        {
+            var proposal = _proposalsService.FilterProposalStatus(status);
+            if (proposal == null)
+                return BadRequest(
+                    new Response<Void>("No existe propuestas con este estado"));
+            return Ok(
+                new Response<ProposalResponse>(
+                    proposal.Adapt<ProposalResponse>()));
+        }
+        catch (Exception e)
+        {
+            return BadRequest(new Response<Void>(e.Message));
+        }
+    }
+
     [HttpDelete("{title}")]
     public ActionResult DeleteProposal([FromRoute] string title)
     {

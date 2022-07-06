@@ -50,6 +50,61 @@ public class PeopleController : ControllerBase
         }
     }
 
+    [HttpGet]
+    public ActionResult GetAllPeople()
+    {
+        try
+        {
+            var person = _peopleService.AllPeople();
+            if (person == null)
+                return BadRequest(
+                    new Response<Void>("No se ha encontrado a la persona"));
+            return Ok(
+                new Response<PersonResponse>(person.Adapt<PersonResponse>()));
+        }
+        catch (Exception e)
+        {
+            return BadRequest(new Response<Void>(e.Message));
+        }
+    }
+
+    [HttpGet("{type}")]
+    public ActionResult GetFilterPeopleType([FromRoute] string type)
+    {
+        try
+        {
+            var person = _peopleService.FilterPeopleType(type);
+            if (person == null)
+                return BadRequest(
+                    new Response<Void>("No existen personas de este tipo"));
+            return Ok(
+                new Response<PersonResponse>(person.Adapt<PersonResponse>()));
+        }
+        catch (Exception e)
+        {
+            return BadRequest(new Response<Void>(e.Message));
+        }
+    }
+
+
+    [HttpGet("{position}")]
+    public ActionResult GetFilterPeoplePosition([FromRoute] string position)
+    {
+        try
+        {
+            var person = _peopleService.FilterPeoplePosition(position);
+            if (person == null)
+                return BadRequest(
+                    new Response<Void>("No existen personas con este cargo"));
+            return Ok(
+                new Response<PersonResponse>(person.Adapt<PersonResponse>()));
+        }
+        catch (Exception e)
+        {
+            return BadRequest(new Response<Void>(e.Message));
+        }
+    }
+
     [HttpDelete("{document}")]
     public ActionResult DeletePerson([FromRoute] string document)
     {

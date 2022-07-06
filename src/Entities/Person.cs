@@ -35,6 +35,14 @@ public class Person
     [Column("person_institutional_email")]
     public string InstitutionalMail { get; set; }
 
+    public string ProgramCode { get; set; }
+
+    [ForeignKey("ProgramCode")] public AcademicProgram AcademicProgram { get; set; }
+
+    [Column("person_type")] public string Type { get; set; }
+
+    [Column("person_position")] public string Position { get; set; }
+
     public ICollection<Study> Studies { get; set; }
 
     public ICollection<Experience> Experiences { get; set; }

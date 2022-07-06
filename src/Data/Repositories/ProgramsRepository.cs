@@ -3,7 +3,7 @@ using Entities;
 
 namespace Data.Repositories;
 
-public class ProgramsRepository : Repository<Program>
+public class ProgramsRepository : Repository<AcademicProgram>
 {
     public ProgramsRepository(PegiDbContext context) : base(context)
     {

@@ -38,6 +38,12 @@ public class ProposalsService
         return (List<Proposal?>)_proposalsRepository.GetAll();
     }
 
+    public List<Proposal?> FilterProposalStatus(string status)
+    {
+        return (List<Proposal?>)_proposalsRepository.Filter(proposal =>
+            proposal.Status == status);
+    }
+
     public string DeleteProposal(string title)
     {
         try

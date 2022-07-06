@@ -9,13 +9,16 @@ public record CreatePersonRequest
     string FirstName,
     string SecondName,
     string FirstLastName,
-    string SecondLastName,
+    string SecondLatName,
     string CivilState,
     string Sex,
     DateTime BirthDate,
     string Nationality,
     string Phone,
     string InstitutionalMail,
+    string AcademicProgram,
+    string Type,
+    string Position,
     ICollection<Study> Studies,
     ICollection<Experience> Experiences
 );

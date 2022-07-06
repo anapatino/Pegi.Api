@@ -14,5 +14,8 @@ public record ProposalResponse
     string GeneralObjective,
     string SpecificObjective,
     string Bibliography,
-    ICollection<Student> Students
+    string CodeEvaluation,
+    string Status,
+    string Feedback,
+    ICollection<Member> Members
 );

@@ -32,6 +32,23 @@ public class PeopleService
         return _peopleRepository.Find(person => person.Document == document);
     }
 
+    public List<Person?> AllPeople()
+    {
+        return (List<Person?>)_peopleRepository.GetAll();
+    }
+
+    public List<Person?> FilterPeopleType(string type)
+    {
+        return (List<Person?>)_peopleRepository.Filter(people =>
+            people.Type == type);
+    }
+
+    public List<Person?> FilterPeoplePosition(string position)
+    {
+        return (List<Person?>)_peopleRepository.Filter(people =>
+            people.Position == position);
+    }
+
     public string DeletePerson(string document)
     {
         try

@@ -52,7 +52,7 @@ public class ProjectsController : ControllerBase
     }
 
     [HttpGet]
-    public ActionResult GetAllProject()
+    public ActionResult GetAllProjects()
     {
         try
         {
@@ -60,6 +60,25 @@ public class ProjectsController : ControllerBase
             if (project == null)
                 return BadRequest(
                     new Response<Void>("No existen projectos"));
+            return Ok(
+                new Response<ProjectResponse>(
+                    project.Adapt<ProjectResponse>()));
+        }
+        catch (Exception e)
+        {
+            return BadRequest(new Response<Void>(e.Message));
+        }
+    }
+
+    [HttpGet("{status}")]
+    public ActionResult GetFilterProjectsStatus([FromBody] string status)
+    {
+        try
+        {
+            var project = _projectsService.SearchProject(status);
+            if (project == null)
+                return BadRequest(
+                    new Response<Void>("No existen projectos con este estado"));
             return Ok(
                 new Response<ProjectResponse>(
                     project.Adapt<ProjectResponse>()));

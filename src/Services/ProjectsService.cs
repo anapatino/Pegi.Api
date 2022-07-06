@@ -38,19 +38,25 @@ public class ProjectsService
         return (List<Project?>)_projectsRepository.GetAll();
     }
 
+    public List<Project?> FilterProjectsStatus(string status)
+    {
+        return (List<Project?>)_projectsRepository.Filter(project =>
+            project.Status == status);
+    }
+
     public string DeleteProject(string title)
     {
         try
         {
             var foundProject = SearchProject(title);
             if (foundProject == null)
-                throw new StudentException("Proyecto no encontrado");
+                throw new ProjectException("Proyecto no encontrado");
             _projectsRepository.Delete(foundProject);
             return "Proyecto eliminado";
         }
         catch (Exception e)
         {
-            throw new StudentException(
+            throw new ProjectException(
                 $"Ha ocurrido un error al eliminar el proyecto {e.Message}");
         }
     }
