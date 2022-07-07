@@ -18,6 +18,6 @@ public record PersonResponse(
     AcademicProgram AcademicProgram,
     string Type,
     string Position,
-    ICollection<Study> Studies,
+    ICollection<StudyResponse> Studies,
     ICollection<Experience> Experiences
 );

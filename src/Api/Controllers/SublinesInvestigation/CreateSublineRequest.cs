@@ -1,9 +1,7 @@
-﻿using Api.Controllers.ThematicAreas;
+﻿namespace Api.Controllers.SublinesInvestigation;
 
-namespace Api.Controllers.SublinesInvestigation;
-
-public record CreateSublineRequest
+public record CreateSubLineRequest
 (
     string Name,
-    ICollection<CreateThematicAreaRequest> ThematicAreas
+    int LineCode
 );

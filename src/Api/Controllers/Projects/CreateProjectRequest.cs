@@ -7,5 +7,5 @@ public record CreateProjectRequest
     string Status,
     string Feedback,
     string Qualification,
-    string Proposal
+    int ProposalCode
 );

@@ -16,12 +16,21 @@ builder.Services.AddDbContext<PegiDbContext>(options =>
         .UseSnakeCaseNamingConvention()
 );
 
-TypeAdapterConfig.GlobalSettings.NewConfig<Person, CreatePersonRequest>()
+TypeAdapterConfig.GlobalSettings.NewConfig<CreatePersonRequest, Person>()
     .PreserveReference(true);
 TypeAdapterConfig.GlobalSettings.NewConfig<CreateStudyRequest, Study>()
     .PreserveReference(true);
 TypeAdapterConfig.GlobalSettings
     .NewConfig<CreateExperienceRequest, Experience>()
+    .PreserveReference(true);
+
+
+TypeAdapterConfig.GlobalSettings.NewConfig<Person, PersonResponse>()
+    .PreserveReference(true);
+TypeAdapterConfig.GlobalSettings.NewConfig<Study, StudyResponse>()
+    .PreserveReference(true);
+TypeAdapterConfig.GlobalSettings
+    .NewConfig<Experience, ExperienceResponse>()
     .PreserveReference(true);
 
 builder.Services.AddRepositories();
@@ -45,8 +54,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors("pegi");
-
-app.UseHttpsRedirection();
 
 app.UseAuthorization();
 

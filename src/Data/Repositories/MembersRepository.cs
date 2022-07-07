@@ -14,7 +14,7 @@ public class MembersRepository : Repository<Member>
     public override Member? Find(Expression<Func<Member, bool>> predicate)
     {
         return Context.Members
-            .Include(student => student.ProgramCode)
+            .Include(student => student.AcademicProgram)
             .FirstOrDefault(predicate);
     }
 }

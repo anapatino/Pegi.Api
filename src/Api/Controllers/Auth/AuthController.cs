@@ -1,3 +1,4 @@
+using Api.Controllers.People;
 using Entities;
 using Entities.Exceptions;
 using Mapster;
@@ -29,7 +30,7 @@ public class AuthController : ControllerBase
         {
             string message = _authService.LogIn(loginRequest.Name, loginRequest.Password);
             Person? person = _peopleService.SearchPersonByUserName(loginRequest.Name);
-            return Ok(new Response<Person>(message, person));
+            return Ok(new Response<PersonResponse>(message, person?.Adapt<PersonResponse>()));
         }
         catch (AuthException e)
         {

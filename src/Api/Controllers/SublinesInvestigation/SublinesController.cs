@@ -19,12 +19,12 @@ public class SublinesController : ControllerBase
 
     [HttpPost]
     public ActionResult RegisterSublinesInvestigation(
-        [FromBody] CreateSublineRequest createSublineRequest)
+        [FromBody] CreateSubLineRequest createSublineRequest)
     {
         try
         {
-            var subline = createSublineRequest.Adapt<InvestigationSubLine>();
-            var message = _sublinesInvestigationService.SaveSubline(subline);
+            var    subline = createSublineRequest.Adapt<InvestigationSubLine>();
+            string message = _sublinesInvestigationService.SaveSubline(subline);
             return Ok(new Response<Void>(message, false));
         }
         catch (Exception e)
@@ -39,7 +39,7 @@ public class SublinesController : ControllerBase
     {
         try
         {
-            var subline =
+            InvestigationSubLine? subline =
                 _sublinesInvestigationService.SearchSubline(sublineCode);
             if (subline == null)
                 return BadRequest(
@@ -60,11 +60,28 @@ public class SublinesController : ControllerBase
     {
         try
         {
-            var subline =
+            List<InvestigationSubLine> subline =
                 _sublinesInvestigationService.GetAllSublines();
             return Ok(
                 new Response<SublineResponse>(
                     subline.Adapt<SublineResponse>()));
+        }
+        catch (Exception e)
+        {
+            return BadRequest(new Response<Void>(e.Message));
+        }
+    }
+
+    [HttpGet("line/{lineCode}")]
+    public ActionResult GetAllSubLinesFromLine(int lineCode)
+    {
+        try
+        {
+            List<InvestigationSubLine> subline =
+                _sublinesInvestigationService.GetByLine(lineCode);
+            return Ok(
+                new Response<List<SublineResponse>>(
+                    subline.Adapt<List<SublineResponse>>()));
         }
         catch (Exception e)
         {
@@ -77,7 +94,8 @@ public class SublinesController : ControllerBase
     {
         try
         {
-            var message = _sublinesInvestigationService.DeleteLine(sublineCode);
+            string message =
+                _sublinesInvestigationService.DeleteLine(sublineCode);
             return Ok(new Response<Void>(message, false));
         }
         catch (Exception e)

@@ -41,11 +41,17 @@ public class SublinesInvestigationService
             .GetAll();
     }
 
+    public List<InvestigationSubLine> GetByLine(int lineCode)
+    {
+        return _sublinesInvestigationRepository.Filter(subline =>
+            subline.LineCode == lineCode);
+    }
+
     public string DeleteLine(int code)
     {
         try
         {
-            var subline = SearchSubline(code);
+            InvestigationSubLine? subline = SearchSubline(code);
             if (subline == null)
                 throw new LineInvestigationException(
                     "Sublinea de investigacion no encontrada");

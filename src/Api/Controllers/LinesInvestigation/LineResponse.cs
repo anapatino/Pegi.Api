@@ -4,7 +4,7 @@ namespace Api.Controllers.LinesInvestigation;
 
 public record LineResponse
 (
-    string Code,
+    int Code,
     string Name,
-    ICollection<SublineResponse> SublinesInvestigation
+    ICollection<SublineResponse> SubLines
 );

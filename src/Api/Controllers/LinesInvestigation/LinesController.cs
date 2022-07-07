@@ -22,8 +22,8 @@ public class LinesController : ControllerBase
     {
         try
         {
-            var line = createLineRequest.Adapt<LineInvestigation>();
-            var message = _linesInvestigationService.SaveLine(line);
+            var    line    = createLineRequest.Adapt<LineInvestigation>();
+            string message = _linesInvestigationService.SaveLine(line);
             return Ok(new Response<Void>(message, false));
         }
         catch (Exception e)
@@ -38,7 +38,8 @@ public class LinesController : ControllerBase
     {
         try
         {
-            var line = _linesInvestigationService.SearchLine(codeLine);
+            LineInvestigation? line =
+                _linesInvestigationService.SearchLine(codeLine);
             if (line == null)
                 return BadRequest(
                     new Response<Void>("No se ha encontrado  la linea"));
@@ -57,9 +58,11 @@ public class LinesController : ControllerBase
     {
         try
         {
-            var line = _linesInvestigationService.AllLines();
+            List<LineInvestigation>
+                line = _linesInvestigationService.GetAllLines();
             return Ok(
-                new Response<LineResponse>(line.Adapt<LineResponse>()));
+                new Response<List<LineResponse>>(
+                    line.Adapt<List<LineResponse>>()));
         }
         catch (Exception e)
         {
@@ -72,7 +75,7 @@ public class LinesController : ControllerBase
     {
         try
         {
-            var message = _linesInvestigationService.DeleteLine(codeLine);
+            string message = _linesInvestigationService.DeleteLine(codeLine);
             return Ok(new Response<Void>(message, false));
         }
         catch (Exception e)

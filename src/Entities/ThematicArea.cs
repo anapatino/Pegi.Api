@@ -12,4 +12,9 @@ public class ThematicArea
 
     [Column("thematic_areas_name")]
     public string Name { get; set; }
+
+    public int SubLineCode { get; set; }
+
+    [ForeignKey("SubLineCode")]
+    public InvestigationSubLine InvestigationSubLine { get; set; }
 }

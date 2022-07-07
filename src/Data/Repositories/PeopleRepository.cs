@@ -17,7 +17,7 @@ public class PeopleRepository : Repository<Person>
             .Include(person => person.Nationality)
             .Include(person => person.AcademicProgram)
             .Include(person => person.Studies)
-            .ThenInclude(study => study.Code)
+            .ThenInclude(study => study.City)
             .Include(person => person.Experiences)
             .ThenInclude(experience => experience.City)
             .FirstOrDefault(predicate);

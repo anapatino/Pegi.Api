@@ -33,7 +33,7 @@ public class LinesInvestigationService
         return _linesInvestigationRepository.Find(line => line.Code == code);
     }
 
-    public List<LineInvestigation> AllLines()
+    public List<LineInvestigation> GetAllLines()
     {
         return _linesInvestigationRepository.GetAll();
     }
