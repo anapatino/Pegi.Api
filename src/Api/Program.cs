@@ -5,10 +5,10 @@ using Entities;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 
-WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(args);
 
-ConfigurationManager configuration = builder.Configuration;
-string connectionString =
+var configuration = builder.Configuration;
+var connectionString =
     configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<PegiDbContext>(options =>
@@ -40,12 +40,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors(options =>
-    options.AddPolicy("pegi",
-        policy => policy.WithOrigins("*").AllowAnyMethod().AllowAnyMethod())
+    options.AddDefaultPolicy(
+        policy => policy.WithOrigins("*").AllowAnyMethod().AllowAnyHeader())
 );
 
 
-WebApplication app = builder.Build();
+var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
@@ -53,7 +53,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors("pegi");
+app.UseCors();
 
 app.UseAuthorization();
 
