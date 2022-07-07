@@ -1,14 +1,15 @@
 using Api;
 using Api.Controllers.People;
+using Api.Controllers.Proposals;
 using Data;
 using Entities;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 
-var builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-var configuration = builder.Configuration;
-var connectionString =
+ConfigurationManager configuration = builder.Configuration;
+string? connectionString =
     configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<PegiDbContext>(options =>
@@ -33,6 +34,12 @@ TypeAdapterConfig.GlobalSettings
     .NewConfig<Experience, ExperienceResponse>()
     .PreserveReference(true);
 
+TypeAdapterConfig.GlobalSettings.NewConfig<CreateProposalRequest, Proposal>()
+    .PreserveReference(true);
+TypeAdapterConfig.GlobalSettings
+    .NewConfig<CreateMemberRequest, Member>()
+    .PreserveReference(true);
+
 builder.Services.AddRepositories();
 builder.Services.AddServices();
 builder.Services.AddControllers();
@@ -45,7 +52,7 @@ builder.Services.AddCors(options =>
 );
 
 
-var app = builder.Build();
+WebApplication app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {

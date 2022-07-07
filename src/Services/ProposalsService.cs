@@ -33,14 +33,14 @@ public class ProposalsService
             proposal.Title == title);
     }
 
-    public List<Proposal?> AllProposal()
+    public List<Proposal> GetAllProposals()
     {
-        return (List<Proposal?>)_proposalsRepository.GetAll();
+        return _proposalsRepository.GetAll();
     }
 
-    public List<Proposal?> FilterProposalStatus(string status)
+    public List<Proposal> FilterProposalStatus(string status)
     {
-        return (List<Proposal?>)_proposalsRepository.Filter(proposal =>
+        return _proposalsRepository.Filter(proposal =>
             proposal.Status == status);
     }
 
@@ -48,7 +48,7 @@ public class ProposalsService
     {
         try
         {
-            var foundProposal = SearchProposal(title);
+            Proposal? foundProposal = SearchProposal(title);
             if (foundProposal == null)
                 throw new ProposalException("Propuesta no encontrada");
             _proposalsRepository.Delete(foundProposal);

@@ -304,17 +304,17 @@ namespace Api.Migrations
                     b.Property<int>("Code")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnName("projects_code");
+                        .HasColumnName("project_code");
 
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("longtext")
-                        .HasColumnName("projects_content");
+                        .HasColumnName("project_content");
 
                     b.Property<string>("Feedback")
                         .IsRequired()
                         .HasColumnType("longtext")
-                        .HasColumnName("projects_feedback");
+                        .HasColumnName("project_feedback");
 
                     b.Property<int>("ProposalCode")
                         .HasColumnType("int")
@@ -323,17 +323,12 @@ namespace Api.Migrations
                     b.Property<string>("Qualification")
                         .IsRequired()
                         .HasColumnType("longtext")
-                        .HasColumnName("projects_qualification");
+                        .HasColumnName("project_qualification");
 
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("longtext")
-                        .HasColumnName("projects_status");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("longtext")
-                        .HasColumnName("projects_title");
+                        .HasColumnName("project_status");
 
                     b.HasKey("Code")
                         .HasName("pk_projects");

@@ -1,10 +1,7 @@
-﻿using Entities;
-
-namespace Api.Controllers.Proposals;
+﻿namespace Api.Controllers.Proposals;
 
 public record CreateProposalRequest
 (
-    string Code,
     string Title,
     DateTime Date,
     string ResearchGroup,
@@ -17,5 +14,5 @@ public record CreateProposalRequest
     string CodeEvaluation,
     string Status,
     string Feedback,
-    ICollection<Member> Members
+    ICollection<CreateMemberRequest> Members
 );

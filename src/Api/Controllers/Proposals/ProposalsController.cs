@@ -11,9 +11,9 @@ public class ProposalsController : ControllerBase
 {
     private readonly ProposalsService _proposalsService;
 
-    public ProposalsController(ProposalsService ProposalsService)
+    public ProposalsController(ProposalsService proposalsService)
     {
-        _proposalsService = ProposalsService;
+        _proposalsService = proposalsService;
     }
 
     [HttpPost]
@@ -22,8 +22,8 @@ public class ProposalsController : ControllerBase
     {
         try
         {
-            var proposal = createProposalRequest.Adapt<Proposal>();
-            var message = _proposalsService.SaveProposal(proposal);
+            var    proposal = createProposalRequest.Adapt<Proposal>();
+            string message  = _proposalsService.SaveProposal(proposal);
             return Ok(new Response<Void>(message, false));
         }
         catch (Exception e)
@@ -37,7 +37,7 @@ public class ProposalsController : ControllerBase
     {
         try
         {
-            var proposal = _proposalsService.SearchProposal(title);
+            Proposal? proposal = _proposalsService.SearchProposal(title);
             if (proposal == null)
                 return BadRequest(
                     new Response<Void>("No existe propuesta"));
@@ -56,13 +56,10 @@ public class ProposalsController : ControllerBase
     {
         try
         {
-            var proposal = _proposalsService.AllProposal();
-            if (proposal == null)
-                return BadRequest(
-                    new Response<Void>("No existen propuestas"));
+            List<Proposal> proposal = _proposalsService.GetAllProposals();
             return Ok(
-                new Response<ProposalResponse>(
-                    proposal.Adapt<ProposalResponse>()));
+                new Response<List<ProposalResponse>>(
+                    proposal.Adapt<List<ProposalResponse>>()));
         }
         catch (Exception e)
         {
@@ -75,10 +72,8 @@ public class ProposalsController : ControllerBase
     {
         try
         {
-            var proposal = _proposalsService.FilterProposalStatus(status);
-            if (proposal == null)
-                return BadRequest(
-                    new Response<Void>("No existe propuestas con este estado"));
+            List<Proposal> proposal =
+                _proposalsService.FilterProposalStatus(status);
             return Ok(
                 new Response<ProposalResponse>(
                     proposal.Adapt<ProposalResponse>()));
@@ -94,7 +89,7 @@ public class ProposalsController : ControllerBase
     {
         try
         {
-            var message = _proposalsService.DeleteProposal(title);
+            string message = _proposalsService.DeleteProposal(title);
             return Ok(new Response<Void>(message, false));
         }
         catch (Exception e)

@@ -63,8 +63,8 @@ public class SublinesController : ControllerBase
             List<InvestigationSubLine> subline =
                 _sublinesInvestigationService.GetAllSublines();
             return Ok(
-                new Response<SublineResponse>(
-                    subline.Adapt<SublineResponse>()));
+                new Response<List<SublineResponse>>(
+                    subline.Adapt<List<SublineResponse>>()));
         }
         catch (Exception e)
         {

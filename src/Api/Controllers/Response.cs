@@ -4,17 +4,6 @@ public record Void;
 
 public record Response<TData>
 {
-    public Response(string? message, TData? data, bool hasErrors)
-    {
-        Message   = message;
-        Data      = data;
-        HasErrors = hasErrors;
-    }
-
-    public Response()
-    {
-    }
-
     public Response(TData? data)
     {
         Data      = data;

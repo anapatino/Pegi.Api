@@ -58,11 +58,11 @@ public class ThematicAreasController : ControllerBase
     {
         try
         {
-            var thematicArea =
+            List<ThematicArea> thematicArea =
                 _thematicAreasService.GetAllThematicAreas();
             return Ok(
-                new Response<ThematicAreaResponse>(
-                    thematicArea.Adapt<ThematicAreaResponse>()));
+                new Response<List<ThematicAreaResponse>>(
+                    thematicArea.Adapt<List<ThematicAreaResponse>>()));
         }
         catch (Exception e)
         {
@@ -75,7 +75,7 @@ public class ThematicAreasController : ControllerBase
     {
         try
         {
-            var message =
+            string message =
                 _thematicAreasService.DeleteThematicArea(codeThematicArea);
             return Ok(new Response<Void>(message, false));
         }

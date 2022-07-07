@@ -172,16 +172,17 @@ namespace Api.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     sublines_name = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    line_investigation_code = table.Column<int>(type: "int", nullable: true)
+                    line_code = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_sublines", x => x.sublines_code);
                     table.ForeignKey(
-                        name: "fk_sublines_lines_line_investigation_code",
-                        column: x => x.line_investigation_code,
+                        name: "fk_sublines_lines_line_code",
+                        column: x => x.line_code,
                         principalTable: "lines",
-                        principalColumn: "lines_code");
+                        principalColumn: "lines_code",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -225,23 +226,21 @@ namespace Api.Migrations
                 name: "projects",
                 columns: table => new
                 {
-                    projects_code = table.Column<int>(type: "int", nullable: false)
+                    project_code = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    projects_title = table.Column<string>(type: "longtext", nullable: false)
+                    project_content = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    projects_content = table.Column<string>(type: "longtext", nullable: false)
+                    project_status = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    projects_status = table.Column<string>(type: "longtext", nullable: false)
+                    project_feedback = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    projects_feedback = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    projects_qualification = table.Column<string>(type: "longtext", nullable: false)
+                    project_qualification = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     proposal_code = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_projects", x => x.projects_code);
+                    table.PrimaryKey("pk_projects", x => x.project_code);
                     table.ForeignKey(
                         name: "fk_projects_proposals_proposal_code",
                         column: x => x.proposal_code,
@@ -317,16 +316,17 @@ namespace Api.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     thematic_areas_name = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    investigation_sub_line_code = table.Column<int>(type: "int", nullable: true)
+                    sub_line_code = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_thematic_areas", x => x.thematic_areas_code);
                     table.ForeignKey(
-                        name: "fk_thematic_areas_sublines_investigation_sub_line_code",
-                        column: x => x.investigation_sub_line_code,
+                        name: "fk_thematic_areas_sublines_sub_line_code",
+                        column: x => x.sub_line_code,
                         principalTable: "sublines",
-                        principalColumn: "sublines_code");
+                        principalColumn: "sublines_code",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -442,14 +442,14 @@ namespace Api.Migrations
                 column: "person_document1");
 
             migrationBuilder.CreateIndex(
-                name: "ix_sublines_line_investigation_code",
+                name: "ix_sublines_line_code",
                 table: "sublines",
-                column: "line_investigation_code");
+                column: "line_code");
 
             migrationBuilder.CreateIndex(
-                name: "ix_thematic_areas_investigation_sub_line_code",
+                name: "ix_thematic_areas_sub_line_code",
                 table: "thematic_areas",
-                column: "investigation_sub_line_code");
+                column: "sub_line_code");
 
             migrationBuilder.CreateIndex(
                 name: "ix_users_user_name",

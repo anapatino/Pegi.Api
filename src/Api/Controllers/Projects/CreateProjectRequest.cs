@@ -2,7 +2,6 @@
 
 public record CreateProjectRequest
 (
-    string Title,
     string Content,
     string Status,
     string Feedback,

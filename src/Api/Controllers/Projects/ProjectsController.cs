@@ -22,8 +22,8 @@ public class ProjectsController : ControllerBase
     {
         try
         {
-            var project = createProjectRequest.Adapt<Project>();
-            var message = _projectsService.SaveProject(project);
+            var    project = createProjectRequest.Adapt<Project>();
+            string message = _projectsService.SaveProject(project);
             return Ok(new Response<Void>(message, false));
         }
         catch (Exception e)
@@ -32,12 +32,12 @@ public class ProjectsController : ControllerBase
         }
     }
 
-    [HttpGet("{title-project}")]
+    [HttpGet("{titleProject}")]
     public ActionResult GetProject([FromBody] string titleProject)
     {
         try
         {
-            var project = _projectsService.SearchProject(titleProject);
+            Project? project = _projectsService.SearchProject(titleProject);
             if (project == null)
                 return BadRequest(
                     new Response<Void>("No existe projecto"));
@@ -56,13 +56,10 @@ public class ProjectsController : ControllerBase
     {
         try
         {
-            var project = _projectsService.GetAllProject();
-            if (project == null)
-                return BadRequest(
-                    new Response<Void>("No existen projectos"));
+            List<Project> project = _projectsService.GetAllProjects();
             return Ok(
-                new Response<ProjectResponse>(
-                    project.Adapt<ProjectResponse>()));
+                new Response<List<ProjectResponse>>(
+                    project.Adapt<List<ProjectResponse>>()));
         }
         catch (Exception e)
         {
@@ -70,12 +67,12 @@ public class ProjectsController : ControllerBase
         }
     }
 
-    [HttpGet("{status}")]
-    public ActionResult GetFilterProjectsStatus([FromBody] string status)
+    /*[HttpGet("{status}")]
+    public ActionResult GetProjectsStatus([FromBody] string status)
     {
         try
         {
-            var project = _projectsService.SearchProject(status);
+            Project? project = _projectsService.SearchProject(status);
             if (project == null)
                 return BadRequest(
                     new Response<Void>("No existen projectos con este estado"));
@@ -87,14 +84,14 @@ public class ProjectsController : ControllerBase
         {
             return BadRequest(new Response<Void>(e.Message));
         }
-    }
+    }*/
 
-    [HttpDelete("{title-project}")]
+    [HttpDelete("{titleProject}")]
     public ActionResult DeleteProject([FromRoute] string titleProject)
     {
         try
         {
-            var message = _projectsService.DeleteProject(titleProject);
+            string message = _projectsService.DeleteProject(titleProject);
             return Ok(new Response<Void>(message, false));
         }
         catch (Exception e)

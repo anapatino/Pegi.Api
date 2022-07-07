@@ -6,23 +6,20 @@ namespace Entities;
 [Table("projects")]
 public class Project
 {
+    [Column("project_code")]
     [Key]
-    [Column("projects_code")]
     public int Code { get; set; }
 
-    [Column("projects_title")]
-    public string Title { get; set; }
-
-    [Column("projects_content")]
+    [Column("project_content")]
     public string Content { get; set; }
 
-    [Column("projects_status")]
+    [Column("project_status")]
     public string Status { get; set; }
 
-    [Column("projects_feedback")]
+    [Column("project_feedback")]
     public string Feedback { get; set; }
 
-    [Column("projects_qualification")]
+    [Column("project_qualification")]
     public string Qualification { get; set; }
 
     public int ProposalCode { get; set; }

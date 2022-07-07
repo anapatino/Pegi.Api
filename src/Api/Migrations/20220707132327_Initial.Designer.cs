@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Api.Migrations
 {
     [DbContext(typeof(PegiDbContext))]
-    [Migration("20220707022718_Initial")]
+    [Migration("20220707132327_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -123,9 +123,9 @@ namespace Api.Migrations
                         .HasColumnType("int")
                         .HasColumnName("sublines_code");
 
-                    b.Property<int?>("LineInvestigationCode")
+                    b.Property<int>("LineCode")
                         .HasColumnType("int")
-                        .HasColumnName("line_investigation_code");
+                        .HasColumnName("line_code");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -135,8 +135,8 @@ namespace Api.Migrations
                     b.HasKey("Code")
                         .HasName("pk_sublines");
 
-                    b.HasIndex("LineInvestigationCode")
-                        .HasDatabaseName("ix_sublines_line_investigation_code");
+                    b.HasIndex("LineCode")
+                        .HasDatabaseName("ix_sublines_line_code");
 
                     b.ToTable("sublines", (string)null);
                 });
@@ -306,17 +306,17 @@ namespace Api.Migrations
                     b.Property<int>("Code")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnName("projects_code");
+                        .HasColumnName("project_code");
 
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("longtext")
-                        .HasColumnName("projects_content");
+                        .HasColumnName("project_content");
 
                     b.Property<string>("Feedback")
                         .IsRequired()
                         .HasColumnType("longtext")
-                        .HasColumnName("projects_feedback");
+                        .HasColumnName("project_feedback");
 
                     b.Property<int>("ProposalCode")
                         .HasColumnType("int")
@@ -325,17 +325,12 @@ namespace Api.Migrations
                     b.Property<string>("Qualification")
                         .IsRequired()
                         .HasColumnType("longtext")
-                        .HasColumnName("projects_qualification");
+                        .HasColumnName("project_qualification");
 
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("longtext")
-                        .HasColumnName("projects_status");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("longtext")
-                        .HasColumnName("projects_title");
+                        .HasColumnName("project_status");
 
                     b.HasKey("Code")
                         .HasName("pk_projects");
@@ -471,20 +466,20 @@ namespace Api.Migrations
                         .HasColumnType("int")
                         .HasColumnName("thematic_areas_code");
 
-                    b.Property<int?>("InvestigationSubLineCode")
-                        .HasColumnType("int")
-                        .HasColumnName("investigation_sub_line_code");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("longtext")
                         .HasColumnName("thematic_areas_name");
 
+                    b.Property<int>("SubLineCode")
+                        .HasColumnType("int")
+                        .HasColumnName("sub_line_code");
+
                     b.HasKey("Code")
                         .HasName("pk_thematic_areas");
 
-                    b.HasIndex("InvestigationSubLineCode")
-                        .HasDatabaseName("ix_thematic_areas_investigation_sub_line_code");
+                    b.HasIndex("SubLineCode")
+                        .HasDatabaseName("ix_thematic_areas_sub_line_code");
 
                     b.ToTable("thematic_areas", (string)null);
                 });
@@ -548,10 +543,14 @@ namespace Api.Migrations
 
             modelBuilder.Entity("Entities.InvestigationSubLine", b =>
                 {
-                    b.HasOne("Entities.LineInvestigation", null)
+                    b.HasOne("Entities.LineInvestigation", "LineInvestigation")
                         .WithMany("SublinesInvestigation")
-                        .HasForeignKey("LineInvestigationCode")
-                        .HasConstraintName("fk_sublines_lines_line_investigation_code");
+                        .HasForeignKey("LineCode")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_sublines_lines_line_code");
+
+                    b.Navigation("LineInvestigation");
                 });
 
             modelBuilder.Entity("Entities.Member", b =>
@@ -630,10 +629,14 @@ namespace Api.Migrations
 
             modelBuilder.Entity("Entities.ThematicArea", b =>
                 {
-                    b.HasOne("Entities.InvestigationSubLine", null)
+                    b.HasOne("Entities.InvestigationSubLine", "InvestigationSubLine")
                         .WithMany("ThematicAreas")
-                        .HasForeignKey("InvestigationSubLineCode")
-                        .HasConstraintName("fk_thematic_areas_sublines_investigation_sub_line_code");
+                        .HasForeignKey("SubLineCode")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_thematic_areas_sublines_sub_line_code");
+
+                    b.Navigation("InvestigationSubLine");
                 });
 
             modelBuilder.Entity("Entities.Experience", b =>

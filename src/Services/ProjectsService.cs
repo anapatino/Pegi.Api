@@ -8,9 +8,9 @@ public class ProjectsService
 {
     private readonly ProjectsRepository _projectsRepository;
 
-    public ProjectsService(ProjectsRepository ProjectService)
+    public ProjectsService(ProjectsRepository projectService)
     {
-        _projectsRepository = ProjectService;
+        _projectsRepository = projectService;
     }
 
     public string SaveProject(Project project)
@@ -30,10 +30,10 @@ public class ProjectsService
     public Project? SearchProject(string title)
     {
         return _projectsRepository.Find(project =>
-            project.Title == title);
+            project.Proposal.Title == title);
     }
 
-    public List<Project> GetAllProject()
+    public List<Project> GetAllProjects()
     {
         return _projectsRepository.GetAll();
     }
