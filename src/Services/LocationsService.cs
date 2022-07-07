@@ -21,12 +21,12 @@ public class LocationsService
 
     public List<Department> GetDepartments()
     {
-        return _departmentsRepository.GetAll().ToList();
+        return _departmentsRepository.GetAll();
     }
 
     public List<Country> GetCountries()
     {
-        return _countriesRepository.GetAll().ToList();
+        return _countriesRepository.GetAll();
     }
 
     public List<City> GetCities(string department)

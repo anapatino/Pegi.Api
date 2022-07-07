@@ -12,7 +12,7 @@ public class Member
     public string IdentificationType { get; set; }
 
     [Column("member_name")] public string Name { get; set; }
-    public string ProgramCode { get; set; }
+    public int ProgramCode { get; set; }
 
     [ForeignKey("ProgramCode")] public AcademicProgram AcademicProgram { get; set; }
 

@@ -1,4 +1,4 @@
-﻿using Entities;
+﻿using Api.Controllers.SublinesInvestigation;
 
 namespace Api.Controllers.LinesInvestigation;
 
@@ -6,5 +6,5 @@ public record LineResponse
 (
     string Code,
     string Name,
-    ICollection<SublineInvestigation> SublinesInvestigation
+    ICollection<SublineResponse> SublinesInvestigation
 );

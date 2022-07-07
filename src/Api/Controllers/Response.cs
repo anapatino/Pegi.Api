@@ -23,8 +23,9 @@ public record Response<TData>
 
     public Response(string? message, TData? data)
     {
-        Message = message;
-        Data    = data;
+        Message   = message;
+        Data      = data;
+        HasErrors = false;
     }
 
     public Response(string? message, bool hasErrors)

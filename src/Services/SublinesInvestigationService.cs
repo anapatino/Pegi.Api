@@ -15,7 +15,7 @@ public class SublinesInvestigationService
         _sublinesInvestigationRepository = SublinesInvestigationRepository;
     }
 
-    public string SaveSubline(SublineInvestigation subline)
+    public string SaveSubline(InvestigationSubLine subline)
     {
         try
         {
@@ -29,19 +29,19 @@ public class SublinesInvestigationService
         }
     }
 
-    public SublineInvestigation? SearchSubline(string code)
+    public InvestigationSubLine? SearchSubline(int code)
     {
         return _sublinesInvestigationRepository.Find(subline =>
             subline.Code == code);
     }
 
-    public List<SublineInvestigation?> AllSublines()
+    public List<InvestigationSubLine> GetAllSublines()
     {
-        return (List<SublineInvestigation?>)_sublinesInvestigationRepository
+        return _sublinesInvestigationRepository
             .GetAll();
     }
 
-    public string DeleteLine(string code)
+    public string DeleteLine(int code)
     {
         try
         {

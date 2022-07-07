@@ -4,7 +4,7 @@ namespace Api.Controllers.Projects;
 
 public record ProjectResponse
 (
-    string Code,
+    int Code,
     string Title,
     string Content,
     string Status,

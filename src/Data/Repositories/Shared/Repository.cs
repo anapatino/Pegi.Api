@@ -1,4 +1,5 @@
 using System.Linq.Expressions;
+using Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data.Repositories.Shared;
@@ -28,12 +29,13 @@ public class Repository<TEntity> where TEntity : class
         return Context.Set<TEntity>().FirstOrDefault(predicate);
     }
 
-    public virtual List<TEntity> Filter(Expression<Func<TEntity, bool>> predicate)
+    public virtual List<TEntity> Filter(
+        Expression<Func<TEntity, bool>> predicate)
     {
         return Context.Set<TEntity>().Where(predicate).ToList();
     }
 
-    public virtual IEnumerable<TEntity> GetAll()
+    public virtual List<TEntity> GetAll()
     {
         return Context.Set<TEntity>().AsNoTracking().ToList();
     }

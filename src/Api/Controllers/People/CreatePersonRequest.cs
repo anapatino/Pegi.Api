@@ -1,24 +1,23 @@
-﻿using Entities;
-
-namespace Api.Controllers.People;
+﻿namespace Api.Controllers.People;
 
 public record CreatePersonRequest
 (
     string Document,
     string IdentificationType,
     string FirstName,
-    string SecondName,
+    string? SecondName,
     string FirstLastName,
     string SecondLatName,
     string CivilState,
     string Sex,
     DateTime BirthDate,
-    string Nationality,
+    string CountryCode,
     string Phone,
     string InstitutionalMail,
-    string AcademicProgram,
+    int ProgramCode,
     string Type,
     string Position,
-    ICollection<Study> Studies,
-    ICollection<Experience> Experiences
+    ICollection<CreateStudyRequest> Studies,
+    ICollection<CreateExperienceRequest> Experiences,
+    string UserName
 );

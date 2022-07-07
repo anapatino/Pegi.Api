@@ -6,9 +6,9 @@ namespace Entities;
 [Table("lines")]
 public class LineInvestigation
 {
-    [Key] [Column("lines_code")] public string Code { get; set; }
+    [Key] [Column("lines_code")] public int Code { get; set; }
 
     [Column("lines_name")] public string Name { get; set; }
 
-    public ICollection<SublineInvestigation> SublinesInvestigation { get; set; }
+    public ICollection<InvestigationSubLine> SublinesInvestigation { get; set; }
 }

@@ -56,7 +56,7 @@ public class ProjectsController : ControllerBase
     {
         try
         {
-            var project = _projectsService.AllProject();
+            var project = _projectsService.GetAllProject();
             if (project == null)
                 return BadRequest(
                     new Response<Void>("No existen projectos"));

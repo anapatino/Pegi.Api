@@ -6,7 +6,7 @@ using Services;
 namespace Api.Controllers.SublinesInvestigation;
 
 [ApiController]
-[Route("sublines-investigation")]
+[Route("investigation-sublines")]
 public class SublinesController : ControllerBase
 {
     private readonly SublinesInvestigationService _sublinesInvestigationService;
@@ -23,7 +23,7 @@ public class SublinesController : ControllerBase
     {
         try
         {
-            var subline = createSublineRequest.Adapt<SublineInvestigation>();
+            var subline = createSublineRequest.Adapt<InvestigationSubLine>();
             var message = _sublinesInvestigationService.SaveSubline(subline);
             return Ok(new Response<Void>(message, false));
         }
@@ -34,13 +34,13 @@ public class SublinesController : ControllerBase
     }
 
 
-    [HttpGet("{code-subline}")]
-    public ActionResult GetSubline([FromRoute] string codeSubline)
+    [HttpGet("{sublineCode}")]
+    public ActionResult GetSubline([FromRoute] int sublineCode)
     {
         try
         {
             var subline =
-                _sublinesInvestigationService.SearchSubline(codeSubline);
+                _sublinesInvestigationService.SearchSubline(sublineCode);
             if (subline == null)
                 return BadRequest(
                     new Response<Void>("No se ha encontrado  la Sublinea"));
@@ -61,10 +61,7 @@ public class SublinesController : ControllerBase
         try
         {
             var subline =
-                _sublinesInvestigationService.AllSublines();
-            if (subline == null)
-                return BadRequest(
-                    new Response<Void>("No se han encontrado ninguna sublineas"));
+                _sublinesInvestigationService.GetAllSublines();
             return Ok(
                 new Response<SublineResponse>(
                     subline.Adapt<SublineResponse>()));
@@ -75,12 +72,12 @@ public class SublinesController : ControllerBase
         }
     }
 
-    [HttpDelete("{code-subline}")]
-    public ActionResult DeleteLine([FromRoute] string codeSubline)
+    [HttpDelete("{sublineCode}")]
+    public ActionResult DeleteLine([FromRoute] int sublineCode)
     {
         try
         {
-            var message = _sublinesInvestigationService.DeleteLine(codeSubline);
+            var message = _sublinesInvestigationService.DeleteLine(sublineCode);
             return Ok(new Response<Void>(message, false));
         }
         catch (Exception e)

@@ -34,7 +34,7 @@ public class LinesController : ControllerBase
 
 
     [HttpGet("{code-line}")]
-    public ActionResult GetLine([FromRoute] string codeLine)
+    public ActionResult GetLine([FromRoute] int codeLine)
     {
         try
         {
@@ -58,9 +58,6 @@ public class LinesController : ControllerBase
         try
         {
             var line = _linesInvestigationService.AllLines();
-            if (line == null)
-                return BadRequest(
-                    new Response<Void>("No se ha encontrado ninguna linea"));
             return Ok(
                 new Response<LineResponse>(line.Adapt<LineResponse>()));
         }
@@ -71,7 +68,7 @@ public class LinesController : ControllerBase
     }
 
     [HttpDelete("{code-line}")]
-    public ActionResult DeleteLine([FromRoute] string codeLine)
+    public ActionResult DeleteLine([FromRoute] int codeLine)
     {
         try
         {

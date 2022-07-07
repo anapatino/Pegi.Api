@@ -15,9 +15,11 @@ public class PeopleRepository : Repository<Person>
     {
         return Context.People
             .Include(person => person.Nationality)
-            .Include(person => person.Studies)
             .Include(person => person.AcademicProgram)
+            .Include(person => person.Studies)
+            .ThenInclude(study => study.Code)
             .Include(person => person.Experiences)
+            .ThenInclude(experience => experience.City)
             .FirstOrDefault(predicate);
     }
 }

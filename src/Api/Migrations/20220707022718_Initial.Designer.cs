@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Api.Migrations
 {
     [DbContext(typeof(PegiDbContext))]
-    [Migration("20220706202945_Proposal")]
-    partial class Proposal
+    [Migration("20220707022718_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,24 @@ namespace Api.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "6.0.6")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
+
+            modelBuilder.Entity("Entities.AcademicProgram", b =>
+                {
+                    b.Property<int>("Code")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("academic_program_code");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("academic_program_name");
+
+                    b.HasKey("Code")
+                        .HasName("pk_academic_programs");
+
+                    b.ToTable("academic_programs", (string)null);
+                });
 
             modelBuilder.Entity("Entities.City", b =>
                 {
@@ -65,8 +83,9 @@ namespace Api.Migrations
 
             modelBuilder.Entity("Entities.CV", b =>
                 {
-                    b.Property<string>("Code")
-                        .HasColumnType("varchar(255)")
+                    b.Property<int>("Code")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasColumnName("cv_code");
 
                     b.Property<string>("AttachFiles")
@@ -97,10 +116,36 @@ namespace Api.Migrations
                     b.ToTable("departments", (string)null);
                 });
 
+            modelBuilder.Entity("Entities.InvestigationSubLine", b =>
+                {
+                    b.Property<int>("Code")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("sublines_code");
+
+                    b.Property<int?>("LineInvestigationCode")
+                        .HasColumnType("int")
+                        .HasColumnName("line_investigation_code");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("sublines_name");
+
+                    b.HasKey("Code")
+                        .HasName("pk_sublines");
+
+                    b.HasIndex("LineInvestigationCode")
+                        .HasDatabaseName("ix_sublines_line_investigation_code");
+
+                    b.ToTable("sublines", (string)null);
+                });
+
             modelBuilder.Entity("Entities.LineInvestigation", b =>
                 {
-                    b.Property<string>("Code")
-                        .HasColumnType("varchar(255)")
+                    b.Property<int>("Code")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasColumnName("lines_code");
 
                     b.Property<string>("Name")
@@ -112,6 +157,57 @@ namespace Api.Migrations
                         .HasName("pk_lines");
 
                     b.ToTable("lines", (string)null);
+                });
+
+            modelBuilder.Entity("Entities.Member", b =>
+                {
+                    b.Property<string>("Document")
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("member_document");
+
+                    b.Property<string>("CreditNumber")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("member_credit_number");
+
+                    b.Property<string>("IdentificationType")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("member_identification_type");
+
+                    b.Property<string>("Mail")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("member_email");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("member_name");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("member_phone");
+
+                    b.Property<int>("ProgramCode")
+                        .HasColumnType("int")
+                        .HasColumnName("program_code");
+
+                    b.Property<int?>("ProposalCode")
+                        .HasColumnType("int")
+                        .HasColumnName("proposal_code");
+
+                    b.HasKey("Document")
+                        .HasName("pk_members");
+
+                    b.HasIndex("ProgramCode")
+                        .HasDatabaseName("ix_members_program_code");
+
+                    b.HasIndex("ProposalCode")
+                        .HasDatabaseName("ix_members_proposal_code");
+
+                    b.ToTable("members", (string)null);
                 });
 
             modelBuilder.Entity("Entities.Person", b =>
@@ -159,6 +255,15 @@ namespace Api.Migrations
                         .HasColumnType("longtext")
                         .HasColumnName("person_phone");
 
+                    b.Property<string>("Position")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("person_position");
+
+                    b.Property<int>("ProgramCode")
+                        .HasColumnType("int")
+                        .HasColumnName("program_code");
+
                     b.Property<string>("SecondLastName")
                         .HasColumnType("longtext")
                         .HasColumnName("person_second_last_name");
@@ -172,58 +277,80 @@ namespace Api.Migrations
                         .HasColumnType("longtext")
                         .HasColumnName("person_sex");
 
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("person_type");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("user_name");
+
                     b.HasKey("Document")
                         .HasName("pk_people");
 
                     b.HasIndex("CountryCode")
                         .HasDatabaseName("ix_people_country_code");
 
+                    b.HasIndex("ProgramCode")
+                        .HasDatabaseName("ix_people_program_code");
+
+                    b.HasIndex("UserName")
+                        .HasDatabaseName("ix_people_user_name");
+
                     b.ToTable("people", (string)null);
-                });
-
-            modelBuilder.Entity("Entities.Program", b =>
-                {
-                    b.Property<string>("Code")
-                        .HasColumnType("varchar(255)")
-                        .HasColumnName("program_code");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("longtext")
-                        .HasColumnName("program_name");
-
-                    b.HasKey("Code")
-                        .HasName("pk_program");
-
-                    b.ToTable("program", (string)null);
                 });
 
             modelBuilder.Entity("Entities.Project", b =>
                 {
-                    b.Property<string>("Code")
-                        .HasColumnType("varchar(255)")
-                        .HasColumnName("project_code");
+                    b.Property<int>("Code")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("projects_code");
 
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("longtext")
-                        .HasColumnName("project_content");
+                        .HasColumnName("projects_content");
+
+                    b.Property<string>("Feedback")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("projects_feedback");
+
+                    b.Property<int>("ProposalCode")
+                        .HasColumnType("int")
+                        .HasColumnName("proposal_code");
+
+                    b.Property<string>("Qualification")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("projects_qualification");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("projects_status");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("longtext")
-                        .HasColumnName("project_title");
+                        .HasColumnName("projects_title");
 
                     b.HasKey("Code")
                         .HasName("pk_projects");
+
+                    b.HasIndex("ProposalCode")
+                        .HasDatabaseName("ix_projects_proposal_code");
 
                     b.ToTable("projects", (string)null);
                 });
 
             modelBuilder.Entity("Entities.Proposal", b =>
                 {
-                    b.Property<string>("Code")
-                        .HasColumnType("varchar(255)")
+                    b.Property<int>("Code")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasColumnName("proposals_code");
 
                     b.Property<string>("ApproachProblem")
@@ -236,9 +363,19 @@ namespace Api.Migrations
                         .HasColumnType("longtext")
                         .HasColumnName("proposals_bibliography");
 
+                    b.Property<string>("CodeEvaluation")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("proposals_evaluation_code");
+
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime(6)")
                         .HasColumnName("proposals_date");
+
+                    b.Property<string>("Feedback")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("proposals_evaluation_feedback");
 
                     b.Property<string>("FormulationProblem")
                         .IsRequired()
@@ -265,6 +402,11 @@ namespace Api.Migrations
                         .HasColumnType("longtext")
                         .HasColumnName("proposals_specific_objective");
 
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("proposals_evaluation_status");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("longtext")
@@ -276,32 +418,11 @@ namespace Api.Migrations
                     b.ToTable("proposals", (string)null);
                 });
 
-            modelBuilder.Entity("Entities.ProposalEvaluation", b =>
-                {
-                    b.Property<string>("Code")
-                        .HasColumnType("varchar(255)")
-                        .HasColumnName("proposal_evaluation_code");
-
-                    b.Property<string>("Feedback")
-                        .IsRequired()
-                        .HasColumnType("longtext")
-                        .HasColumnName("proposal_evaluation_feedback");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("longtext")
-                        .HasColumnName("proposal_evaluation_status");
-
-                    b.HasKey("Code")
-                        .HasName("pk_proposal_evaluation");
-
-                    b.ToTable("proposal_evaluation", (string)null);
-                });
-
             modelBuilder.Entity("Entities.Study", b =>
                 {
-                    b.Property<string>("Code")
-                        .HasColumnType("varchar(255)")
+                    b.Property<int>("Code")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasColumnName("study_code");
 
                     b.Property<string>("CityCode")
@@ -343,63 +464,34 @@ namespace Api.Migrations
                     b.ToTable("studies", (string)null);
                 });
 
-            modelBuilder.Entity("Entities.SublineInvestigation", b =>
-                {
-                    b.Property<string>("Code")
-                        .HasColumnType("varchar(255)")
-                        .HasColumnName("sublines_code");
-
-                    b.Property<string>("LineInvestigationCode")
-                        .HasColumnType("varchar(255)")
-                        .HasColumnName("line_investigation_code");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("longtext")
-                        .HasColumnName("sublines_name");
-
-                    b.HasKey("Code")
-                        .HasName("pk_sublines");
-
-                    b.HasIndex("LineInvestigationCode")
-                        .HasDatabaseName("ix_sublines_line_investigation_code");
-
-                    b.ToTable("sublines", (string)null);
-                });
-
             modelBuilder.Entity("Entities.ThematicArea", b =>
-                {
-                    b.Property<string>("Code")
-                        .HasColumnType("varchar(255)")
-                        .HasColumnName("thematic-areas_code");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("longtext")
-                        .HasColumnName("thematic-areas_name");
-
-                    b.Property<string>("SublineInvestigationCode")
-                        .HasColumnType("varchar(255)")
-                        .HasColumnName("subline_investigation_code");
-
-                    b.HasKey("Code")
-                        .HasName("pk_thematic_areas");
-
-                    b.HasIndex("SublineInvestigationCode")
-                        .HasDatabaseName("ix_thematic_areas_subline_investigation_code");
-
-                    b.ToTable("thematic-areas");
-                });
-
-            modelBuilder.Entity("Entities.User", b =>
                 {
                     b.Property<int>("Code")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnName("user_code");
+                        .HasColumnName("thematic_areas_code");
+
+                    b.Property<int?>("InvestigationSubLineCode")
+                        .HasColumnType("int")
+                        .HasColumnName("investigation_sub_line_code");
 
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("thematic_areas_name");
+
+                    b.HasKey("Code")
+                        .HasName("pk_thematic_areas");
+
+                    b.HasIndex("InvestigationSubLineCode")
+                        .HasDatabaseName("ix_thematic_areas_investigation_sub_line_code");
+
+                    b.ToTable("thematic_areas", (string)null);
+                });
+
+            modelBuilder.Entity("Entities.User", b =>
+                {
+                    b.Property<string>("Name")
                         .HasColumnType("varchar(255)")
                         .HasColumnName("user_name");
 
@@ -408,25 +500,17 @@ namespace Api.Migrations
                         .HasColumnType("longtext")
                         .HasColumnName("user_password");
 
-                    b.Property<string>("PersonDocument")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)")
-                        .HasColumnName("person_document");
-
                     b.Property<string>("Role")
                         .IsRequired()
                         .HasColumnType("longtext")
                         .HasColumnName("user_role");
 
-                    b.HasKey("Code")
+                    b.HasKey("Name")
                         .HasName("pk_users");
 
                     b.HasIndex("Name")
                         .IsUnique()
                         .HasDatabaseName("ix_users_user_name");
-
-                    b.HasIndex("PersonDocument")
-                        .HasDatabaseName("ix_users_person_document");
 
                     b.ToTable("users", (string)null);
                 });
@@ -439,7 +523,7 @@ namespace Api.Migrations
                         .HasColumnType("varchar(255)")
                         .HasColumnName("person_document");
 
-                    b.Property<string>("position")
+                    b.Property<string>("Position")
                         .IsRequired()
                         .HasColumnType("longtext")
                         .HasColumnName("experience_position");
@@ -448,61 +532,6 @@ namespace Api.Migrations
                         .HasDatabaseName("ix_experiences_person_document");
 
                     b.ToTable("experiences");
-                });
-
-            modelBuilder.Entity("Entities.ProjectEvaluation", b =>
-                {
-                    b.HasBaseType("Entities.ProposalEvaluation");
-
-                    b.Property<string>("Qualification")
-                        .IsRequired()
-                        .HasColumnType("longtext")
-                        .HasColumnName("project_evaluation_qualification");
-
-                    b.ToTable("project_evaluation");
-                });
-
-            modelBuilder.Entity("Entities.Student", b =>
-                {
-                    b.HasBaseType("Entities.Person");
-
-                    b.Property<string>("CreditNumber")
-                        .IsRequired()
-                        .HasColumnType("longtext")
-                        .HasColumnName("student_credit_number");
-
-                    b.Property<string>("ProgramCode")
-                        .IsRequired()
-                        .HasColumnType("longtext")
-                        .HasColumnName("student_program_code");
-
-                    b.Property<string>("ProjectCode")
-                        .HasColumnType("varchar(255)")
-                        .HasColumnName("project_code");
-
-                    b.Property<string>("ProposalCode")
-                        .HasColumnType("varchar(255)")
-                        .HasColumnName("proposal_code");
-
-                    b.HasIndex("ProjectCode")
-                        .HasDatabaseName("ix_student_project_code");
-
-                    b.HasIndex("ProposalCode")
-                        .HasDatabaseName("ix_student_proposal_code");
-
-                    b.ToTable("student");
-                });
-
-            modelBuilder.Entity("Entities.Teacher", b =>
-                {
-                    b.HasBaseType("Entities.Person");
-
-                    b.Property<string>("Position")
-                        .IsRequired()
-                        .HasColumnType("longtext")
-                        .HasColumnName("teacher_position");
-
-                    b.ToTable("teachers");
                 });
 
             modelBuilder.Entity("Entities.City", b =>
@@ -517,6 +546,31 @@ namespace Api.Migrations
                     b.Navigation("Department");
                 });
 
+            modelBuilder.Entity("Entities.InvestigationSubLine", b =>
+                {
+                    b.HasOne("Entities.LineInvestigation", null)
+                        .WithMany("SublinesInvestigation")
+                        .HasForeignKey("LineInvestigationCode")
+                        .HasConstraintName("fk_sublines_lines_line_investigation_code");
+                });
+
+            modelBuilder.Entity("Entities.Member", b =>
+                {
+                    b.HasOne("Entities.AcademicProgram", "AcademicProgram")
+                        .WithMany()
+                        .HasForeignKey("ProgramCode")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_members_academic_programs_program_code");
+
+                    b.HasOne("Entities.Proposal", null)
+                        .WithMany("Members")
+                        .HasForeignKey("ProposalCode")
+                        .HasConstraintName("fk_members_proposals_proposal_code");
+
+                    b.Navigation("AcademicProgram");
+                });
+
             modelBuilder.Entity("Entities.Person", b =>
                 {
                     b.HasOne("Entities.Country", "Nationality")
@@ -526,7 +580,35 @@ namespace Api.Migrations
                         .IsRequired()
                         .HasConstraintName("fk_people_countries_country_code");
 
+                    b.HasOne("Entities.AcademicProgram", "AcademicProgram")
+                        .WithMany()
+                        .HasForeignKey("ProgramCode")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_people_academic_programs_program_code");
+
+                    b.HasOne("Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserName")
+                        .HasConstraintName("fk_people_users_user_name");
+
+                    b.Navigation("AcademicProgram");
+
                     b.Navigation("Nationality");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Entities.Project", b =>
+                {
+                    b.HasOne("Entities.Proposal", "Proposal")
+                        .WithMany()
+                        .HasForeignKey("ProposalCode")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_projects_proposals_proposal_code");
+
+                    b.Navigation("Proposal");
                 });
 
             modelBuilder.Entity("Entities.Study", b =>
@@ -546,32 +628,12 @@ namespace Api.Migrations
                     b.Navigation("City");
                 });
 
-            modelBuilder.Entity("Entities.SublineInvestigation", b =>
-                {
-                    b.HasOne("Entities.LineInvestigation", null)
-                        .WithMany("SublinesInvestigation")
-                        .HasForeignKey("LineInvestigationCode")
-                        .HasConstraintName("fk_sublines_lines_line_investigation_code");
-                });
-
             modelBuilder.Entity("Entities.ThematicArea", b =>
                 {
-                    b.HasOne("Entities.SublineInvestigation", null)
+                    b.HasOne("Entities.InvestigationSubLine", null)
                         .WithMany("ThematicAreas")
-                        .HasForeignKey("SublineInvestigationCode")
-                        .HasConstraintName("fk_thematic_areas_sublines_subline_investigation_code");
-                });
-
-            modelBuilder.Entity("Entities.User", b =>
-                {
-                    b.HasOne("Entities.Person", "Person")
-                        .WithMany()
-                        .HasForeignKey("PersonDocument")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_users_people_person_document");
-
-                    b.Navigation("Person");
+                        .HasForeignKey("InvestigationSubLineCode")
+                        .HasConstraintName("fk_thematic_areas_sublines_investigation_sub_line_code");
                 });
 
             modelBuilder.Entity("Entities.Experience", b =>
@@ -589,44 +651,9 @@ namespace Api.Migrations
                         .HasConstraintName("fk_experiences_people_person_document");
                 });
 
-            modelBuilder.Entity("Entities.ProjectEvaluation", b =>
+            modelBuilder.Entity("Entities.InvestigationSubLine", b =>
                 {
-                    b.HasOne("Entities.ProposalEvaluation", null)
-                        .WithOne()
-                        .HasForeignKey("Entities.ProjectEvaluation", "Code")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_project_evaluation_proposal_evaluation_proposal_evaluation_c");
-                });
-
-            modelBuilder.Entity("Entities.Student", b =>
-                {
-                    b.HasOne("Entities.Person", null)
-                        .WithOne()
-                        .HasForeignKey("Entities.Student", "Document")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_student_people_person_document");
-
-                    b.HasOne("Entities.Project", null)
-                        .WithMany("Students")
-                        .HasForeignKey("ProjectCode")
-                        .HasConstraintName("fk_student_projects_project_code");
-
-                    b.HasOne("Entities.Proposal", null)
-                        .WithMany("Students")
-                        .HasForeignKey("ProposalCode")
-                        .HasConstraintName("fk_student_proposals_proposal_code");
-                });
-
-            modelBuilder.Entity("Entities.Teacher", b =>
-                {
-                    b.HasOne("Entities.Person", null)
-                        .WithOne()
-                        .HasForeignKey("Entities.Teacher", "Document")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_teachers_people_person_document");
+                    b.Navigation("ThematicAreas");
                 });
 
             modelBuilder.Entity("Entities.LineInvestigation", b =>
@@ -641,19 +668,9 @@ namespace Api.Migrations
                     b.Navigation("Studies");
                 });
 
-            modelBuilder.Entity("Entities.Project", b =>
-                {
-                    b.Navigation("Students");
-                });
-
             modelBuilder.Entity("Entities.Proposal", b =>
                 {
-                    b.Navigation("Students");
-                });
-
-            modelBuilder.Entity("Entities.SublineInvestigation", b =>
-                {
-                    b.Navigation("ThematicAreas");
+                    b.Navigation("Members");
                 });
 #pragma warning restore 612, 618
         }

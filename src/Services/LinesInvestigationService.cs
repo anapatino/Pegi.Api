@@ -28,17 +28,17 @@ public class LinesInvestigationService
         }
     }
 
-    public LineInvestigation? SearchLine(string code)
+    public LineInvestigation? SearchLine(int code)
     {
         return _linesInvestigationRepository.Find(line => line.Code == code);
     }
 
-    public List<LineInvestigation?> AllLines()
+    public List<LineInvestigation> AllLines()
     {
-        return (List<LineInvestigation?>)_linesInvestigationRepository.GetAll();
+        return _linesInvestigationRepository.GetAll();
     }
 
-    public string DeleteLine(string code)
+    public string DeleteLine(int code)
     {
         try
         {

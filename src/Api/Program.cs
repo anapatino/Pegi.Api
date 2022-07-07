@@ -1,5 +1,8 @@
 using Api;
+using Api.Controllers.People;
 using Data;
+using Entities;
+using Mapster;
 using Microsoft.EntityFrameworkCore;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -12,6 +15,14 @@ builder.Services.AddDbContext<PegiDbContext>(options =>
     options.SetupDatabaseEngine(connectionString)
         .UseSnakeCaseNamingConvention()
 );
+
+TypeAdapterConfig.GlobalSettings.NewConfig<Person, CreatePersonRequest>()
+    .PreserveReference(true);
+TypeAdapterConfig.GlobalSettings.NewConfig<CreateStudyRequest, Study>()
+    .PreserveReference(true);
+TypeAdapterConfig.GlobalSettings
+    .NewConfig<CreateExperienceRequest, Experience>()
+    .PreserveReference(true);
 
 builder.Services.AddRepositories();
 builder.Services.AddServices();

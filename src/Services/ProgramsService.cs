@@ -27,13 +27,13 @@ public class ProgramsService
         }
     }
 
-    public AcademicProgram? SearchProgram(string code)
+    public AcademicProgram? SearchProgram(int code)
     {
         return _programsRepository.Find(program =>
             program.Code == code);
     }
 
-    public string DeleteProgram(string code)
+    public string DeleteProgram(int code)
     {
         try
         {

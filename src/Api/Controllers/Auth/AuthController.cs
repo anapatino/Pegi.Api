@@ -10,13 +10,16 @@ namespace Api.Controllers.Auth;
 [Route("auth")]
 public class AuthController : ControllerBase
 {
-    private readonly AuthService  _authService;
-    private readonly UsersService _usersService;
+    private readonly AuthService   _authService;
+    private readonly PeopleService _peopleService;
+    private readonly UsersService  _usersService;
 
-    public AuthController(AuthService authService, UsersService usersService)
+    public AuthController(AuthService authService, UsersService usersService,
+        PeopleService peopleService)
     {
-        _authService  = authService;
-        _usersService = usersService;
+        _authService   = authService;
+        _usersService  = usersService;
+        _peopleService = peopleService;
     }
 
     [HttpPost("login")]
@@ -24,9 +27,9 @@ public class AuthController : ControllerBase
     {
         try
         {
-            string message = _authService.LogIn(loginRequest.Name,
-                loginRequest.Password);
-            return Ok(new Response<Void>(message, false));
+            string message = _authService.LogIn(loginRequest.Name, loginRequest.Password);
+            Person? person = _peopleService.SearchPersonByUserName(loginRequest.Name);
+            return Ok(new Response<Person>(message, person));
         }
         catch (AuthException e)
         {

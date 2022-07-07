@@ -6,7 +6,7 @@ namespace Entities;
 [Table("proposals")]
 public class Proposal
 {
-    [Key] [Column("proposals_code")] public string Code { get; set; }
+    [Key] [Column("proposals_code")] public int Code { get; set; }
 
     [Column("proposals_title")] public string Title { get; set; }
 

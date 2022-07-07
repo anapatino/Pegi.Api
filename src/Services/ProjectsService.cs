@@ -33,22 +33,21 @@ public class ProjectsService
             project.Title == title);
     }
 
-    public List<Project?> AllProject()
+    public List<Project> GetAllProject()
     {
-        return (List<Project?>)_projectsRepository.GetAll();
+        return _projectsRepository.GetAll();
     }
 
-    public List<Project?> FilterProjectsStatus(string status)
+    public List<Project> FilterProjectsStatus(string status)
     {
-        return (List<Project?>)_projectsRepository.Filter(project =>
-            project.Status == status);
+        return _projectsRepository.Filter(project => project.Status == status);
     }
 
     public string DeleteProject(string title)
     {
         try
         {
-            var foundProject = SearchProject(title);
+            Project? foundProject = SearchProject(title);
             if (foundProject == null)
                 throw new ProjectException("Proyecto no encontrado");
             _projectsRepository.Delete(foundProject);

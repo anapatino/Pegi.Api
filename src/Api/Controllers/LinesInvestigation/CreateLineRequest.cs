@@ -1,10 +1,9 @@
-﻿using Entities;
+﻿using Api.Controllers.SublinesInvestigation;
 
 namespace Api.Controllers.LinesInvestigation;
 
 public record CreateLineRequest
-    (
-        string Code,
-        string Name ,
-        ICollection<SublineInvestigation> SublinesInvestigation
-    );
+(
+    string Name,
+    ICollection<CreateSublineRequest> InvestigationSubLines
+);

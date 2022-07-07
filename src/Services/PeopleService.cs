@@ -32,20 +32,25 @@ public class PeopleService
         return _peopleRepository.Find(person => person.Document == document);
     }
 
-    public List<Person?> AllPeople()
+    public Person? SearchPersonByUserName(string username)
     {
-        return (List<Person?>)_peopleRepository.GetAll();
+        return _peopleRepository.Find(person => person.UserName == username);
     }
 
-    public List<Person?> FilterPeopleType(string type)
+    public List<Person> GetAllPeople()
     {
-        return (List<Person?>)_peopleRepository.Filter(people =>
+        return _peopleRepository.GetAll();
+    }
+
+    public List<Person> FilterPeopleType(string type)
+    {
+        return _peopleRepository.Filter(people =>
             people.Type == type);
     }
 
-    public List<Person?> FilterPeoplePosition(string position)
+    public List<Person> FilterPeoplePosition(string position)
     {
-        return (List<Person?>)_peopleRepository.Filter(people =>
+        return _peopleRepository.Filter(people =>
             people.Position == position);
     }
 
@@ -53,7 +58,7 @@ public class PeopleService
     {
         try
         {
-            var foundPerson = SearchPerson(document);
+            Person? foundPerson = SearchPerson(document);
             if (foundPerson == null)
                 throw new PersonException("Persona no encontrada");
             _peopleRepository.Delete(foundPerson);

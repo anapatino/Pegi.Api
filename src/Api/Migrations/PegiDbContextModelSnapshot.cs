@@ -21,8 +21,9 @@ namespace Api.Migrations
 
             modelBuilder.Entity("Entities.AcademicProgram", b =>
                 {
-                    b.Property<string>("Code")
-                        .HasColumnType("varchar(255)")
+                    b.Property<int>("Code")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasColumnName("academic_program_code");
 
                     b.Property<string>("Name")
@@ -31,9 +32,9 @@ namespace Api.Migrations
                         .HasColumnName("academic_program_name");
 
                     b.HasKey("Code")
-                        .HasName("pk_academic_program");
+                        .HasName("pk_academic_programs");
 
-                    b.ToTable("academic_program", (string)null);
+                    b.ToTable("academic_programs", (string)null);
                 });
 
             modelBuilder.Entity("Entities.City", b =>
@@ -80,8 +81,9 @@ namespace Api.Migrations
 
             modelBuilder.Entity("Entities.CV", b =>
                 {
-                    b.Property<string>("Code")
-                        .HasColumnType("varchar(255)")
+                    b.Property<int>("Code")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasColumnName("cv_code");
 
                     b.Property<string>("AttachFiles")
@@ -112,10 +114,36 @@ namespace Api.Migrations
                     b.ToTable("departments", (string)null);
                 });
 
+            modelBuilder.Entity("Entities.InvestigationSubLine", b =>
+                {
+                    b.Property<int>("Code")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("sublines_code");
+
+                    b.Property<int?>("LineInvestigationCode")
+                        .HasColumnType("int")
+                        .HasColumnName("line_investigation_code");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("sublines_name");
+
+                    b.HasKey("Code")
+                        .HasName("pk_sublines");
+
+                    b.HasIndex("LineInvestigationCode")
+                        .HasDatabaseName("ix_sublines_line_investigation_code");
+
+                    b.ToTable("sublines", (string)null);
+                });
+
             modelBuilder.Entity("Entities.LineInvestigation", b =>
                 {
-                    b.Property<string>("Code")
-                        .HasColumnType("varchar(255)")
+                    b.Property<int>("Code")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasColumnName("lines_code");
 
                     b.Property<string>("Name")
@@ -160,13 +188,12 @@ namespace Api.Migrations
                         .HasColumnType("longtext")
                         .HasColumnName("member_phone");
 
-                    b.Property<string>("ProgramCode")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)")
+                    b.Property<int>("ProgramCode")
+                        .HasColumnType("int")
                         .HasColumnName("program_code");
 
-                    b.Property<string>("ProposalCode")
-                        .HasColumnType("varchar(255)")
+                    b.Property<int?>("ProposalCode")
+                        .HasColumnType("int")
                         .HasColumnName("proposal_code");
 
                     b.HasKey("Document")
@@ -231,9 +258,8 @@ namespace Api.Migrations
                         .HasColumnType("longtext")
                         .HasColumnName("person_position");
 
-                    b.Property<string>("ProgramCode")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)")
+                    b.Property<int>("ProgramCode")
+                        .HasColumnType("int")
                         .HasColumnName("program_code");
 
                     b.Property<string>("SecondLastName")
@@ -254,6 +280,10 @@ namespace Api.Migrations
                         .HasColumnType("longtext")
                         .HasColumnName("person_type");
 
+                    b.Property<string>("UserName")
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("user_name");
+
                     b.HasKey("Document")
                         .HasName("pk_people");
 
@@ -263,13 +293,17 @@ namespace Api.Migrations
                     b.HasIndex("ProgramCode")
                         .HasDatabaseName("ix_people_program_code");
 
+                    b.HasIndex("UserName")
+                        .HasDatabaseName("ix_people_user_name");
+
                     b.ToTable("people", (string)null);
                 });
 
             modelBuilder.Entity("Entities.Project", b =>
                 {
-                    b.Property<string>("Code")
-                        .HasColumnType("varchar(255)")
+                    b.Property<int>("Code")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasColumnName("projects_code");
 
                     b.Property<string>("Content")
@@ -282,9 +316,8 @@ namespace Api.Migrations
                         .HasColumnType("longtext")
                         .HasColumnName("projects_feedback");
 
-                    b.Property<string>("ProposalCode")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)")
+                    b.Property<int>("ProposalCode")
+                        .HasColumnType("int")
                         .HasColumnName("proposal_code");
 
                     b.Property<string>("Qualification")
@@ -313,8 +346,9 @@ namespace Api.Migrations
 
             modelBuilder.Entity("Entities.Proposal", b =>
                 {
-                    b.Property<string>("Code")
-                        .HasColumnType("varchar(255)")
+                    b.Property<int>("Code")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasColumnName("proposals_code");
 
                     b.Property<string>("ApproachProblem")
@@ -384,8 +418,9 @@ namespace Api.Migrations
 
             modelBuilder.Entity("Entities.Study", b =>
                 {
-                    b.Property<string>("Code")
-                        .HasColumnType("varchar(255)")
+                    b.Property<int>("Code")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasColumnName("study_code");
 
                     b.Property<string>("CityCode")
@@ -427,63 +462,34 @@ namespace Api.Migrations
                     b.ToTable("studies", (string)null);
                 });
 
-            modelBuilder.Entity("Entities.SublineInvestigation", b =>
-                {
-                    b.Property<string>("Code")
-                        .HasColumnType("varchar(255)")
-                        .HasColumnName("sublines_code");
-
-                    b.Property<string>("LineInvestigationCode")
-                        .HasColumnType("varchar(255)")
-                        .HasColumnName("line_investigation_code");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("longtext")
-                        .HasColumnName("sublines_name");
-
-                    b.HasKey("Code")
-                        .HasName("pk_sublines");
-
-                    b.HasIndex("LineInvestigationCode")
-                        .HasDatabaseName("ix_sublines_line_investigation_code");
-
-                    b.ToTable("sublines", (string)null);
-                });
-
             modelBuilder.Entity("Entities.ThematicArea", b =>
-                {
-                    b.Property<string>("Code")
-                        .HasColumnType("varchar(255)")
-                        .HasColumnName("thematic-areas_code");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("longtext")
-                        .HasColumnName("thematic-areas_name");
-
-                    b.Property<string>("SublineInvestigationCode")
-                        .HasColumnType("varchar(255)")
-                        .HasColumnName("subline_investigation_code");
-
-                    b.HasKey("Code")
-                        .HasName("pk_thematic_areas");
-
-                    b.HasIndex("SublineInvestigationCode")
-                        .HasDatabaseName("ix_thematic_areas_subline_investigation_code");
-
-                    b.ToTable("thematic-areas");
-                });
-
-            modelBuilder.Entity("Entities.User", b =>
                 {
                     b.Property<int>("Code")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnName("user_code");
+                        .HasColumnName("thematic_areas_code");
+
+                    b.Property<int?>("InvestigationSubLineCode")
+                        .HasColumnType("int")
+                        .HasColumnName("investigation_sub_line_code");
 
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("thematic_areas_name");
+
+                    b.HasKey("Code")
+                        .HasName("pk_thematic_areas");
+
+                    b.HasIndex("InvestigationSubLineCode")
+                        .HasDatabaseName("ix_thematic_areas_investigation_sub_line_code");
+
+                    b.ToTable("thematic_areas", (string)null);
+                });
+
+            modelBuilder.Entity("Entities.User", b =>
+                {
+                    b.Property<string>("Name")
                         .HasColumnType("varchar(255)")
                         .HasColumnName("user_name");
 
@@ -492,25 +498,17 @@ namespace Api.Migrations
                         .HasColumnType("longtext")
                         .HasColumnName("user_password");
 
-                    b.Property<string>("PersonDocument")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)")
-                        .HasColumnName("person_document");
-
                     b.Property<string>("Role")
                         .IsRequired()
                         .HasColumnType("longtext")
                         .HasColumnName("user_role");
 
-                    b.HasKey("Code")
+                    b.HasKey("Name")
                         .HasName("pk_users");
 
                     b.HasIndex("Name")
                         .IsUnique()
                         .HasDatabaseName("ix_users_user_name");
-
-                    b.HasIndex("PersonDocument")
-                        .HasDatabaseName("ix_users_person_document");
 
                     b.ToTable("users", (string)null);
                 });
@@ -523,7 +521,7 @@ namespace Api.Migrations
                         .HasColumnType("varchar(255)")
                         .HasColumnName("person_document");
 
-                    b.Property<string>("position")
+                    b.Property<string>("Position")
                         .IsRequired()
                         .HasColumnType("longtext")
                         .HasColumnName("experience_position");
@@ -546,6 +544,14 @@ namespace Api.Migrations
                     b.Navigation("Department");
                 });
 
+            modelBuilder.Entity("Entities.InvestigationSubLine", b =>
+                {
+                    b.HasOne("Entities.LineInvestigation", null)
+                        .WithMany("SublinesInvestigation")
+                        .HasForeignKey("LineInvestigationCode")
+                        .HasConstraintName("fk_sublines_lines_line_investigation_code");
+                });
+
             modelBuilder.Entity("Entities.Member", b =>
                 {
                     b.HasOne("Entities.AcademicProgram", "AcademicProgram")
@@ -553,7 +559,7 @@ namespace Api.Migrations
                         .HasForeignKey("ProgramCode")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_members_academic_program_program_code");
+                        .HasConstraintName("fk_members_academic_programs_program_code");
 
                     b.HasOne("Entities.Proposal", null)
                         .WithMany("Members")
@@ -577,11 +583,18 @@ namespace Api.Migrations
                         .HasForeignKey("ProgramCode")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_people_academic_program_program_code");
+                        .HasConstraintName("fk_people_academic_programs_program_code");
+
+                    b.HasOne("Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserName")
+                        .HasConstraintName("fk_people_users_user_name");
 
                     b.Navigation("AcademicProgram");
 
                     b.Navigation("Nationality");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Entities.Project", b =>
@@ -613,32 +626,12 @@ namespace Api.Migrations
                     b.Navigation("City");
                 });
 
-            modelBuilder.Entity("Entities.SublineInvestigation", b =>
-                {
-                    b.HasOne("Entities.LineInvestigation", null)
-                        .WithMany("SublinesInvestigation")
-                        .HasForeignKey("LineInvestigationCode")
-                        .HasConstraintName("fk_sublines_lines_line_investigation_code");
-                });
-
             modelBuilder.Entity("Entities.ThematicArea", b =>
                 {
-                    b.HasOne("Entities.SublineInvestigation", null)
+                    b.HasOne("Entities.InvestigationSubLine", null)
                         .WithMany("ThematicAreas")
-                        .HasForeignKey("SublineInvestigationCode")
-                        .HasConstraintName("fk_thematic_areas_sublines_subline_investigation_code");
-                });
-
-            modelBuilder.Entity("Entities.User", b =>
-                {
-                    b.HasOne("Entities.Person", "Person")
-                        .WithMany()
-                        .HasForeignKey("PersonDocument")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_users_people_person_document");
-
-                    b.Navigation("Person");
+                        .HasForeignKey("InvestigationSubLineCode")
+                        .HasConstraintName("fk_thematic_areas_sublines_investigation_sub_line_code");
                 });
 
             modelBuilder.Entity("Entities.Experience", b =>
@@ -656,6 +649,11 @@ namespace Api.Migrations
                         .HasConstraintName("fk_experiences_people_person_document");
                 });
 
+            modelBuilder.Entity("Entities.InvestigationSubLine", b =>
+                {
+                    b.Navigation("ThematicAreas");
+                });
+
             modelBuilder.Entity("Entities.LineInvestigation", b =>
                 {
                     b.Navigation("SublinesInvestigation");
@@ -671,11 +669,6 @@ namespace Api.Migrations
             modelBuilder.Entity("Entities.Proposal", b =>
                 {
                     b.Navigation("Members");
-                });
-
-            modelBuilder.Entity("Entities.SublineInvestigation", b =>
-                {
-                    b.Navigation("ThematicAreas");
                 });
 #pragma warning restore 612, 618
         }

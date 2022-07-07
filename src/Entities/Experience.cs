@@ -5,5 +5,6 @@ namespace Entities;
 [Table("experiences")]
 public class Experience : Study
 {
-    [Column("experience_position")] public string position { get; set; }
+    [Column("experience_position")]
+    public string Position { get; set; }
 }

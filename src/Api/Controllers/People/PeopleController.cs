@@ -22,8 +22,8 @@ public class PeopleController : ControllerBase
     {
         try
         {
-            var person = createPersonRequest.Adapt<Person>();
-            var message = _peopleService.SavePerson(person);
+            var    person  = createPersonRequest.Adapt<Person>();
+            string message = _peopleService.SavePerson(person);
             return Ok(new Response<Void>(message, false));
         }
         catch (Exception e)
@@ -37,7 +37,7 @@ public class PeopleController : ControllerBase
     {
         try
         {
-            var person = _peopleService.SearchPerson(document);
+            Person? person = _peopleService.SearchPerson(document);
             if (person == null)
                 return BadRequest(
                     new Response<Void>("No se ha encontrado a la persona"));
@@ -55,12 +55,10 @@ public class PeopleController : ControllerBase
     {
         try
         {
-            var person = _peopleService.AllPeople();
-            if (person == null)
-                return BadRequest(
-                    new Response<Void>("No se ha encontrado a la persona"));
+            List<Person> person = _peopleService.GetAllPeople();
             return Ok(
-                new Response<PersonResponse>(person.Adapt<PersonResponse>()));
+                new Response<List<PersonResponse>>(
+                    person.Adapt<List<PersonResponse>>()));
         }
         catch (Exception e)
         {
@@ -68,15 +66,12 @@ public class PeopleController : ControllerBase
         }
     }
 
-    [HttpGet("{type}")]
+    [HttpGet("type/{type}")]
     public ActionResult GetFilterPeopleType([FromRoute] string type)
     {
         try
         {
-            var person = _peopleService.FilterPeopleType(type);
-            if (person == null)
-                return BadRequest(
-                    new Response<Void>("No existen personas de este tipo"));
+            List<Person> person = _peopleService.FilterPeopleType(type);
             return Ok(
                 new Response<PersonResponse>(person.Adapt<PersonResponse>()));
         }
@@ -87,15 +82,12 @@ public class PeopleController : ControllerBase
     }
 
 
-    [HttpGet("{position}")]
+    [HttpGet("position/{position}")]
     public ActionResult GetFilterPeoplePosition([FromRoute] string position)
     {
         try
         {
-            var person = _peopleService.FilterPeoplePosition(position);
-            if (person == null)
-                return BadRequest(
-                    new Response<Void>("No existen personas con este cargo"));
+            List<Person> person = _peopleService.FilterPeoplePosition(position);
             return Ok(
                 new Response<PersonResponse>(person.Adapt<PersonResponse>()));
         }
@@ -110,7 +102,7 @@ public class PeopleController : ControllerBase
     {
         try
         {
-            var message = _peopleService.DeletePerson(document);
+            string message = _peopleService.DeletePerson(document);
             return Ok(new Response<Void>(message, false));
         }
         catch (Exception e)

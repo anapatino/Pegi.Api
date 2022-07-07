@@ -1,10 +1,10 @@
-﻿using Entities;
+﻿using Api.Controllers.ThematicAreas;
 
 namespace Api.Controllers.SublinesInvestigation;
 
 public record SublineResponse
 (
-    string Code,
+    int Code,
     string Name,
-    ICollection<ThematicArea> ThematicAreas
+    ICollection<ThematicAreaResponse> ThematicAreas
 );

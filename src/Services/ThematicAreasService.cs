@@ -27,22 +27,22 @@ public class ThematicAreasService
         }
     }
 
-    public ThematicArea? SearchThematicArea(string code)
+    public ThematicArea? SearchThematicArea(int code)
     {
         return _thematicAreasRepository.Find(thematicArea =>
             thematicArea.Code == code);
     }
 
-    public List<ThematicArea?> AllThematicAreas()
+    public List<ThematicArea> GetAllThematicAreas()
     {
-        return (List<ThematicArea?>)_thematicAreasRepository.GetAll();
+        return _thematicAreasRepository.GetAll();
     }
 
-    public string DeleteThematicArea(string code)
+    public string DeleteThematicArea(int code)
     {
         try
         {
-            var foundThematicArea = SearchThematicArea(code);
+            ThematicArea? foundThematicArea = SearchThematicArea(code);
             if (foundThematicArea == null)
                 throw new ThematicAreasException(
                     "Area tematica  no encontrada");

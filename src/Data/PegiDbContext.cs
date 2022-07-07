@@ -20,7 +20,7 @@ public class PegiDbContext : DbContext
     public DbSet<Member> Members { get; set; }
     public DbSet<AcademicProgram> Programs { get; set; }
     public DbSet<LineInvestigation> LinesInvestigation { get; set; }
-    public DbSet<SublineInvestigation> SublinesInvestigation { get; set; }
+    public DbSet<InvestigationSubLine> SublinesInvestigation { get; set; }
     public DbSet<ThematicArea> ThematicAreas { get; set; }
     public DbSet<Proposal> Proposals { get; set; }
     public DbSet<Project> Projects { get; set; }
