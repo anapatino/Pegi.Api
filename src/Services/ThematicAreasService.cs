@@ -38,6 +38,12 @@ public class ThematicAreasService
         return _thematicAreasRepository.GetAll();
     }
 
+    public List<ThematicArea> FilterBySubLine(int subLineCode)
+    {
+        return _thematicAreasRepository.Filter(area =>
+            area.SubLineCode == subLineCode);
+    }
+
     public string DeleteThematicArea(int code)
     {
         try

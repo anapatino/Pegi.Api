@@ -23,7 +23,8 @@ public class ThematicAreasController : ControllerBase
         try
         {
             var thematicArea = createThematicAreaRequest.Adapt<ThematicArea>();
-            var message = _thematicAreasService.SaveThematicArea(thematicArea);
+            string message =
+                _thematicAreasService.SaveThematicArea(thematicArea);
             return Ok(new Response<Void>(message, false));
         }
         catch (Exception e)
@@ -37,7 +38,7 @@ public class ThematicAreasController : ControllerBase
     {
         try
         {
-            var thematicArea =
+            ThematicArea? thematicArea =
                 _thematicAreasService.SearchThematicArea(codeThematicArea);
             if (thematicArea == null)
                 return BadRequest(
@@ -60,6 +61,23 @@ public class ThematicAreasController : ControllerBase
         {
             List<ThematicArea> thematicArea =
                 _thematicAreasService.GetAllThematicAreas();
+            return Ok(
+                new Response<List<ThematicAreaResponse>>(
+                    thematicArea.Adapt<List<ThematicAreaResponse>>()));
+        }
+        catch (Exception e)
+        {
+            return BadRequest(new Response<Void>(e.Message));
+        }
+    }
+
+    [HttpGet("subline/{subLineCode}")]
+    public ActionResult GetAllThematicAreaBySubLine(int subLineCode)
+    {
+        try
+        {
+            List<ThematicArea> thematicArea =
+                _thematicAreasService.FilterBySubLine(subLineCode);
             return Ok(
                 new Response<List<ThematicAreaResponse>>(
                     thematicArea.Adapt<List<ThematicAreaResponse>>()));
