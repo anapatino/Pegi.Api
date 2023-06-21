@@ -140,6 +140,28 @@ public class ProyectController : ControllerBase
         }
     }
 
+    [HttpPut("update-professor-tutor-proyect/")]
+    [Authorize(Roles = "Administrador")]
+    public ActionResult UpdateProfessorTutorProyect([FromBody] ProyectUpdateRequest proyectUpdateRequest)
+    {
+        try
+        {
+            var (message,response)= _proyectService.UpdateTutorDocumentProyect(proyectUpdateRequest.code,proyectUpdateRequest.ProfessorDocument);
+            if (response == false )
+            {
+                return BadRequest(
+                    new Response<Void>(message));
+
+            }
+
+            return Ok(new Response<Void>(message));
+
+        }
+        catch (PersonExeption e)
+        {
+            return BadRequest(new Response<Void>(e.Message));
+        }
+    }
 
     [HttpGet]
     public ActionResult GetAll()

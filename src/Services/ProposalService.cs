@@ -31,7 +31,7 @@ public class ProposalService
         try
         {
             _proposalRepository.Update(proposal);
-            return ("se actualizo con exito", true);
+            return ("se actualizo con exito la propuesta", true);
         }
         catch (AuthException e)
         {
