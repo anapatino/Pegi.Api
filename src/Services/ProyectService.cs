@@ -55,12 +55,12 @@ public class ProyectService
         }
     }
 
-    public (string,bool?) UpdateProfessorDocumentProyect(string code,string document)
+    public (string,bool?) UpdateEvaluatorDocumentProyect(string code,string document)
     {
         try
         {
             Proyect? proyect = _proyectRepository.Find(proyect => proyect.Code == code);
-            proyect!.ProfessorDocument = document;
+            proyect!.EvaluatorDocument = document;
             _proyectRepository.Update(proyect);
             return ("se asigno con exito al docente en el proyecto",true);
         }
@@ -70,25 +70,44 @@ public class ProyectService
         }
     }
 
+    public (string,bool?) UpdateTutorDocumentProyect(string code,string document)
+    {
+        try
+        {
+            Proyect? proyect = _proyectRepository.Find(proyect => proyect.Code == code);
+            proyect!.TutorDocument = document;
+            _proyectRepository.Update(proyect);
+            return ("se asigno con exito al tutor en el proyecto",true);
+        }
+        catch(AuthException e)
+        {
+            return ("error al asignar tutor al proyecto",false);
+        }
+    }
+
 
     public List<Proyect> GetProyects(string personDocument)
     {
         return _proyectRepository.Filter(proyect =>
-            proyect.PersonDocument != null &&
-            proyect.PersonDocument == personDocument);
+            (proyect.PersonDocument1 == personDocument ||
+            proyect.PersonDocument2 == personDocument) && (proyect.PersonDocument1 != null  ||
+                proyect.PersonDocument2 != null));
     }
 
     public List<Proyect> GetProyectsProfessorDocument(string personDocument)
     {
         return _proyectRepository.Filter(proyect =>
-            proyect.ProfessorDocument != null &&
-            proyect.ProfessorDocument == personDocument);
+            (proyect.EvaluatorDocument == personDocument ||
+             proyect.TutorDocument == personDocument) && (proyect.EvaluatorDocument != null  ||
+                proyect.TutorDocument != null));
     }
 
     public Proyect? SearchProyect(string personDocument)
     {
         return _proyectRepository.Find(proyect =>
-            proyect.PersonDocument == personDocument);
+            (proyect.PersonDocument1 == personDocument ||
+             proyect.PersonDocument2 == personDocument) && (proyect.PersonDocument1 != null  ||
+                proyect.PersonDocument2 != null));
     }
 
     public string DeleteProyect(string code)
@@ -155,16 +174,18 @@ public class ProyectService
     public object GeneralStatisticsProyectProfessor(string personDocument)
     {
         List<Proyect> proyects = _proyectRepository.Filter(proyect =>
-            proyect.ProfessorDocument != null &&
-            proyect.ProfessorDocument == personDocument);
+            (proyect.EvaluatorDocument == personDocument ||
+             proyect.TutorDocument == personDocument) && (proyect.EvaluatorDocument != null  ||
+                proyect.TutorDocument != null));
         return filterListProposal(proyects);
     }
 
     public object GeneralStatisticsProyectStudent(string personDocument)
     {
         List<Proyect> proyects = _proyectRepository.Filter(proyect =>
-            proyect.PersonDocument != null &&
-            proyect.PersonDocument == personDocument);
+            (proyect.PersonDocument1 == personDocument ||
+             proyect.PersonDocument2 == personDocument) && (proyect.PersonDocument1 != null  ||
+                proyect.PersonDocument2 != null));
         return filterListProposal(proyects);
     }
 

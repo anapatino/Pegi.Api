@@ -7,12 +7,18 @@ namespace Entities;
 public class Proposal
 {
     [Key] [Column("code")] public string? Code { get; set; }
-    public string? PersonDocument { get; set; }
-    [ForeignKey("PersonDocument")]
-    public Student? Student { get; set; }
-    public string? ProfessorDocument { get; set; }
-    [ForeignKey("ProfessorDocument")]
-    public Professor? Professor { get; set; }
+    public string? PersonDocument1 { get; set; }
+    [ForeignKey("PersonDocument1")]
+    public Student? Student1 { get; set; }
+    public string? PersonDocument2 { get; set; }
+    [ForeignKey("PersonDocument2")]
+    public Student? Student2 { get; set; }
+    public string? EvaluatorDocument { get; set; }
+    [ForeignKey("EvaluatorDocument")]
+    public Professor? Professor1 { get; set; }
+    public string? TutorDocument { get; set; }
+    [ForeignKey("TutorDocument")]
+    public Professor? Professor2 { get; set; }
     [Column("title")] public string? Title { get; set; }
     [Column("date")] public DateTime? Date { get; set; }
     [Column("investigationGroup")]

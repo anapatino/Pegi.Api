@@ -192,7 +192,7 @@ public class ProposalController : ControllerBase
     {
         try
         {
-            var (message,response)= _proposalService.UpdateProfessorDocumentProposal(proposalUpdateRequest.code,proposalUpdateRequest.ProfessorDocument);
+            var (message,response)= _proposalService.UpdateEvaluatorDocumentProposal(proposalUpdateRequest.code,proposalUpdateRequest.ProfessorDocument);
             if (response == false )
             {
                 return BadRequest(

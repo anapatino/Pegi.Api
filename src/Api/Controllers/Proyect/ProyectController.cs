@@ -123,7 +123,7 @@ public class ProyectController : ControllerBase
     {
         try
         {
-            var (message,response)= _proyectService.UpdateProfessorDocumentProyect(proyectUpdateRequest.code,proyectUpdateRequest.ProfessorDocument);
+            var (message,response)= _proyectService.UpdateEvaluatorDocumentProyect(proyectUpdateRequest.code,proyectUpdateRequest.ProfessorDocument);
             if (response == false )
             {
                 return BadRequest(

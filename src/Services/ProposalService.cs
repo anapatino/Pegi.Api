@@ -54,26 +54,41 @@ public class ProposalService
         }
     }
 
-    public (string,bool?) UpdateProfessorDocumentProposal(string code,string document)
+    public (string,bool?) UpdateEvaluatorDocumentProposal(string code,string document)
     {
         try
         {
             Proposal? proposal = _proposalRepository.Find(proposal => proposal.Code == code);
-            proposal!.ProfessorDocument = document;
+            proposal!.EvaluatorDocument = document;
             _proposalRepository.Update(proposal);
-            return ("se asigno con exito al docente en la propuesta",true);
+            return ("se asigno con exito al evaluador en la propuesta",true);
         }
         catch(AuthException e)
         {
-            return ("error al asignar docente en la propuesta",false);
+            return ("error al asignar evaluador en la propuesta",false);
+        }
+    }
+
+    public (string,bool?) UpdateTutorDocumentProposal(string code,string document)
+    {
+        try
+        {
+            Proposal? proposal = _proposalRepository.Find(proposal => proposal.Code == code);
+            proposal!.TutorDocument = document;
+            _proposalRepository.Update(proposal);
+            return ("se asigno con exito al tutor en la propuesta",true);
+        }
+        catch(AuthException e)
+        {
+            return ("error al asignar tutor en la propuesta",false);
         }
     }
 
     public List<Proposal> GetProposalsDocument(string personDocument)
     {
         return _proposalRepository.Filter(proposal =>
-            proposal.PersonDocument != null &&
-            proposal.PersonDocument == personDocument);
+            proposal.PersonDocument1 == personDocument ||
+            proposal.PersonDocument2 == personDocument);
     }
 
 
@@ -115,16 +130,18 @@ public class ProposalService
    public object GeneralStatisticsProposalProfessor(string personDocument)
     {
         List<Proposal> proposals = _proposalRepository.Filter(proposal =>
-            proposal.ProfessorDocument != null &&
-            proposal.ProfessorDocument == personDocument);
+            (proposal.EvaluatorDocument == personDocument ||
+             proposal.TutorDocument == personDocument) && (proposal.EvaluatorDocument != null ||
+                proposal.TutorDocument != null) );
         return filterListProposal(proposals);
     }
 
    public object GeneralStatisticsProposalStudent(string personDocument)
    {
        List<Proposal> proposals = _proposalRepository.Filter(proposal =>
-           proposal.PersonDocument != null &&
-           proposal.PersonDocument == personDocument);
+           (proposal.PersonDocument1 == personDocument ||
+           proposal.PersonDocument2 == personDocument) && (proposal.PersonDocument1 != null ||
+               proposal.PersonDocument2 != null) );
        return filterListProposal(proposals);
    }
 
@@ -137,8 +154,9 @@ public class ProposalService
     public List<Proposal> GetProposalsProfessorDocument(string personDocument)
     {
         return _proposalRepository.Filter(proposal =>
-            proposal.ProfessorDocument != null &&
-            proposal.ProfessorDocument == personDocument);
+            (proposal.EvaluatorDocument == personDocument ||
+             proposal.TutorDocument == personDocument) && (proposal.EvaluatorDocument != null ||
+                proposal.TutorDocument != null) );
     }
 
 
