@@ -209,6 +209,29 @@ public class ProposalController : ControllerBase
         }
     }
 
+    [HttpPut("update-professor-tutor-proposal/")]
+    [Authorize(Roles = "Administrador")]
+    public ActionResult UpdateProfessorTutorProposal([FromBody] ProposalUpdateRequest proposalUpdateRequest)
+    {
+        try
+        {
+            var (message,response)= _proposalService.UpdateTutorDocumentProposal(proposalUpdateRequest.code,proposalUpdateRequest.ProfessorDocument);
+            if (response == false )
+            {
+                return BadRequest(
+                    new Response<Void>(message));
+
+            }
+
+            return Ok(new Response<Void>(message));
+
+        }
+        catch (PersonExeption e)
+        {
+            return BadRequest(new Response<Void>(e.Message));
+        }
+    }
+
     [HttpGet]
     public ActionResult GetAll()
     {

@@ -31,7 +31,7 @@ public class ProyectService
         try
         {
             _proyectRepository.Update(proyect);
-            return ("se actualizo con exito", true);
+            return ("se actualizo con exito el proyecto", true);
         }
         catch (AuthException e)
         {
