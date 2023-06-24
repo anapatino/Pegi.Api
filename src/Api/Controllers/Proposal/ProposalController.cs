@@ -1,9 +1,7 @@
-using Api.Controllers.People;
 using Entities.Exceptions;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using Services;
-using Entities;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Api.Controllers.Proposal;
@@ -13,10 +11,12 @@ namespace Api.Controllers.Proposal;
 public class ProposalController : ControllerBase
 {
     private readonly ProposalService _proposalService;
+    private readonly EmailService _emailService;
 
-    public ProposalController(ProposalService proposalService)
+    public ProposalController(ProposalService proposalService,EmailService emailService)
     {
         _proposalService = proposalService;
+        _emailService = emailService;
     }
 
     [HttpPost]
@@ -40,6 +40,7 @@ public class ProposalController : ControllerBase
                 _proposalService.SaveProposal(newProposal);
             }
 
+            _emailService.SendEmailRegistrationProposal(newProposal,"Proposal");
             return Ok(new Response<Void>("Propuesta registrada con exito",
                 false));
         }
@@ -50,7 +51,7 @@ public class ProposalController : ControllerBase
     }
 
     [HttpGet("get-proposals-document/{document}")]
-    [Authorize(Roles = "Estudiante,Docente")]
+    [Authorize(Roles = "Estudiante,Administrador")]
     public ActionResult GetProposalsDocument([FromRoute] string document)
     {
         try
@@ -186,9 +187,9 @@ public class ProposalController : ControllerBase
         }
     }
 
-    [HttpPut("update-professor-proposal/")]
+    [HttpPut("update-proposal-evaluator/")]
     [Authorize(Roles = "Administrador")]
-    public ActionResult UpdateProfessorProposal([FromBody] ProposalUpdateRequest proposalUpdateRequest)
+    public ActionResult UpdateProposalEvaluator([FromBody] ProposalUpdateRequest proposalUpdateRequest)
     {
         try
         {
@@ -197,7 +198,6 @@ public class ProposalController : ControllerBase
             {
                 return BadRequest(
                     new Response<Void>(message));
-
             }
 
              return Ok(new Response<Void>(message));
@@ -209,9 +209,9 @@ public class ProposalController : ControllerBase
         }
     }
 
-    [HttpPut("update-professor-tutor-proposal/")]
+    [HttpPut("update-proposal-tutor/")]
     [Authorize(Roles = "Administrador")]
-    public ActionResult UpdateProfessorTutorProposal([FromBody] ProposalUpdateRequest proposalUpdateRequest)
+    public ActionResult UpdateProposalTutor([FromBody] ProposalUpdateRequest proposalUpdateRequest)
     {
         try
         {
@@ -220,7 +220,6 @@ public class ProposalController : ControllerBase
             {
                 return BadRequest(
                     new Response<Void>(message));
-
             }
 
             return Ok(new Response<Void>(message));
@@ -233,6 +232,7 @@ public class ProposalController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize(Roles = "Administrador")]
     public ActionResult GetAll()
     {
         try

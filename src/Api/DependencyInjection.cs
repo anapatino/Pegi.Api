@@ -24,9 +24,9 @@ public static class DependencyInjection
         repositories.AddScoped<ProposalRepository>();
         repositories.AddScoped<ProposalFeedBackRepository>();
         repositories.AddScoped<HistoryProposalsRepository>();
-        repositories.AddScoped<ProyectRepository>();
-        repositories.AddScoped<HistoryProyectRepository>();
-        repositories.AddScoped<ProyectFeedBackRepository>();
+        repositories.AddScoped<ProjectRepository>();
+        repositories.AddScoped<HistoryProjectRepository>();
+        repositories.AddScoped<ProjectFeedBackRepository>();
     }
 
     public static void AddServices(this IServiceCollection services)
@@ -46,8 +46,8 @@ public static class DependencyInjection
         services.AddScoped<ProposalService>();
         services.AddScoped<ProposalFeedBackService>();
         services.AddScoped<HistoryProposalService>();
-        services.AddScoped<ProyectService>();
-        services.AddScoped<HistoryProyectService>();
-        services.AddScoped<ProyectFeedBackService>();
+        services.AddScoped<ProjectService>();
+        services.AddScoped<HistoryProjectService>();
+        services.AddScoped<ProjectFeedBackService>();
     }
 }
