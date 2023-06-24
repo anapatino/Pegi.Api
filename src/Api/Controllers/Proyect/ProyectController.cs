@@ -19,16 +19,27 @@ public class ProyectController : ControllerBase
 
     [HttpPost]
     [Authorize(Roles = ("Estudiante"))]
-    public ActionResult RegisterProyect(
-        [FromBody] ProyectRequest proyectRequest)
+    public ActionResult RegisterProyect()
     {
         try
         {
-            Entities.Proyect? newProyect =
-                proyectRequest.Adapt<Entities.Proyect>();
-            newProyect.Code = Random.Shared.Next().ToString();
-            Entities.Proyect oldProyect =
-                _proyectService.SearchProyect(newProyect.Code!)!;
+            var personDocument = Request.Form["personDocument"];
+            var status = Request.Form["status"];
+            var score = Convert.ToInt32(Request.Form["score"]);
+            var proposalCode = Request.Form["proposalCode"];
+            var content = Request.Form.Files.GetFile("content");
+
+            Entities.Proyect newProyect = new Entities.Proyect
+            {
+                Code = Random.Shared.Next().ToString(),
+                PersonDocument1 = personDocument,
+                Content = GetBytesFromStream(content.OpenReadStream()),
+                Status = status,
+                Score = score,
+                ProposalCode = proposalCode
+            };
+
+            Entities.Proyect oldProyect = _proyectService.SearchProyect(newProyect.Code)!;
             if (newProyect.Code == oldProyect?.Code)
             {
                 _proyectService.UpdateProyect(newProyect);
@@ -38,14 +49,24 @@ public class ProyectController : ControllerBase
                 _proyectService.SaveProyect(newProyect);
             }
 
-            return Ok(new Response<Void>("se ha guardado con exito",
-                false));
+            return Ok(new Response<Void>("se ha guardado con éxito", false));
         }
-        catch (PersonExeption exeption)
+        catch (PersonExeption exception)
         {
-            return BadRequest(new Response<Void>(exeption.Message));
+            return BadRequest(new Response<Void>(exception.Message));
         }
     }
+
+    private byte[] GetBytesFromStream(Stream stream)
+    {
+        using (var memoryStream = new MemoryStream())
+        {
+            stream.CopyTo(memoryStream);
+            return memoryStream.ToArray();
+        }
+    }
+
+
 
     [HttpGet("get-proyect-document{document}")]
     [Authorize(Roles = "Estudiante,Docente,Administrador")]
@@ -99,23 +120,32 @@ public class ProyectController : ControllerBase
     {
         try
         {
-            Entities.Proyect?
-                proyect = _proyectService.GetProyectCode(code);
+            Entities.Proyect? proyect = _proyectService.GetProyectCode(code);
             if (proyect == null)
             {
-                return BadRequest(
-                    new Response<Void>("no se encontro a la propuesta"));
+                return BadRequest(new Response<Void>("no se encontro a la propuesta"));
             }
 
-            return Ok(
-                new Response<ProyectResponse>(
-                    proyect.Adapt<ProyectResponse>()));
+            string contentBase64 = Convert.ToBase64String(proyect.Content);
+
+            var response = new ProyectResponse(
+                proyect.Code,
+                proyect.PersonDocument1,
+                proyect.EvaluatorDocument,
+                contentBase64, // Enviar el contenido del archivo como cadena Base64
+                proyect.Status,
+                proyect.Score,
+                proyect.ProposalCode
+            );
+
+            return Ok(new Response<ProyectResponse>(response));
         }
         catch (PersonExeption e)
         {
             return BadRequest(new Response<Void>(e.Message));
         }
     }
+
 
     [HttpPut("update-professor-proyect/")]
     [Authorize(Roles = "Administrador")]

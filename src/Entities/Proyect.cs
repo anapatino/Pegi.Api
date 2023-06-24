@@ -20,7 +20,8 @@ public class Proyect
     [ForeignKey("TutorDocument")]
     public Professor? Professor2 { get; set; }
 
-    [Column("Content")] public string? Content { get; set; }
+    [Column("Content")]
+    public byte[]? Content { get; set; }
     [Column("Status")] public string? Status { get; set; }
     [Column("Score")] public int? Score { get; set; }
 
