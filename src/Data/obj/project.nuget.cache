@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "rnxnhPUzBPXNC8x8hRwvi71qnsiu9H61vQ4Pvo4Tu/8vYcWkQiBuf7wraAaU+4RHiGy2bEI24syR2ZGbhve2rQ==",
+  "dgSpecHash": "Pfaafvvb0RdH5x2GeoS8MxBoU3owaopnQYzZmodq2f/+Gf9UfVPlDiInNbg/hPyXP6bZWgrzms+WEIGmIr2Wxg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\sofia\\Documents\\Pegi.Api\\src\\Data\\Data.csproj",
+  "projectFilePath": "C:\\Users\\sofia\\Documents\\project\\Pegi.Api\\src\\Data\\Data.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\sofia\\.nuget\\packages\\microsoft.entityframeworkcore\\7.0.3\\microsoft.entityframeworkcore.7.0.3.nupkg.sha512",
     "C:\\Users\\sofia\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\7.0.3\\microsoft.entityframeworkcore.abstractions.7.0.3.nupkg.sha512",

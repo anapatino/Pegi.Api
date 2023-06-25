@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "8VS3g5fi4lkqeJvDdZg4N0mVUAUjAkhbFKycD/2cui1f6uFPttYcArCgas0iqf7ytGNXzzK2yN1LPqeqZ4dBdA==",
+  "dgSpecHash": "h6vRG9GOvCyY7VV+ESyESbV1KBkb8WIqiqbEFkytPP/m2cuz59ay/HdjXi3XoxN3NRVYpMnaZKLG+2nxWzeEnQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\sofia\\Documents\\Pegi.Api\\src\\Entities\\Entities.csproj",
+  "projectFilePath": "C:\\Users\\sofia\\Documents\\project\\Pegi.Api\\src\\Entities\\Entities.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

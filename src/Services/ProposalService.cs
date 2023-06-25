@@ -7,10 +7,12 @@ namespace Services;
 public class ProposalService
 {
     private readonly ProposalRepository _proposalRepository;
+    private readonly EmailService _emailService;
 
-    public ProposalService(ProposalRepository proposalRepository)
+    public ProposalService(ProposalRepository proposalRepository,EmailService emailService)
     {
         _proposalRepository = proposalRepository;
+        _emailService = emailService;
     }
 
     public (string, bool) SaveProposal(Proposal proposal)
@@ -18,7 +20,8 @@ public class ProposalService
         try
         {
             _proposalRepository.Save(proposal);
-            return ("se ha guardado con exito", true);
+            _emailService.SendEmailRegistration(proposal,"Propuesta");
+            return ("Se ha guardado con exito la propuesta", true);
         }
         catch (ProposalExeption e)
         {
@@ -31,7 +34,7 @@ public class ProposalService
         try
         {
             _proposalRepository.Update(proposal);
-            return ("se actualizo con exito la propuesta", true);
+            return ("Se actualizo con exito la propuesta", true);
         }
         catch (AuthException e)
         {
@@ -46,7 +49,9 @@ public class ProposalService
             Proposal? proposal = _proposalRepository.Find(proposal => proposal.Code == code);
             proposal!.Status = status;
             _proposalRepository.Update(proposal);
-            return ("se modifico con exito",true);
+            _emailService.SendEmailQualificationStudentProposal(proposal);
+            _emailService.SendEmailQualificationDocentProposal(proposal);
+            return ("Se modifico con exito la propuesta",true);
         }
         catch(AuthException e)
         {
@@ -61,11 +66,13 @@ public class ProposalService
             Proposal? proposal = _proposalRepository.Find(proposal => proposal.Code == code);
             proposal!.EvaluatorDocument = document;
             _proposalRepository.Update(proposal);
-            return ("se asigno con exito al evaluador en la propuesta",true);
+            _emailService.SendEmailAssignmentStudentProposal(proposal,"Evaluador");
+            _emailService.SendEmailAssignmentEvaluatorProposal(proposal);
+            return ("Se asigno con exito al evaluador en la propuesta",true);
         }
         catch(AuthException e)
         {
-            return ("error al asignar evaluador en la propuesta",false);
+            return ("error: "+e.Message,false);
         }
     }
 
@@ -76,11 +83,13 @@ public class ProposalService
             Proposal? proposal = _proposalRepository.Find(proposal => proposal.Code == code);
             proposal!.TutorDocument = document;
             _proposalRepository.Update(proposal);
-            return ("se asigno con exito al tutor en la propuesta",true);
+            _emailService.SendEmailAssignmentStudentProposal(proposal,"Tutor");
+            _emailService.SendEmailAssignmentTutorProposal(proposal);
+            return ("Se asigno con exito al tutor en la propuesta",true);
         }
         catch(AuthException e)
         {
-            return ("error al asignar tutor en la propuesta",false);
+            return ("error: "+e.Message,false);
         }
     }
 
@@ -172,7 +181,7 @@ public class ProposalService
             Proposal? proposal =
                 _proposalRepository.Find(proposal => proposal.Code == code);
             _proposalRepository.Delete(proposal!);
-            return "se borro con exito";
+            return "Se ha eliminado con exito la propuesta";
         }
         catch (Exception e)
         {

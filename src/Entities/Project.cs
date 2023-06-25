@@ -3,8 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entities;
 
-[Table("proyects")]
-public class Proyect
+[Table("projects")]
+public class Project
 {
     [Key] [Column("code")] public string? Code { get; set; }
     public string? PersonDocument1 { get; set; }

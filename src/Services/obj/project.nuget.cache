@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "g0SKZrK8HzzdiFxcSmN+i3pkGPgcUXuDuuc3eFZULrFvdxrRoaEfHiB6Ta4DfPZzJ/dwcJ4Vbql/5hMHmzWGWA==",
+  "dgSpecHash": "rVeTetantlvd/6b6UZIXs/qld/raiEFG3qjGOGEsrXHFOOhHI2SR7MwnlEnnGRpBX8KrkGlt1pRcu2k/sK/LCQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\sofia\\Documents\\Pegi.Api\\src\\Services\\Services.csproj",
+  "projectFilePath": "C:\\Users\\sofia\\Documents\\project\\Pegi.Api\\src\\Services\\Services.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\sofia\\.nuget\\packages\\bcrypt.net-core\\1.6.0\\bcrypt.net-core.1.6.0.nupkg.sha512",
     "C:\\Users\\sofia\\.nuget\\packages\\microsoft.entityframeworkcore\\7.0.3\\microsoft.entityframeworkcore.7.0.3.nupkg.sha512",

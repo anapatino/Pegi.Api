@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\sofia\\Documents\\Pegi.Api\\src\\Services\\Services.csproj": {}
+    "C:\\Users\\sofia\\Documents\\project\\Pegi.Api\\src\\Services\\Services.csproj": {}
   },
   "projects": {
-    "C:\\Users\\sofia\\Documents\\Pegi.Api\\src\\Data\\Data.csproj": {
+    "C:\\Users\\sofia\\Documents\\project\\Pegi.Api\\src\\Data\\Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\sofia\\Documents\\Pegi.Api\\src\\Data\\Data.csproj",
+        "projectUniqueName": "C:\\Users\\sofia\\Documents\\project\\Pegi.Api\\src\\Data\\Data.csproj",
         "projectName": "Data",
-        "projectPath": "C:\\Users\\sofia\\Documents\\Pegi.Api\\src\\Data\\Data.csproj",
+        "projectPath": "C:\\Users\\sofia\\Documents\\project\\Pegi.Api\\src\\Data\\Data.csproj",
         "packagesPath": "C:\\Users\\sofia\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\sofia\\Documents\\Pegi.Api\\src\\Data\\obj\\",
+        "outputPath": "C:\\Users\\sofia\\Documents\\project\\Pegi.Api\\src\\Data\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\sofia\\Documents\\Pegi.Api\\NuGet.Config",
+          "C:\\Users\\sofia\\Documents\\project\\Pegi.Api\\NuGet.Config",
           "C:\\Users\\sofia\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
@@ -27,8 +27,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Users\\sofia\\Documents\\Pegi.Api\\src\\Entities\\Entities.csproj": {
-                "projectPath": "C:\\Users\\sofia\\Documents\\Pegi.Api\\src\\Entities\\Entities.csproj"
+              "C:\\Users\\sofia\\Documents\\project\\Pegi.Api\\src\\Entities\\Entities.csproj": {
+                "projectPath": "C:\\Users\\sofia\\Documents\\project\\Pegi.Api\\src\\Entities\\Entities.csproj"
               }
             }
           }
@@ -72,17 +72,17 @@
         }
       }
     },
-    "C:\\Users\\sofia\\Documents\\Pegi.Api\\src\\Entities\\Entities.csproj": {
+    "C:\\Users\\sofia\\Documents\\project\\Pegi.Api\\src\\Entities\\Entities.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\sofia\\Documents\\Pegi.Api\\src\\Entities\\Entities.csproj",
+        "projectUniqueName": "C:\\Users\\sofia\\Documents\\project\\Pegi.Api\\src\\Entities\\Entities.csproj",
         "projectName": "Entities",
-        "projectPath": "C:\\Users\\sofia\\Documents\\Pegi.Api\\src\\Entities\\Entities.csproj",
+        "projectPath": "C:\\Users\\sofia\\Documents\\project\\Pegi.Api\\src\\Entities\\Entities.csproj",
         "packagesPath": "C:\\Users\\sofia\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\sofia\\Documents\\Pegi.Api\\src\\Entities\\obj\\",
+        "outputPath": "C:\\Users\\sofia\\Documents\\project\\Pegi.Api\\src\\Entities\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\sofia\\Documents\\Pegi.Api\\NuGet.Config",
+          "C:\\Users\\sofia\\Documents\\project\\Pegi.Api\\NuGet.Config",
           "C:\\Users\\sofia\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
@@ -126,17 +126,17 @@
         }
       }
     },
-    "C:\\Users\\sofia\\Documents\\Pegi.Api\\src\\Services\\Services.csproj": {
+    "C:\\Users\\sofia\\Documents\\project\\Pegi.Api\\src\\Services\\Services.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\sofia\\Documents\\Pegi.Api\\src\\Services\\Services.csproj",
+        "projectUniqueName": "C:\\Users\\sofia\\Documents\\project\\Pegi.Api\\src\\Services\\Services.csproj",
         "projectName": "Services",
-        "projectPath": "C:\\Users\\sofia\\Documents\\Pegi.Api\\src\\Services\\Services.csproj",
+        "projectPath": "C:\\Users\\sofia\\Documents\\project\\Pegi.Api\\src\\Services\\Services.csproj",
         "packagesPath": "C:\\Users\\sofia\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\sofia\\Documents\\Pegi.Api\\src\\Services\\obj\\",
+        "outputPath": "C:\\Users\\sofia\\Documents\\project\\Pegi.Api\\src\\Services\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\sofia\\Documents\\Pegi.Api\\NuGet.Config",
+          "C:\\Users\\sofia\\Documents\\project\\Pegi.Api\\NuGet.Config",
           "C:\\Users\\sofia\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
@@ -149,8 +149,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Users\\sofia\\Documents\\Pegi.Api\\src\\Data\\Data.csproj": {
-                "projectPath": "C:\\Users\\sofia\\Documents\\Pegi.Api\\src\\Data\\Data.csproj"
+              "C:\\Users\\sofia\\Documents\\project\\Pegi.Api\\src\\Data\\Data.csproj": {
+                "projectPath": "C:\\Users\\sofia\\Documents\\project\\Pegi.Api\\src\\Data\\Data.csproj"
               }
             }
           }

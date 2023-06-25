@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Fg6wd5fUno63XFU1ez213zcgSdouvmumJ2H4ftQ2X7/HyecOp1hVfjF6eXDxUt4WLbmfrVo49YuKbhozjFGbAw==",
+  "dgSpecHash": "6UxKll6859OX4eUSxS4d5y2hZHChHIjaMReS9vTy1L2D55ySyvig8EuQxqKGVp7VmeuOOt9AUHrgWp0GwuotKA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\sofia\\Documents\\Pegi.Api\\test\\SeleniumTest\\SeleniumTest.csproj",
+  "projectFilePath": "C:\\Users\\sofia\\Documents\\project\\Pegi.Api\\test\\SeleniumTest\\SeleniumTest.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\sofia\\.nuget\\packages\\coverlet.collector\\3.1.2\\coverlet.collector.3.1.2.nupkg.sha512",
     "C:\\Users\\sofia\\.nuget\\packages\\microsoft.codecoverage\\17.1.0\\microsoft.codecoverage.17.1.0.nupkg.sha512",

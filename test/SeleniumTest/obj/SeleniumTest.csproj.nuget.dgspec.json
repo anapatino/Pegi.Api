@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\sofia\\Documents\\Pegi.Api\\test\\SeleniumTest\\SeleniumTest.csproj": {}
+    "C:\\Users\\sofia\\Documents\\project\\Pegi.Api\\test\\SeleniumTest\\SeleniumTest.csproj": {}
   },
   "projects": {
-    "C:\\Users\\sofia\\Documents\\Pegi.Api\\test\\SeleniumTest\\SeleniumTest.csproj": {
+    "C:\\Users\\sofia\\Documents\\project\\Pegi.Api\\test\\SeleniumTest\\SeleniumTest.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\sofia\\Documents\\Pegi.Api\\test\\SeleniumTest\\SeleniumTest.csproj",
+        "projectUniqueName": "C:\\Users\\sofia\\Documents\\project\\Pegi.Api\\test\\SeleniumTest\\SeleniumTest.csproj",
         "projectName": "SeleniumTest",
-        "projectPath": "C:\\Users\\sofia\\Documents\\Pegi.Api\\test\\SeleniumTest\\SeleniumTest.csproj",
+        "projectPath": "C:\\Users\\sofia\\Documents\\project\\Pegi.Api\\test\\SeleniumTest\\SeleniumTest.csproj",
         "packagesPath": "C:\\Users\\sofia\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\sofia\\Documents\\Pegi.Api\\test\\SeleniumTest\\obj\\",
+        "outputPath": "C:\\Users\\sofia\\Documents\\project\\Pegi.Api\\test\\SeleniumTest\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\sofia\\Documents\\Pegi.Api\\NuGet.Config",
+          "C:\\Users\\sofia\\Documents\\project\\Pegi.Api\\NuGet.Config",
           "C:\\Users\\sofia\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [

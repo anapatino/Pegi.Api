@@ -13,14 +13,14 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\sofia\\Documents\\Pegi.Api\\src\\Entities\\Entities.csproj",
+      "projectUniqueName": "C:\\Users\\sofia\\Documents\\project\\Pegi.Api\\src\\Entities\\Entities.csproj",
       "projectName": "Entities",
-      "projectPath": "C:\\Users\\sofia\\Documents\\Pegi.Api\\src\\Entities\\Entities.csproj",
+      "projectPath": "C:\\Users\\sofia\\Documents\\project\\Pegi.Api\\src\\Entities\\Entities.csproj",
       "packagesPath": "C:\\Users\\sofia\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\sofia\\Documents\\Pegi.Api\\src\\Entities\\obj\\",
+      "outputPath": "C:\\Users\\sofia\\Documents\\project\\Pegi.Api\\src\\Entities\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\sofia\\Documents\\Pegi.Api\\NuGet.Config",
+        "C:\\Users\\sofia\\Documents\\project\\Pegi.Api\\NuGet.Config",
         "C:\\Users\\sofia\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
