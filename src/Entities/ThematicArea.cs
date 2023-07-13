@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entities;
 
-[Table("Thematic_areas")]
+[Table("thematic_areas")]
 public class ThematicArea
 {
     [Key] [Column("code")] public string? Code { get; set; }

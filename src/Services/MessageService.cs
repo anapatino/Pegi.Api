@@ -18,7 +18,7 @@ public class MessageService
         try
         {
             _messageRepository.Save(message);
-            return ("se ha guardado con exito su mensaje");
+            return ("Se ha guardado con exito su mensaje");
         }
         catch (MessageExeption e)
         {

@@ -8,13 +8,12 @@ public class ProjectService
 {
     private readonly ProjectRepository _projectRepository;
     private readonly ProposalService _proposalService;
-    private readonly EmailService _emailService;
 
-    public ProjectService(ProjectRepository projectRepository,ProposalService proposalService,EmailService emailService)
+    public ProjectService(ProjectRepository projectRepository,ProposalService proposalService)
     {
         _projectRepository = projectRepository;
         _proposalService = proposalService;
-        _emailService = emailService;
+
     }
 
     public (string, bool) SaveProject(Project project)
@@ -26,7 +25,6 @@ public class ProjectService
             project.PersonDocument1 = proposal.PersonDocument1;
             project.PersonDocument2 = proposal.PersonDocument2;
             _projectRepository.Save(project);
-            _emailService.SendEmailRegistration(proposal,"Proyecto");
             return ("Se ha guardado con exito el proyecto", true);
         }
         catch (ProposalExeption e)
@@ -56,8 +54,6 @@ public class ProjectService
             project!.Status = status;
             project!.Score = score;
             _projectRepository.Update(project);
-            _emailService.SendEmailQualificationStudentProject(project);
-            _emailService.SendEmailQualificationDocentProject(project);
             return ("Se modificó el estado del proyecto con exito",true);
         }
         catch(AuthException e)
@@ -73,7 +69,6 @@ public class ProjectService
             Project? project = _projectRepository.Find(project => project.Code == code);
             project!.EvaluatorDocument = document;
             _projectRepository.Update(project);
-            _emailService.SendEmailAssignmentStudentProject(project,"Evaluador");
             return ("Se asigno con exito al evaluador en el proyecto",true);
         }
         catch(AuthException e)
@@ -89,7 +84,6 @@ public class ProjectService
             Project? project = _projectRepository.Find(project => project.Code == code);
             project!.TutorDocument = document;
             _projectRepository.Update(project);
-            _emailService.SendEmailAssignmentStudentProject(project,"Tutor");
             return ("se asigno con exito al tutor en el proyecto",true);
         }
         catch(AuthException e)
@@ -115,12 +109,10 @@ public class ProjectService
                 project.TutorDocument != null));
     }
 
-    public Project? SearchProject(string personDocument)
+    public Project? SearchProject(string proprosalCode)
     {
         return _projectRepository.Find(project =>
-            (project.PersonDocument1 == personDocument ||
-             project.PersonDocument2 == personDocument) && (project.PersonDocument1 != null  ||
-                project.PersonDocument2 != null));
+            (project.ProposalCode == proprosalCode && project.ProposalCode != null));
     }
 
     public string DeleteProject(string code)

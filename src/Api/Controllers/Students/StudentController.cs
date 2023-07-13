@@ -1,6 +1,7 @@
 using Entities;
 using Entities.Exceptions;
 using Mapster;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services;
 
@@ -21,6 +22,7 @@ public class StudentController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = ("Administrador"))]
     public ActionResult RegisterStudent(
         [FromBody] CreateStudentRequest createStudentRequest)
     {

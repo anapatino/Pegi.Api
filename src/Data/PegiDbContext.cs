@@ -28,6 +28,7 @@ public class PegiDbContext : DbContext
     public DbSet<ProjectFeedBack> ProjectFeedBacks { get; set; }
     public DbSet<HistoryProject> HistoryProjects { get; set; }
     public DbSet<Message> Messages { get; set; }
+    public DbSet<ResearchGroup> ResearchGroups { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

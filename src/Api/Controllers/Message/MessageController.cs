@@ -1,48 +1,48 @@
-using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using Services;
+using Mapster;
+using Microsoft.AspNetCore.Authorization;
 
-namespace Api.Controllers.Message;
-[ApiController]
-[Route("messages")]
-public class MessageController: ControllerBase
+namespace Api.Controllers.Message
 {
-    private readonly MessageService _messageService;
-
-    public MessageController(MessageService messageService)
+    [ApiController]
+    [Route("messages")]
+    public class MessageController : ControllerBase
     {
-        _messageService = messageService;
-    }
+        private readonly MessageService _messageService;
 
-    [HttpPost]
-    public ActionResult SaveMessages(
-        [FromBody] MessageRequest messageRequest)
-    {
-        try
+        public MessageController(MessageService messageService)
         {
-            var message = messageRequest.Adapt<Entities.Message>();
-            var response = _messageService.SaveMessage(message);
-            return Ok(new Response<Void>(response, false));
-        }
-        catch (Exception e)
-        {
-            return BadRequest(new Response<Void>(e.Message));
-        }
-    }
-
-    [HttpGet("get-all-messages")]
-    public ActionResult GetAllMessages()
-    {
-        List<Entities.Message> messages =
-            _messageService.GetAllMessage();
-        if (messages.Count < 0)
-        {
-            return BadRequest(
-                new Response<Void>("No se encontraron mensajes"));
+            _messageService = messageService;
         }
 
-        return Ok(new Response<List<MessageResponse>>(
-            messages?.Adapt<List<MessageResponse>>()));
+        [HttpPost]
+        [Authorize(Roles = "Administrador,Docente")]
+        public ActionResult SaveMessages([FromBody] MessageRequest messageRequest)
+        {
+            try
+            {
+                var message = messageRequest.Adapt<Entities.Message>();
+                var response = _messageService.SaveMessage(message);
+                return Ok(new Response<Void>(response, false));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new Response<Void>(e.Message));
+            }
+        }
 
+        [HttpGet("get-all-messages")]
+        [Authorize(Roles = "Administrador,Docente")]
+        public ActionResult GetAllMessages()
+        {
+            List<Entities.Message> messages = _messageService.GetAllMessage();
+            if (messages.Count < 0)
+            {
+                return BadRequest(new Response<Void>("No se encontraron mensajes"));
+            }
+
+            return Ok(new Response<List<MessageResponse>>(messages?.Adapt<List<MessageResponse>>()));
+        }
     }
 }

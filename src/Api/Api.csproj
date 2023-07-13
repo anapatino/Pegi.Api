@@ -31,11 +31,11 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Migrations" />
+      <Compile Remove="Migrations\PegiDbContextModelSnapshot.cs" />
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Remove="Migrations\PegiDbContextModelSnapshot.cs" />
+      <Folder Include="Migrations\" />
     </ItemGroup>
 
 </Project>

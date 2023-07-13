@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entities;
 
-[Table("Porposal_feedback")]
+[Table("porposal_feedback")]
 public class ProposalFeedBack
 {
     [Key] [Column("code")] public int? Code { get; set; }

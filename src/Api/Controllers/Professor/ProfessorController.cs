@@ -2,6 +2,7 @@ using Api.Controllers.People;
 using Entities;
 using Entities.Exceptions;
 using Mapster;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services;
 
@@ -20,6 +21,7 @@ public class ProfessorController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "Administrador")]
     public ActionResult RegisterProfessor(
         [FromBody] CreateProfessorRequest createProfessorRequest)
     {
@@ -89,6 +91,8 @@ public class ProfessorController : ControllerBase
      }
 
         [HttpGet]
+        [Authorize(Roles = "Administrador")]
+
         public ActionResult GetAllProfessors()
         {
             try

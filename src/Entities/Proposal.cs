@@ -21,8 +21,9 @@ public class Proposal
     public Professor? Professor2 { get; set; }
     [Column("title")] public string? Title { get; set; }
     [Column("date")] public DateTime? Date { get; set; }
-    [Column("investigationGroup")]
     public string? InvestigationGroup { get; set; }
+    [ForeignKey("InvestigationGroup")]
+    public ResearchGroup? ResearchGroup { get; set; }
     [Column("approach")] public string? Approach { get; set; }
     [Column("justification")] public string? Justification { get; set; }
     [Column("generalObjective")] public string? GeneralObjective { get; set; }

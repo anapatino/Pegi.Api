@@ -13,10 +13,14 @@ namespace Api.Controllers.Proposal;
 public class ProposalController : ControllerBase
 {
     private readonly ProposalService _proposalService;
+    private readonly EmailService _emailService;
+    private readonly PeopleService _peopleService;
 
-    public ProposalController(ProposalService proposalService)
+    public ProposalController(ProposalService proposalService,EmailService emailService,PeopleService peopleService)
     {
         _proposalService = proposalService;
+        _emailService = emailService;
+        _peopleService = peopleService;
     }
 
     [HttpPost]
@@ -39,7 +43,8 @@ public class ProposalController : ControllerBase
             {
                 _proposalService.SaveProposal(newProposal);
             }
-
+            var toAdresses =_peopleService.GetInstitutionalEmailMultiple(newProposal.PersonDocument1,newProposal.PersonDocument2);
+             _emailService.SendEmailRegistration(toAdresses,"Propuesta");
             return Ok(new Response<Void>("Propuesta registrada con exito",
                 false));
         }
@@ -186,9 +191,33 @@ public class ProposalController : ControllerBase
         }
     }
 
-    [HttpPut("update-professor-proposal/")]
+    [HttpGet("get-proposals-by-title/{title}")]
+    [Authorize(Roles = "Estudiante,Docente,Administrador")]
+    public ActionResult GetProposalByTitleProposal([FromRoute] string title)
+    {
+        try
+        {
+            List<Entities.Proposal> proposals= _proposalService.GetProposalsByTitle(title);
+
+            if (proposals == null)
+            {
+                return BadRequest(
+                    new Response<Void>("No existe propuesta registrada con esa palabra"));
+            }
+
+            return Ok(
+                new Response<ProposalResponse>(
+                    proposals.Adapt<ProposalResponse>()));
+        }
+        catch (PersonExeption e)
+        {
+            return BadRequest(new Response<Void>(e.Message));
+        }
+    }
+
+    [HttpPut("update-evaluator-proposal/")]
     [Authorize(Roles = "Administrador")]
-    public ActionResult UpdateProfessorProposal([FromBody] ProposalUpdateRequest proposalUpdateRequest)
+    public ActionResult UpdateEvaluatorProposal([FromBody] ProposalUpdateRequest proposalUpdateRequest)
     {
         try
         {
@@ -197,10 +226,11 @@ public class ProposalController : ControllerBase
             {
                 return BadRequest(
                     new Response<Void>(message));
-
             }
-
-             return Ok(new Response<Void>(message));
+            var (toAdresses, toAdress,title) = GetAdressesEmailStudentsAndDocent(proposalUpdateRequest.code,true);
+            _emailService.SendEmailAssignmentStudentProposal(toAdresses,"Evaluador");
+            _emailService.SendEmailAssignmentEvaluatorProposal(toAdress,title);
+            return Ok(new Response<Void>(message));
 
         }
         catch (PersonExeption e)
@@ -209,9 +239,20 @@ public class ProposalController : ControllerBase
         }
     }
 
-    [HttpPut("update-professor-tutor-proposal/")]
+    private (List<string>, string, string) GetAdressesEmailStudentsAndDocent(
+        string code, bool type)
+    {
+        var proposal =
+            _proposalService.GetProposalCode(code);
+        var toAdresses =_peopleService.GetInstitutionalEmailMultiple(proposal.PersonDocument1,proposal.PersonDocument2);
+        var toAdress =
+            _peopleService.GetInstitutionalEmail(type ? proposal.EvaluatorDocument : proposal.TutorDocument);
+        return (toAdresses, toAdress,proposal.Title);
+    }
+
+    [HttpPut("update-tutor-proposal/")]
     [Authorize(Roles = "Administrador")]
-    public ActionResult UpdateProfessorTutorProposal([FromBody] ProposalUpdateRequest proposalUpdateRequest)
+    public ActionResult UpdateTutorProposal([FromBody] ProposalUpdateRequest proposalUpdateRequest)
     {
         try
         {
@@ -222,7 +263,9 @@ public class ProposalController : ControllerBase
                     new Response<Void>(message));
 
             }
-
+            var (toAdresses, toAdress,title) = GetAdressesEmailStudentsAndDocent(proposalUpdateRequest.code,false);
+            _emailService.SendEmailAssignmentStudentProposal(toAdresses,"Tutor");
+            _emailService.SendEmailAssignmentTutorProposal(toAdress,title);
             return Ok(new Response<Void>(message));
 
         }

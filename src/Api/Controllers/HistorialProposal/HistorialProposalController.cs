@@ -14,15 +14,19 @@ public class HistorialProposalController : ControllerBase
     private readonly HistoryProposalService _historyProposalService;
     private readonly ProposalFeedBackService _proposalFeedBackService;
     private readonly ProposalService _proposalService;
+    private readonly EmailService _emailService;
+    private readonly PeopleService _peopleService;
 
     public HistorialProposalController(
         HistoryProposalService historyProposalService,
         ProposalFeedBackService proposalFeedBackService,
-        ProposalService proposalService)
+        ProposalService proposalService,EmailService emailService,PeopleService peopleService)
     {
         _historyProposalService = historyProposalService;
         _proposalFeedBackService = proposalFeedBackService;
         _proposalService = proposalService;
+        _emailService = emailService;
+        _peopleService = peopleService;
     }
 
     [HttpPost("register-feedback")]
@@ -43,6 +47,7 @@ public class HistorialProposalController : ControllerBase
             _proposalService.UpdateStatusProposal(
                 historialProposal.ProposalCode,
                 historialProposal.ProposalFeedBack.Status);
+            GetAdressesEmailStudentsAndDocent(historialProposal.ProposalCode);
             return Ok(
                 new Response<HisotrialProposalResponse>(
                     historialProposal.Adapt<HisotrialProposalResponse>()));
@@ -51,6 +56,17 @@ public class HistorialProposalController : ControllerBase
         {
             return BadRequest(new Response<Void>(exeption.Message));
         }
+    }
+
+    private void GetAdressesEmailStudentsAndDocent(
+        string code)
+    {
+        var proposal = _proposalService.GetProposalCode(code);
+        var toAdresses =_peopleService.GetInstitutionalEmailMultiple(proposal.PersonDocument1,proposal.PersonDocument2);
+        var toAdress =
+            _peopleService.GetInstitutionalEmail(proposal.EvaluatorDocument );
+        _emailService.SendEmailQualificationStudentProposal(toAdresses);
+        _emailService.SendEmailQualificationDocentProposal(toAdress,proposal.Title);
     }
 
     [HttpGet("{proposalCode}")]

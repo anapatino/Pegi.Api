@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entities;
-[Table("Experiences")]
+[Table("experiences")]
 public class Experience
 {
     [Key]

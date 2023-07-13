@@ -28,6 +28,7 @@ public static class DependencyInjection
         repositories.AddScoped<HistoryProjectRepository>();
         repositories.AddScoped<ProjectFeedBackRepository>();
         repositories.AddScoped<MessageRepository>();
+        repositories.AddScoped<ResearchGroupRepository>();
     }
 
     public static void AddServices(this IServiceCollection services)
@@ -51,5 +52,8 @@ public static class DependencyInjection
         services.AddScoped<HistoryProjectService>();
         services.AddScoped<ProjectFeedBackService>();
         services.AddScoped<MessageService>();
+        services.AddScoped<ResearchGroupService>();
+        services.AddScoped<EmailService>();
+        services.AddScoped<EmailSender>();
     }
 }

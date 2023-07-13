@@ -27,6 +27,29 @@ public class PeopleService
             return (e.Message, false);
         }
     }
+    public string GetInstitutionalEmail(string personDocument)
+    {
+        var person = SearchPerson(personDocument);
+        return person?.InstitutionalMail;
+    }
+
+    public List<string>  GetInstitutionalEmailMultiple(string PersonDocument1,string PersonDocument2)
+    {
+        var personFirst = SearchPerson(PersonDocument1);
+        var personSecond =SearchPerson(PersonDocument2);
+        if (personFirst != null && personSecond != null)
+        {
+            List<string> toAddresses = new List<string>
+            {
+                personFirst.InstitutionalMail,
+                personSecond.InstitutionalMail
+            };
+            return toAddresses;
+
+        }
+        return null;
+
+    }
 
     public Person? SearchPerson(string document)
     {

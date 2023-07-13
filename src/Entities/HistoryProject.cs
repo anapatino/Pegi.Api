@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entities;
-
+[Table("history_projects")]
 public class HistoryProject
 {
     public HistoryProject(int? projectFeedBackCode, string? projectCode)

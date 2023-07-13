@@ -5,108 +5,57 @@ namespace Services;
 public class EmailService
 {
     private readonly EmailSender _emailSender;
-    private readonly PeopleService _peopleService;
-    private readonly ProposalService _proposalService;
 
-    public EmailService(EmailSender emailSender,PeopleService peopleService,ProposalService proposalService)
+
+    public EmailService(EmailSender emailSender)
     {
         _emailSender = emailSender;
-        _peopleService = peopleService;
-        _proposalService = proposalService;
+
     }
 
-    public void SendEmailRegistration(Proposal proposal,string type)
+    public void SendEmailRegistration(List<string>toAddresses,string type)
     {
-        List<string> toAddresses = searchEmailPeople(proposal.PersonDocument1,proposal.PersonDocument2);
-        if (toAddresses != null)
-        {
-            _emailSender.ConfirmationOfRegistration(toAddresses,type);
-        }
+        _emailSender.ConfirmationOfRegistration(toAddresses,type);
     }
 
-    public void SendEmailAssignmentStudentProposal(Proposal proposal,string rol)
+    public void SendEmailAssignmentStudentProposal(List<string>toAddresses,string rol)
     {
-        List<string> toAddresses = searchEmailPeople(proposal.PersonDocument1,proposal.PersonDocument2);
-        if (toAddresses != null)
-        {
-            _emailSender.ConfirmationAssignmentStudent(toAddresses,rol,"Propuesta");
-        }
+        _emailSender.ConfirmationAssignmentStudent(toAddresses,rol,"Propuesta");
     }
 
-    public void SendEmailAssignmentStudentProject(Project project,string rol)
+    public void SendEmailAssignmentStudentProject(List<string>toAddresses,string rol)
     {
-        List<string> toAddresses = searchEmailPeople(project.PersonDocument1,project.PersonDocument2);
-        if (toAddresses != null)
-        {
-            _emailSender.ConfirmationAssignmentStudent(toAddresses,rol,"Proyecto");
-        }
+        _emailSender.ConfirmationAssignmentStudent(toAddresses,rol,"Proyecto");
     }
 
-    public void SendEmailQualificationStudentProposal(Proposal proposal)
+    public void SendEmailQualificationStudentProposal(List<string> toAddresses )
     {
-        List<string> toAddresses = searchEmailPeople(proposal.PersonDocument1,proposal.PersonDocument2);
-        if (toAddresses != null)
-        {
-            _emailSender.ConfirmationQualificationStudent(toAddresses,"Propuesta");
-        }
+        _emailSender.ConfirmationQualificationStudent(toAddresses,"Propuesta");
     }
 
-    public void SendEmailQualificationStudentProject(Project project)
+    public void SendEmailQualificationStudentProject(List<string> toAddresses)
     {
-        List<string> toAddresses = searchEmailPeople(project.PersonDocument1,project.PersonDocument2);
-        if (toAddresses != null)
-        {
-            _emailSender.ConfirmationQualificationStudent(toAddresses,"Proyecto");
-        }
-    }
-    public void SendEmailAssignmentEvaluatorProposal(Proposal proposal)
-    {
-        var toAdress = searchOneEmail(proposal.EvaluatorDocument);
-        _emailSender.ConfirmationAssignmentDocent(toAdress,proposal.Title,"Propuesta");
+        _emailSender.ConfirmationQualificationStudent(toAddresses,"Proyecto");
     }
 
-    public void SendEmailAssignmentTutorProposal(Proposal proposal)
+    public void SendEmailAssignmentEvaluatorProposal(string toAdress,string title)
     {
-        var toAdress = searchOneEmail(proposal.TutorDocument);
-        _emailSender.ConfirmationAssignmentDocent(toAdress,proposal.Title,"Propuesta");
+        _emailSender.ConfirmationAssignmentDocent(toAdress,title,"Propuesta");
     }
 
-    public void SendEmailQualificationDocentProposal(Proposal proposal)
+    public void SendEmailAssignmentTutorProposal(string toAdress,string title)
     {
-        var toAdress = searchOneEmail(proposal.EvaluatorDocument);
-        _emailSender.ConfirmationQualificationDocent(toAdress,proposal.Title,"Propuesta");
+        _emailSender.ConfirmationAssignmentDocent(toAdress,title,"Propuesta");
     }
 
-    public void SendEmailQualificationDocentProject(Project project)
+    public void SendEmailQualificationDocentProposal(string toAdress,string title)
     {
-        var proposal = _proposalService.GetProposalCode(project.ProposalCode);
-        var toAdress = searchOneEmail(proposal.EvaluatorDocument);
-        _emailSender.ConfirmationQualificationDocent(toAdress,proposal.Title,"Proyecto");
+        _emailSender.ConfirmationQualificationDocent(toAdress,title,"Propuesta");
     }
 
-    private string searchOneEmail(string document)
+    public void SendEmailQualificationDocentProject(string toAdress,string title)
     {
-        var personFirst = _peopleService.SearchPerson(document);
-        string toAdress = personFirst.InstitutionalMail;
-        return toAdress;
-    }
-
-    private List<string>  searchEmailPeople(string PersonDocument1,string PersonDocument2)
-    {
-        var personFirst = _peopleService.SearchPerson(PersonDocument1);
-        var personSecond = _peopleService.SearchPerson(PersonDocument2);
-        if (personFirst != null && personSecond != null)
-        {
-            List<string> toAddresses = new List<string>
-            {
-                personFirst.InstitutionalMail,
-                personSecond.InstitutionalMail
-            };
-            return toAddresses;
-
-        }
-        return null;
-
+        _emailSender.ConfirmationQualificationDocent(toAdress,title,"Proyecto");
     }
 
 }

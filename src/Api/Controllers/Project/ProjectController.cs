@@ -12,10 +12,16 @@ namespace Api.Controllers.Proyect;
 public class ProjectController : ControllerBase
 {
     private readonly ProjectService _projectService;
+    private readonly EmailService _emailService;
+    private readonly PeopleService _peopleService;
+    private readonly ProposalService _proposalService;
 
-    public ProjectController(ProjectService projectService)
+    public ProjectController(ProjectService projectService,EmailService emailService,PeopleService peopleService,ProposalService proposalService)
     {
         _projectService = projectService;
+        _emailService = emailService;
+        _peopleService = peopleService;
+        _proposalService = proposalService;
     }
 
     [HttpPost]
@@ -24,25 +30,24 @@ public class ProjectController : ControllerBase
     {
         try
         {
-            var personDocument = Request.Form["personDocument"];
-            var status = Request.Form["status"];
-            var score = Convert.ToInt32(Request.Form["score"]);
-            var proposalCode = Request.Form["proposalCode"];
-            var content = Request.Form.Files.GetFile("content");
+
+            int score = Convert.ToInt32(Request.Form["score"]);
+            IFormFile? content = Request.Form.Files.GetFile("content");
 
             Entities.Project newProject = new Entities.Project
             {
                 Code = Random.Shared.Next().ToString(),
-                PersonDocument1 = personDocument,
+                PersonDocument1 = Request.Form["personDocument"],
                 Content = GetBytesFromStream(content.OpenReadStream()),
-                Status = status,
+                Status = Request.Form["status"],
                 Score = score,
-                ProposalCode = proposalCode
+                ProposalCode = Request.Form["proposalCode"]
             };
 
-            Entities.Project oldProject = _projectService.SearchProject(newProject.Code)!;
-            if (newProject.Code == oldProject?.Code)
+            Entities.Project oldProject = _projectService.SearchProject(newProject.ProposalCode);
+            if (newProject.ProposalCode == oldProject?.ProposalCode)
             {
+                newProject.Code = oldProject.Code;
                 _projectService.UpdateProject(newProject);
             }
             else
@@ -50,6 +55,9 @@ public class ProjectController : ControllerBase
                 _projectService.SaveProject(newProject);
             }
 
+            var newProposal = _proposalService.GetProposalCode(newProject.ProposalCode);
+            var toAdresses =_peopleService.GetInstitutionalEmailMultiple(newProposal.PersonDocument1,newProposal.PersonDocument2);
+            _emailService.SendEmailRegistration(toAdresses,"Proyecto");
             return Ok(new Response<Void>("Se ha guardado con éxito el proyecto", false));
         }
         catch (PersonExeption exception)
@@ -92,54 +100,23 @@ public class ProjectController : ControllerBase
         }
     }
 
-    [HttpGet("get-projects-professor/{document}")]
-    [Authorize(Roles = "Docente,Administrador")]
-    public ActionResult GetProjectsProfessorDocument([FromRoute] string document)
-    {
-        try
-        {
-            List<Entities.Project> projects =
-                _projectService.GetProjectsProfessorDocument(document);
-            if (projects.Count < 0)
-            {
-                return BadRequest(
-                    new Response<Void>("No existen proyectos registradas con ese documento"));
-            }
-
-            return Ok(new Response<List<ProjectResponse>>(
-                projects?.Adapt<List<ProjectResponse>>()));
-        }
-        catch (PersonExeption e)
-        {
-            return BadRequest(new Response<Void>(e.Message));
-        }
-    }
-
-    [HttpGet("get-project-code/{code}")]
+    [HttpGet("get-projects-title/{title}")]
     [Authorize(Roles = "Estudiante,Docente,Administrador")]
-    public ActionResult GetProjectCode([FromRoute] string code)
+    public ActionResult GetProjectsByTitleProject([FromRoute] string title)
     {
         try
         {
-            Entities.Project? project = _projectService.GetProjectCode(code);
-            if (project == null)
+            List<Entities.Project> projects = _proposalService.GetProposalsByTitle(title)
+                .Select(p => _projectService.SearchProject(p.Code))
+                .Where(p => p != null)
+                .ToList();
+
+            if (projects.Count == 0)
             {
-                return BadRequest(new Response<Void>("No se encontro proyecto con ese codigo"));
+                return BadRequest(new Response<Void>("No se encontró ningún proyecto asociado al título"));
             }
 
-            string contentBase64 = Convert.ToBase64String(project.Content);
-
-            var response = new ProjectResponse(
-                project.Code,
-                project.PersonDocument1,
-                project.EvaluatorDocument,
-                contentBase64, // Enviar el contenido del archivo como cadena Base64
-                project.Status,
-                project.Score,
-                project.ProposalCode
-            );
-
-            return Ok(new Response<ProjectResponse>(response));
+            return Ok(new Response<List<ProjectResponse>>(projects.Adapt<List<ProjectResponse>>()));
         }
         catch (PersonExeption e)
         {
@@ -147,152 +124,224 @@ public class ProjectController : ControllerBase
         }
     }
 
-
-    [HttpPut("update-evaluator-project/")]
-    [Authorize(Roles = "Administrador")]
-    public ActionResult UpdateEvaluatorProject([FromBody] ProjectUpdateRequest projectUpdateRequest)
+    [HttpGet("get-projects-professor/{document}")]
+[Authorize(Roles = "Docente,Administrador")]
+public ActionResult GetProjectsProfessorDocument([FromRoute] string document)
+{
+    try
     {
-        try
+        List<Entities.Project> projects =
+            _projectService.GetProjectsProfessorDocument(document);
+        if (projects.Count < 0)
         {
-            var (message,response)= _projectService.UpdateEvaluatorDocumentProject(projectUpdateRequest.code,projectUpdateRequest.ProfessorDocument);
-            if (response == false )
-            {
-                return BadRequest(
-                    new Response<Void>(message));
-            }
-
-            return Ok(new Response<Void>(message));
-
+            return BadRequest(
+                new Response<Void>("No existen proyectos registradas con ese documento"));
         }
-        catch (PersonExeption e)
-        {
-            return BadRequest(new Response<Void>(e.Message));
-        }
+
+        return Ok(new Response<List<ProjectResponse>>(
+            projects?.Adapt<List<ProjectResponse>>()));
     }
-
-    [HttpPut("update-tutor-proyect/")]
-    [Authorize(Roles = "Administrador")]
-    public ActionResult UpdateTutorProject([FromBody] ProjectUpdateRequest projectUpdateRequest)
+    catch (PersonExeption e)
     {
-        try
-        {
-            var (message,response)= _projectService.UpdateTutorDocumentProject(projectUpdateRequest.code,projectUpdateRequest.ProfessorDocument);
-            if (response == false )
-            {
-                return BadRequest(
-                    new Response<Void>(message));
-
-            }
-
-            return Ok(new Response<Void>(message));
-
-        }
-        catch (PersonExeption e)
-        {
-            return BadRequest(new Response<Void>(e.Message));
-        }
+        return BadRequest(new Response<Void>(e.Message));
     }
+}
 
-    [HttpGet]
-    public ActionResult GetAll()
+[HttpGet("get-project-code/{code}")]
+[Authorize(Roles = "Estudiante,Docente,Administrador")]
+public ActionResult GetProjectCode([FromRoute] string code)
+{
+    try
     {
-        try
+        Entities.Project? project = _projectService.GetProjectCode(code);
+        if (project == null)
         {
-            List<Entities.Project> projects =
-                _projectService.GetAll();
-            if (projects.Count < 0)
-            {
-                return BadRequest(
-                    new Response<Void>("No se encontro ningún proyecto"));
-            }
+            return BadRequest(new Response<Void>("No se encontro proyecto con ese codigo"));
+        }
 
-            return Ok(new Response<List<ProjectResponse>>(
-                projects?.Adapt<List<ProjectResponse>>()));
-        }
-        catch (PersonExeption e)
-        {
-            return BadRequest(new Response<Void>(e.Message));
-        }
+        string contentBase64 = Convert.ToBase64String(project.Content);
+
+        var response = new ProjectResponse(
+            project.Code,
+            project.PersonDocument1,
+            project.EvaluatorDocument,
+            contentBase64, // Enviar el contenido del archivo como cadena Base64
+            project.Status,
+            project.Score,
+            project.ProposalCode
+        );
+        var (toAdresses, toAdress,title) = GetAdressesEmailStudentsAndDocent(response.Code,false);
+        _emailService.SendEmailRegistration(toAdresses,"Proyecto");
+        return Ok(new Response<ProjectResponse>(response));
     }
-
-    [HttpDelete("{code}")]
-    [Authorize(Roles = ("Estudiante"))]
-    public ActionResult DeleteProject([FromRoute] string code)
+    catch (PersonExeption e)
     {
-        try
-        {
-            string message = _projectService.DeleteProject(code);
-            return Ok(new Response<Void>(message, false));
-        }
-        catch (Exception e)
-        {
-            return BadRequest(new Response<Void>(e.Message));
-        }
+        return BadRequest(new Response<Void>(e.Message));
     }
+}
 
-    [HttpGet("general-statistics-project-professor/{document}")]
-    [Authorize(Roles = "Docente,Administrador")]
-    public ActionResult GetGeneralStatisticsProjectProfessor([FromRoute] string document)
+
+[HttpPut("update-evaluator-project/")]
+[Authorize(Roles = "Administrador")]
+public ActionResult UpdateEvaluatorProject([FromBody] ProjectUpdateRequest projectUpdateRequest)
+{
+    try
     {
-        try
+        var (message,response)= _projectService.UpdateEvaluatorDocumentProject(projectUpdateRequest.code,projectUpdateRequest.ProfessorDocument);
+        if (response == false )
         {
-            object statistics =
-                _projectService.GeneralStatisticsProjectProfessor(document);
-            if (statistics == null)
-            {
-                return BadRequest(
-                    new Response<Void>("No hay estadisticas para este docente"));
-            }
+            return BadRequest(
+                new Response<Void>(message));
+        }
+        var (toAdresses, toAdress,title) = GetAdressesEmailStudentsAndDocent(projectUpdateRequest.code,false);
+        _emailService.SendEmailAssignmentStudentProposal(toAdresses,"Evaluador");
+        _emailService.SendEmailAssignmentEvaluatorProposal(toAdress,title);
+        return Ok(new Response<Void>(message));
 
-            return Ok(new Response<object>(statistics));
-        }
-        catch (PersonExeption e)
-        {
-            return BadRequest(new Response<Void>(e.Message));
-        }
     }
-
-    [HttpGet("general-statistics-project-student/{document}")]
-    [Authorize(Roles = "Estudiante,Administrador")]
-    public ActionResult GetGeneralStatisticsProjectStudent([FromRoute] string document)
+    catch (PersonExeption e)
     {
-        try
-        {
-            object statistics =
-                _projectService.GeneralStatisticsProjectStudent(document);
-            if (statistics == null)
-            {
-                return BadRequest(
-                    new Response<Void>("No hay estadisticas para este docente"));
-            }
-
-            return Ok(new Response<object>(statistics));
-        }
-        catch (PersonExeption e)
-        {
-            return BadRequest(new Response<Void>(e.Message));
-        }
+        return BadRequest(new Response<Void>(e.Message));
     }
+}
 
-    [HttpGet("general-statistics-project")]
-    [Authorize(Roles = "Administrador")]
-    public ActionResult GetGeneralStatisticsProposals()
+[HttpPut("update-tutor-proyect/")]
+[Authorize(Roles = "Administrador")]
+public ActionResult UpdateTutorProject([FromBody] ProjectUpdateRequest projectUpdateRequest)
+{
+    try
     {
-        try
+        var (message,response)= _projectService.UpdateTutorDocumentProject(projectUpdateRequest.code,projectUpdateRequest.ProfessorDocument);
+        if (response == false )
         {
-            object statistics =
-                _projectService.GeneralStatisticsProjects();
-            if (statistics == null)
-            {
-                return BadRequest(
-                    new Response<Void>("No hay estadisticas generales"));
-            }
+            return BadRequest(
+                new Response<Void>(message));
 
-            return Ok(new Response<object>(statistics));
         }
-        catch (PersonExeption e)
-        {
-            return BadRequest(new Response<Void>(e.Message));
-        }
+        var (toAdresses, toAdress,title) = GetAdressesEmailStudentsAndDocent(projectUpdateRequest.code,false);
+        _emailService.SendEmailAssignmentStudentProposal(toAdresses,"Tutor");
+        _emailService.SendEmailAssignmentTutorProposal(toAdress,title);
+        return Ok(new Response<Void>(message));
+
     }
+    catch (PersonExeption e)
+    {
+        return BadRequest(new Response<Void>(e.Message));
+    }
+}
+
+private (List<string>, string,string) GetAdressesEmailStudentsAndDocent(string codeProject,bool type)
+{
+    var project =
+        _projectService.GetProjectCode(codeProject);
+    var proposal =
+        _proposalService.GetProposalCode(project.ProposalCode);
+    var toAdresses =_peopleService.GetInstitutionalEmailMultiple(proposal.PersonDocument1,proposal.PersonDocument2);
+    var toAdress =
+        _peopleService.GetInstitutionalEmail(type ? proposal.EvaluatorDocument : proposal.TutorDocument);
+    return (toAdresses, toAdress,proposal.Title);
+}
+
+[HttpGet]
+public ActionResult GetAll()
+{
+    try
+    {
+        List<Entities.Project> projects =
+            _projectService.GetAll();
+        if (projects.Count < 0)
+        {
+            return BadRequest(
+                new Response<Void>("No se encontro ningún proyecto"));
+        }
+
+        return Ok(new Response<List<ProjectResponse>>(
+            projects?.Adapt<List<ProjectResponse>>()));
+    }
+    catch (PersonExeption e)
+    {
+        return BadRequest(new Response<Void>(e.Message));
+    }
+}
+
+[HttpDelete("{code}")]
+[Authorize(Roles = ("Estudiante"))]
+public ActionResult DeleteProject([FromRoute] string code)
+{
+    try
+    {
+        string message = _projectService.DeleteProject(code);
+        return Ok(new Response<Void>(message, false));
+    }
+    catch (Exception e)
+    {
+        return BadRequest(new Response<Void>(e.Message));
+    }
+}
+
+[HttpGet("general-statistics-project-professor/{document}")]
+[Authorize(Roles = "Docente,Administrador")]
+public ActionResult GetGeneralStatisticsProjectProfessor([FromRoute] string document)
+{
+    try
+    {
+        object statistics =
+            _projectService.GeneralStatisticsProjectProfessor(document);
+        if (statistics == null)
+        {
+            return BadRequest(
+                new Response<Void>("No hay estadisticas para este docente"));
+        }
+
+        return Ok(new Response<object>(statistics));
+    }
+    catch (PersonExeption e)
+    {
+        return BadRequest(new Response<Void>(e.Message));
+    }
+}
+
+[HttpGet("general-statistics-project-student/{document}")]
+[Authorize(Roles = "Estudiante,Administrador")]
+public ActionResult GetGeneralStatisticsProjectStudent([FromRoute] string document)
+{
+    try
+    {
+        object statistics =
+            _projectService.GeneralStatisticsProjectStudent(document);
+        if (statistics == null)
+        {
+            return BadRequest(
+                new Response<Void>("No hay estadisticas para este docente"));
+        }
+
+        return Ok(new Response<object>(statistics));
+    }
+    catch (PersonExeption e)
+    {
+        return BadRequest(new Response<Void>(e.Message));
+    }
+}
+
+[HttpGet("general-statistics-project")]
+[Authorize(Roles = "Administrador")]
+public ActionResult GetGeneralStatisticsProposals()
+{
+    try
+    {
+        object statistics =
+            _projectService.GeneralStatisticsProjects();
+        if (statistics == null)
+        {
+            return BadRequest(
+                new Response<Void>("No hay estadisticas generales"));
+        }
+
+        return Ok(new Response<object>(statistics));
+    }
+    catch (PersonExeption e)
+    {
+        return BadRequest(new Response<Void>(e.Message));
+    }
+}
 }
