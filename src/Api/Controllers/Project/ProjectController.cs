@@ -57,7 +57,7 @@ public class ProjectController : ControllerBase
 
             var newProposal = _proposalService.GetProposalCode(newProject.ProposalCode);
             var toAdresses =_peopleService.GetInstitutionalEmailMultiple(newProposal.PersonDocument1,newProposal.PersonDocument2);
-            _emailService.SendEmailRegistration(toAdresses,"Proyecto");
+            _emailService.SendEmailRegistration(toAdresses,"Proyecto",newProposal.Title);
             return Ok(new Response<Void>("Se ha guardado con éxito el proyecto", false));
         }
         catch (PersonExeption exception)
@@ -164,14 +164,16 @@ public ActionResult GetProjectCode([FromRoute] string code)
         var response = new ProjectResponse(
             project.Code,
             project.PersonDocument1,
+            project.PersonDocument2,
             project.EvaluatorDocument,
+            project.TutorDocument,
             contentBase64, // Enviar el contenido del archivo como cadena Base64
             project.Status,
             project.Score,
             project.ProposalCode
         );
         var (toAdresses, toAdress,title) = GetAdressesEmailStudentsAndDocent(response.Code,false);
-        _emailService.SendEmailRegistration(toAdresses,"Proyecto");
+        _emailService.SendEmailRegistration(toAdresses,"Proyecto",title);
         return Ok(new Response<ProjectResponse>(response));
     }
     catch (PersonExeption e)
@@ -194,7 +196,7 @@ public ActionResult UpdateEvaluatorProject([FromBody] ProjectUpdateRequest proje
                 new Response<Void>(message));
         }
         var (toAdresses, toAdress,title) = GetAdressesEmailStudentsAndDocent(projectUpdateRequest.code,false);
-        _emailService.SendEmailAssignmentStudentProposal(toAdresses,"Evaluador");
+        _emailService.SendEmailAssignmentStudentProposal(toAdresses,"Evaluador",title);
         _emailService.SendEmailAssignmentEvaluatorProposal(toAdress,title);
         return Ok(new Response<Void>(message));
 
@@ -219,7 +221,7 @@ public ActionResult UpdateTutorProject([FromBody] ProjectUpdateRequest projectUp
 
         }
         var (toAdresses, toAdress,title) = GetAdressesEmailStudentsAndDocent(projectUpdateRequest.code,false);
-        _emailService.SendEmailAssignmentStudentProposal(toAdresses,"Tutor");
+        _emailService.SendEmailAssignmentStudentProposal(toAdresses,"Tutor",title);
         _emailService.SendEmailAssignmentTutorProposal(toAdress,title);
         return Ok(new Response<Void>(message));
 

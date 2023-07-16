@@ -13,29 +13,29 @@ public class EmailService
 
     }
 
-    public void SendEmailRegistration(List<string>toAddresses,string type)
+    public void SendEmailRegistration(List<string>toAddresses,string type,string title)
     {
-        _emailSender.ConfirmationOfRegistration(toAddresses,type);
+        _emailSender.ConfirmationOfRegistration(toAddresses,type,title);
     }
 
-    public void SendEmailAssignmentStudentProposal(List<string>toAddresses,string rol)
+    public void SendEmailAssignmentStudentProposal(List<string>toAddresses,string rol,string title)
     {
-        _emailSender.ConfirmationAssignmentStudent(toAddresses,rol,"Propuesta");
+        _emailSender.ConfirmationAssignmentStudent(toAddresses,rol,"Propuesta",title);
     }
 
-    public void SendEmailAssignmentStudentProject(List<string>toAddresses,string rol)
+    public void SendEmailAssignmentStudentProject(List<string>toAddresses,string rol,string title)
     {
-        _emailSender.ConfirmationAssignmentStudent(toAddresses,rol,"Proyecto");
+        _emailSender.ConfirmationAssignmentStudent(toAddresses,rol,"Proyecto",title);
     }
 
-    public void SendEmailQualificationStudentProposal(List<string> toAddresses )
+    public void SendEmailQualificationStudentProposal(List<string> toAddresses ,string title)
     {
-        _emailSender.ConfirmationQualificationStudent(toAddresses,"Propuesta");
+        _emailSender.ConfirmationQualificationStudent(toAddresses,"Propuesta",title);
     }
 
-    public void SendEmailQualificationStudentProject(List<string> toAddresses)
+    public void SendEmailQualificationStudentProject(List<string> toAddresses,string title)
     {
-        _emailSender.ConfirmationQualificationStudent(toAddresses,"Proyecto");
+        _emailSender.ConfirmationQualificationStudent(toAddresses,"Proyecto",title);
     }
 
     public void SendEmailAssignmentEvaluatorProposal(string toAdress,string title)

@@ -65,7 +65,7 @@ public class HistorialProposalController : ControllerBase
         var toAdresses =_peopleService.GetInstitutionalEmailMultiple(proposal.PersonDocument1,proposal.PersonDocument2);
         var toAdress =
             _peopleService.GetInstitutionalEmail(proposal.EvaluatorDocument );
-        _emailService.SendEmailQualificationStudentProposal(toAdresses);
+        _emailService.SendEmailQualificationStudentProposal(toAdresses,proposal.Title);
         _emailService.SendEmailQualificationDocentProposal(toAdress,proposal.Title);
     }
 

@@ -11,31 +11,31 @@ public class EmailSender
         smtp = new SmtpClient();
     }
 
-    public void ConfirmationOfRegistration(List<string> toAddresses,string type)
+    public void ConfirmationOfRegistration(List<string> toAddresses,string type,string title)
     {
         string subject = $"Confirmacion Registro de {type}";
         string body = "<b>Estimado Estudiante,</b><br><br>" +
-                      $"Este correo es para confirmar que hemos recibido su {type}  " +
+                      $"Este correo es para confirmar que hemos recibido su {type}: {title}. " +
                       "le agradecemos esperar que le sean asignado su tutor y evaluador "+
                       "le notificaremos por este medio cuando le sean asignados.";
 
          SendEmailToMultipleRecipients(toAddresses, subject, body);
     }
 
-    public void ConfirmationAssignmentStudent (List<string> toAddresses,string rol,string type)
+    public void ConfirmationAssignmentStudent (List<string> toAddresses,string rol,string type,string title)
     {
         string subject = $"Notificación: Asignacion de {rol} a su {type}";
         string body = "<b>Estimado Estudiante,</b><br><br>" +
                       $"Este correo es para confirmar que se ha asignado un {rol}  " +
-                      $"a su {type} dirigase al aplicativo web o movil para ver su {rol}." ;
+                      $"a su {type}: {title}. Dirigase al aplicativo web o movil para ver su {rol}." ;
          SendEmailToMultipleRecipients(toAddresses, subject, body);
     }
 
-    public void ConfirmationQualificationStudent (List<string> toAddresses,string type)
+    public void ConfirmationQualificationStudent (List<string> toAddresses,string type,string title)
     {
         string subject = $"Notificación: Calificacion de su {type}";
         string body = "<b>Estimado Estudiante,</b><br><br>" +
-                      $"Este correo es para confirmar que se ha calificado su {type}  " +
+                      $"Este correo es para confirmar que se ha calificado su {type}: {title}. " +
                       "dirigase al aplicativo web o movil para ver su calificación." ;
          SendEmailToMultipleRecipients(toAddresses, subject, body);
     }

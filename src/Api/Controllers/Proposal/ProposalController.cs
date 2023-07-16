@@ -44,7 +44,7 @@ public class ProposalController : ControllerBase
                 _proposalService.SaveProposal(newProposal);
             }
             var toAdresses =_peopleService.GetInstitutionalEmailMultiple(newProposal.PersonDocument1,newProposal.PersonDocument2);
-             _emailService.SendEmailRegistration(toAdresses,"Propuesta");
+             _emailService.SendEmailRegistration(toAdresses,"Propuesta",newProposal.Title);
             return Ok(new Response<Void>("Propuesta registrada con exito",
                 false));
         }
@@ -228,7 +228,7 @@ public class ProposalController : ControllerBase
                     new Response<Void>(message));
             }
             var (toAdresses, toAdress,title) = GetAdressesEmailStudentsAndDocent(proposalUpdateRequest.code,true);
-            _emailService.SendEmailAssignmentStudentProposal(toAdresses,"Evaluador");
+            _emailService.SendEmailAssignmentStudentProposal(toAdresses,"Evaluador",title);
             _emailService.SendEmailAssignmentEvaluatorProposal(toAdress,title);
             return Ok(new Response<Void>(message));
 
@@ -264,7 +264,7 @@ public class ProposalController : ControllerBase
 
             }
             var (toAdresses, toAdress,title) = GetAdressesEmailStudentsAndDocent(proposalUpdateRequest.code,false);
-            _emailService.SendEmailAssignmentStudentProposal(toAdresses,"Tutor");
+            _emailService.SendEmailAssignmentStudentProposal(toAdresses,"Tutor",title);
             _emailService.SendEmailAssignmentTutorProposal(toAdress,title);
             return Ok(new Response<Void>(message));
 
