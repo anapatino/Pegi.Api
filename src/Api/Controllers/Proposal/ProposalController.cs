@@ -32,15 +32,16 @@ public class ProposalController : ControllerBase
         {
             Entities.Proposal? newProposal =
                 proposalRequest.Adapt<Entities.Proposal>();
-            newProposal.Code = Random.Shared.Next().ToString();
+
             Entities.Proposal oldProposal =
-                _proposalService.GetProposalCode(newProposal.Code!)!;
+                _proposalService.GetProposalCode(newProposal.Code);
             if (newProposal.Code == oldProposal?.Code)
             {
                 _proposalService.UpdateProposal(newProposal);
             }
             else
             {
+                newProposal.Code = Random.Shared.Next().ToString();
                 _proposalService.SaveProposal(newProposal);
             }
             var toAdresses =_peopleService.GetInstitutionalEmailMultiple(newProposal.PersonDocument1,newProposal.PersonDocument2);
@@ -51,6 +52,34 @@ public class ProposalController : ControllerBase
         catch (PersonExeption exeption)
         {
             return BadRequest(new Response<Void>(exeption.Message));
+        }
+    }
+
+    [HttpPut]
+    [Authorize(Roles = ("Estudiante"))]
+    public ActionResult UpdateProposal([FromBody] ProposalUpdate proposalRequest)
+    {
+        try
+        {
+            Entities.Proposal? existingProposal = _proposalService.GetProposalCode(proposalRequest.Code);
+            Entities.Proposal? newProposal =
+                proposalRequest.Adapt<Entities.Proposal>();
+
+            if (existingProposal == null)
+            {
+                return NotFound(new Response<Void>("Propuesta no encontrada"));
+            }
+
+            newProposal.Status = existingProposal.Status;
+            newProposal.TutorDocument = existingProposal.TutorDocument;
+            newProposal.EvaluatorDocument = existingProposal.EvaluatorDocument;
+            _proposalService.UpdateProposal(newProposal);
+
+            return Ok(new Response<Void>("Propuesta actualizada con éxito", false));
+        }
+        catch (Exception exception)
+        {
+            return BadRequest(new Response<Void>(exception.Message));
         }
     }
 

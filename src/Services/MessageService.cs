@@ -25,8 +25,26 @@ public class MessageService
             return (e.Message);
         }
     }
+
+    public string UpdateMessage(Message message)
+    {
+        try
+        {
+            _messageRepository.Save(message);
+            return ("Se ha actulizado con exito su mensaje");
+        }
+        catch (MessageExeption e)
+        {
+            return (e.Message);
+        }
+    }
     public List<Message> GetAllMessage()
     {
         return _messageRepository.GetAll();
+    }
+
+    public Message GetMessageCode(string code)
+    {
+        return _messageRepository.Find(message => message.Code == code);
     }
 }

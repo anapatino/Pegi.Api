@@ -23,8 +23,18 @@ namespace Api.Controllers.Message
             try
             {
                 var message = messageRequest.Adapt<Entities.Message>();
-                var response = _messageService.SaveMessage(message);
-                return Ok(new Response<Void>(response, false));
+                var oldMessage = _messageService.GetMessageCode(message.Code);
+                if (oldMessage != null && oldMessage?.Code == message.Code)
+                {
+                    var response = _messageService.UpdateMessage(message);
+                }
+                else
+                {
+                    message.Code = Random.Shared.Next().ToString();
+                     var response = _messageService.SaveMessage(message);
+
+                }
+                return Ok(new Response<Void>("Mensaje guardado exitosamente", false));
             }
             catch (Exception e)
             {

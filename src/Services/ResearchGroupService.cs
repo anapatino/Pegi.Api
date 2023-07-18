@@ -17,9 +17,9 @@ public class ResearchGroupService
         return _researchGroupRepository.GetAll();
     }
 
-    public ResearchGroup? SearchResearchGroup(string name)
+    public ResearchGroup? SearchResearchGroup(string code)
     {
         return _researchGroupRepository.Find(group =>
-            group.Name == name);
+            group.Code == code);
     }
 }
