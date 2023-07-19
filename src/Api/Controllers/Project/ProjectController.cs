@@ -1,4 +1,5 @@
 using Api.Controllers.Project;
+using Entities;
 using Entities.Exceptions;
 using Mapster;
 using Microsoft.AspNetCore.Authorization;
@@ -26,22 +27,21 @@ public class ProjectController : ControllerBase
 
     [HttpPost]
     [Authorize(Roles = ("Estudiante"))]
-    public ActionResult RegisterProject()
+    public ActionResult RegisterProject([FromForm] ProjectRequest projectRequest)
     {
         try
         {
-
-            int score = Convert.ToInt32(Request.Form["score"]);
             IFormFile? content = Request.Form.Files.GetFile("content");
 
-            Entities.Project newProject = new Entities.Project
+            Entities.Project? newProject = new()
             {
                 Code = Random.Shared.Next().ToString(),
-                PersonDocument1 = Request.Form["personDocument"],
+                PersonDocument1 = projectRequest.personDocument1,
+                PersonDocument2 = projectRequest.personDocument2,
                 Content = GetBytesFromStream(content.OpenReadStream()),
-                Status = Request.Form["status"],
-                Score = score,
-                ProposalCode = Request.Form["proposalCode"]
+                Status = projectRequest.status,
+                Score = projectRequest.score,
+                ProposalCode = projectRequest.proposalCode
             };
 
             Entities.Project oldProject = _projectService.SearchProject(newProject.ProposalCode);
