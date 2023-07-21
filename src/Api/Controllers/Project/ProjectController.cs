@@ -1,3 +1,4 @@
+using Api.Controllers.People;
 using Api.Controllers.Project;
 using Entities;
 using Entities.Exceptions;
@@ -88,16 +89,50 @@ public class ProjectController : ControllerBase
             if (projects.Count < 0)
             {
                 return BadRequest(
-                    new Response<Void>("No se encontro ningún proyecto asociado al documento"));
+                    new Response<Void>(
+                        "No se encontro ningún proyecto asociado al documento"));
             }
 
-            return Ok(new Response<List<ProjectResponse>>(
-                projects?.Adapt<List<ProjectResponse>>()));
+           var projectsResponse =RefactorProjects(projects);
+
+           return Ok(new Response<List<ProjectResponse>>(
+                projectsResponse?.Adapt<List<ProjectResponse>>()));
         }
         catch (PersonExeption e)
         {
             return BadRequest(new Response<Void>(e.Message));
         }
+    }
+
+    private List<ProjectResponse> RefactorProjects(List<Entities.Project> projects)
+    {
+        List<ProjectResponse>
+            projectsResponse = new List<ProjectResponse>();
+        foreach (var p in projects)
+        {
+            Entities.Proposal proposal =
+                _proposalService.GetProposalCode(p.ProposalCode);
+            if (proposal != null)
+            {
+                var newProject = new
+                {
+                    Code = p.Code,
+                    PersonDocument1 = p.PersonDocument1,
+                    PersonDocument2 = p.PersonDocument2,
+                    EvaluatorDocument = p.EvaluatorDocument,
+                    TutorDocument = p.TutorDocument,
+                    Content = p.Content,
+                    Status = p.Status,
+                    Score = p.Score,
+                    ProposalCode = p.ProposalCode,
+                    Title = proposal.Title,
+                };
+                projectsResponse.Add(newProject.Adapt<ProjectResponse>());
+            }
+
+
+        };
+        return projectsResponse;
     }
 
     [HttpGet("get-projects-title/{title}")]
@@ -115,8 +150,9 @@ public class ProjectController : ControllerBase
             {
                 return BadRequest(new Response<Void>("No se encontró ningún proyecto asociado al título"));
             }
+            var projectsResponse =RefactorProjects(projects);
 
-            return Ok(new Response<List<ProjectResponse>>(projects.Adapt<List<ProjectResponse>>()));
+            return Ok(new Response<List<ProjectResponse>>(projectsResponse.Adapt<List<ProjectResponse>>()));
         }
         catch (PersonExeption e)
         {
@@ -137,9 +173,10 @@ public ActionResult GetProjectsProfessorDocument([FromRoute] string document)
             return BadRequest(
                 new Response<Void>("No existen proyectos registradas con ese documento"));
         }
+        var projectsResponse =RefactorProjects(projects);
 
         return Ok(new Response<List<ProjectResponse>>(
-            projects?.Adapt<List<ProjectResponse>>()));
+            projectsResponse?.Adapt<List<ProjectResponse>>()));
     }
     catch (PersonExeption e)
     {
@@ -160,7 +197,7 @@ public ActionResult GetProjectCode([FromRoute] string code)
         }
 
         string contentBase64 = Convert.ToBase64String(project.Content);
-
+        var proposal = _proposalService.GetProposalCode(project.ProposalCode);
         var response = new ProjectResponse(
             project.Code,
             project.PersonDocument1,
@@ -170,7 +207,8 @@ public ActionResult GetProjectCode([FromRoute] string code)
             contentBase64, // Enviar el contenido del archivo como cadena Base64
             project.Status,
             project.Score,
-            project.ProposalCode
+            project.ProposalCode,
+            proposal.Title
         );
         var (toAdresses, toAdress,title) = GetAdressesEmailStudentsAndDocent(response.Code,false);
         _emailService.SendEmailRegistration(toAdresses,"Proyecto",title);
@@ -257,8 +295,10 @@ public ActionResult GetAll()
                 new Response<Void>("No se encontro ningún proyecto"));
         }
 
+        var projectsResponse =RefactorProjects(projects);
+
         return Ok(new Response<List<ProjectResponse>>(
-            projects?.Adapt<List<ProjectResponse>>()));
+            projectsResponse?.Adapt<List<ProjectResponse>>()));
     }
     catch (PersonExeption e)
     {
