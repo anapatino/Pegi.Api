@@ -35,7 +35,7 @@ public class ProposalController : ControllerBase
 
             Entities.Proposal oldProposal =
                 _proposalService.GetProposalCode(newProposal.Code);
-            if (newProposal.Code == oldProposal?.Code)
+            if (newProposal.Code == oldProposal?.Code && oldProposal.Code != null)
             {
                 _proposalService.UpdateProposal(newProposal);
             }

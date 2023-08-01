@@ -11,4 +11,5 @@ public record PersonResponse(string Document,
     DateTime BirthDate,
     string Phone,
     string InstitutionalMail,
-    string CitiesCode);
+    string CitiesCode,
+    string DepartamentCode);

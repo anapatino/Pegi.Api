@@ -24,4 +24,14 @@ public class LocationsService
         return _citiesRepository.Filter(city =>
             city.Department != null && city.Department.Name == department);
     }
+
+    public Department GetDepartmentByCityCode(string cityCode)
+    {
+        City city = _citiesRepository.Find(d => d.Id == cityCode);
+        if (city != null)
+        {
+            return _departmentsRepository.Find(d => d.Id == city.DepartmentCode);
+        }
+        return null;
+    }
 }
