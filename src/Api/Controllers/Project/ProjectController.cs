@@ -245,7 +245,7 @@ public ActionResult UpdateEvaluatorProject([FromBody] ProjectUpdateRequest proje
     }
 }
 
-[HttpPut("update-tutor-proyect/")]
+[HttpPut("update-tutor-project/")]
 [Authorize(Roles = "Administrador")]
 public ActionResult UpdateTutorProject([FromBody] ProjectUpdateRequest projectUpdateRequest)
 {
