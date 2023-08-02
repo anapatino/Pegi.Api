@@ -53,7 +53,7 @@ public class PeopleController : ControllerBase
                 return BadRequest(new Response<Void>("no se encontro a la persona"));
             }
 
-            var departament = _locationsService.GetDepartmentByCityCode(person.CitiesCode);
+            var departamentAndCity = _locationsService.GetDepartmentByCityCode(person.CitiesCode);
             var newPerson = new
             {
                  Document= person.Document,
@@ -67,8 +67,10 @@ public class PeopleController : ControllerBase
                  BirthDate= person.BirthDate,
                  Phone= person.Phone,
                  InstitutionalMail= person.InstitutionalMail,
-                 CitiesCode= person.CitiesCode,
-                 DepartamentCode= departament.Id
+                 CitiesCode = person.CitiesCode,
+                 CitiesName = departamentAndCity[0],
+                 DepartamentCode = departamentAndCity[1],
+                 DepartamentName= departamentAndCity[2]
             };
 
             return Ok(new Response<PersonResponse>(newPerson.Adapt<PersonResponse>()));
