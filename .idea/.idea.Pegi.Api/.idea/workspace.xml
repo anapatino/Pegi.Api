@@ -10,17 +10,51 @@
   <component name="ChangeListManager">
     <list default="true" id="d367163b-5767-4d69-ba36-488eef6525e3" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Pegi.Api/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Pegi.Api/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Api/Controllers/People/PeopleController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Api/Controllers/People/PeopleController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Api/Controllers/People/PersonResponse.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Api/Controllers/People/PersonResponse.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Api/Controllers/Proposal/ProposalController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Api/Controllers/Proposal/ProposalController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Api/bin/Debug/net6.0/Api.dll" beforeDir="false" afterPath="$PROJECT_DIR$/src/Api/bin/Debug/net6.0/Api.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Api/bin/Debug/net6.0/Api.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/src/Api/bin/Debug/net6.0/Api.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Api/obj/Debug/net6.0/Api.dll" beforeDir="false" afterPath="$PROJECT_DIR$/src/Api/obj/Debug/net6.0/Api.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Api/obj/Debug/net6.0/Api.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/src/Api/obj/Debug/net6.0/Api.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Api/obj/Debug/net6.0/ref/Api.dll" beforeDir="false" afterPath="$PROJECT_DIR$/src/Api/obj/Debug/net6.0/ref/Api.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Api/obj/Debug/net6.0/refint/Api.dll" beforeDir="false" afterPath="$PROJECT_DIR$/src/Api/obj/Debug/net6.0/refint/Api.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Api/obj/staticwebassets.pack.sentinel" beforeDir="false" afterPath="$PROJECT_DIR$/src/Api/obj/staticwebassets.pack.sentinel" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Services/LocationsService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Services/LocationsService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Api/obj/Api.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/Api/obj/Api.csproj.nuget.dgspec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Api/obj/Debug/net6.0/.NETCoreApp,Version=v6.0.AssemblyAttributes.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Api/obj/Debug/net6.0/.NETCoreApp,Version=v6.0.AssemblyAttributes.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Api/obj/Debug/net6.0/Api.GeneratedMSBuildEditorConfig.editorconfig" beforeDir="false" afterPath="$PROJECT_DIR$/src/Api/obj/Debug/net6.0/Api.GeneratedMSBuildEditorConfig.editorconfig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Api/obj/Debug/net6.0/Api.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/src/Api/obj/Debug/net6.0/Api.assets.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Api/obj/Debug/net6.0/Api.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/src/Api/obj/Debug/net6.0/Api.csproj.AssemblyReference.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Api/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/Api/obj/project.assets.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Api/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/src/Api/obj/project.nuget.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Api/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/Api/obj/project.packagespec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Api/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/src/Api/obj/rider.project.restore.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Data/obj/Data.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/Data/obj/Data.csproj.nuget.dgspec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Data/obj/Debug/net6.0/.NETCoreApp,Version=v6.0.AssemblyAttributes.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Data/obj/Debug/net6.0/.NETCoreApp,Version=v6.0.AssemblyAttributes.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Data/obj/Debug/net6.0/Data.GeneratedMSBuildEditorConfig.editorconfig" beforeDir="false" afterPath="$PROJECT_DIR$/src/Data/obj/Debug/net6.0/Data.GeneratedMSBuildEditorConfig.editorconfig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Data/obj/Debug/net6.0/Data.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/src/Data/obj/Debug/net6.0/Data.assets.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Data/obj/Debug/net6.0/Data.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/src/Data/obj/Debug/net6.0/Data.csproj.AssemblyReference.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Data/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/Data/obj/project.assets.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Data/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/src/Data/obj/project.nuget.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Data/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/Data/obj/project.packagespec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Data/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/src/Data/obj/rider.project.restore.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entities/obj/Debug/net6.0/.NETCoreApp,Version=v6.0.AssemblyAttributes.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entities/obj/Debug/net6.0/.NETCoreApp,Version=v6.0.AssemblyAttributes.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entities/obj/Debug/net6.0/Entities.GeneratedMSBuildEditorConfig.editorconfig" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entities/obj/Debug/net6.0/Entities.GeneratedMSBuildEditorConfig.editorconfig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entities/obj/Debug/net6.0/Entities.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entities/obj/Debug/net6.0/Entities.assets.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entities/obj/Debug/net6.0/Entities.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entities/obj/Debug/net6.0/Entities.csproj.AssemblyReference.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entities/obj/Entities.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entities/obj/Entities.csproj.nuget.dgspec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entities/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entities/obj/project.assets.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entities/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entities/obj/project.nuget.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entities/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entities/obj/project.packagespec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entities/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entities/obj/rider.project.restore.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Services/obj/Debug/net6.0/.NETCoreApp,Version=v6.0.AssemblyAttributes.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Services/obj/Debug/net6.0/.NETCoreApp,Version=v6.0.AssemblyAttributes.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Services/obj/Debug/net6.0/Services.GeneratedMSBuildEditorConfig.editorconfig" beforeDir="false" afterPath="$PROJECT_DIR$/src/Services/obj/Debug/net6.0/Services.GeneratedMSBuildEditorConfig.editorconfig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Services/obj/Debug/net6.0/Services.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/src/Services/obj/Debug/net6.0/Services.assets.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Services/obj/Debug/net6.0/Services.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/src/Services/obj/Debug/net6.0/Services.csproj.AssemblyReference.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Services/obj/Services.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/Services/obj/Services.csproj.nuget.dgspec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Services/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/Services/obj/project.assets.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Services/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/src/Services/obj/project.nuget.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Services/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/Services/obj/project.packagespec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Services/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/src/Services/obj/rider.project.restore.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/SeleniumTest/obj/Debug/net6.0/.NETCoreApp,Version=v6.0.AssemblyAttributes.cs" beforeDir="false" afterPath="$PROJECT_DIR$/test/SeleniumTest/obj/Debug/net6.0/.NETCoreApp,Version=v6.0.AssemblyAttributes.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/SeleniumTest/obj/Debug/net6.0/SeleniumTest.GeneratedMSBuildEditorConfig.editorconfig" beforeDir="false" afterPath="$PROJECT_DIR$/test/SeleniumTest/obj/Debug/net6.0/SeleniumTest.GeneratedMSBuildEditorConfig.editorconfig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/SeleniumTest/obj/Debug/net6.0/SeleniumTest.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/test/SeleniumTest/obj/Debug/net6.0/SeleniumTest.assets.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/SeleniumTest/obj/Debug/net6.0/SeleniumTest.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/test/SeleniumTest/obj/Debug/net6.0/SeleniumTest.csproj.AssemblyReference.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/SeleniumTest/obj/SeleniumTest.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/test/SeleniumTest/obj/SeleniumTest.csproj.nuget.dgspec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/SeleniumTest/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/test/SeleniumTest/obj/project.assets.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/SeleniumTest/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/test/SeleniumTest/obj/project.nuget.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/SeleniumTest/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/test/SeleniumTest/obj/project.packagespec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/SeleniumTest/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/test/SeleniumTest/obj/rider.project.restore.info" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -126,7 +160,8 @@
       <workItem from="1690559177070" duration="1511000" />
       <workItem from="1690573335876" duration="979000" />
       <workItem from="1690837387263" duration="2586000" />
-      <workItem from="1690900786195" duration="3681000" />
+      <workItem from="1690900786195" duration="4546000" />
+      <workItem from="1690992920645" duration="128000" />
     </task>
     <task id="LOCAL-00001" summary="new module message and emails">
       <created>1687654196439</created>
@@ -170,7 +205,14 @@
       <option name="project" value="LOCAL" />
       <updated>1690849769916</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="change controller Person locations">
+      <created>1690905257660</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1690905257660</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -185,7 +227,8 @@
     <MESSAGE value="module message completedd" />
     <MESSAGE value="all modules completed" />
     <MESSAGE value="change url" />
-    <option name="LAST_COMMIT_MESSAGE" value="change url" />
+    <MESSAGE value="change controller Person locations" />
+    <option name="LAST_COMMIT_MESSAGE" value="change controller Person locations" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

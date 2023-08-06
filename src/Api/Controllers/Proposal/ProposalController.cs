@@ -25,17 +25,15 @@ public class ProposalController : ControllerBase
 
     [HttpPost]
     [Authorize(Roles = ("Estudiante"))]
-    public ActionResult RegisterProposal(
-        [FromBody] ProposalRequest proposalRequest)
+    public ActionResult RegisterProposal([FromBody] ProposalRequest proposalRequest)
     {
         try
         {
-            Entities.Proposal? newProposal =
-                proposalRequest.Adapt<Entities.Proposal>();
+            Entities.Proposal newProposal = proposalRequest.Adapt<Entities.Proposal>();
 
-            Entities.Proposal oldProposal =
-                _proposalService.GetProposalCode(newProposal.Code);
-            if (newProposal.Code == oldProposal?.Code && oldProposal.Code != null)
+            Entities.Proposal oldProposal = _proposalService.GetProposalCode(newProposal.Code);
+
+            if (oldProposal != null && oldProposal.Code == newProposal.Code)
             {
                 _proposalService.UpdateProposal(newProposal);
             }
@@ -44,16 +42,18 @@ public class ProposalController : ControllerBase
                 newProposal.Code = Random.Shared.Next().ToString();
                 _proposalService.SaveProposal(newProposal);
             }
-            var toAdresses =_peopleService.GetInstitutionalEmailMultiple(newProposal.PersonDocument1,newProposal.PersonDocument2);
-             _emailService.SendEmailRegistration(toAdresses,"Propuesta",newProposal.Title);
-            return Ok(new Response<Void>("Propuesta registrada con exito",
-                false));
+
+            var toAddresses = _peopleService.GetInstitutionalEmailMultiple(newProposal.PersonDocument1, newProposal.PersonDocument2);
+            _emailService.SendEmailRegistration(toAddresses, "Propuesta", newProposal.Title);
+
+            return Ok(new Response<Void>("Propuesta registrada con éxito", false));
         }
-        catch (PersonExeption exeption)
+        catch (PersonExeption exception)
         {
-            return BadRequest(new Response<Void>(exeption.Message));
+            return BadRequest(new Response<Void>(exception.Message));
         }
     }
+
 
     [HttpPut]
     [Authorize(Roles = ("Estudiante"))]
