@@ -26,47 +26,42 @@ public class ProjectController : ControllerBase
         _proposalService = proposalService;
     }
 
+
     [HttpPost]
     [Authorize(Roles = ("Estudiante"))]
     public ActionResult RegisterProject([FromForm] ProjectRequest projectRequest)
     {
         try
         {
-            var projects = _projectService.GetProjectsByProposalCode(projectRequest.proposalCode);
-            if (projects.Count == 0)
+
+            IFormFile? content = Request.Form.Files.GetFile("content");
+
+            Entities.Project? newProject = new()
             {
-                IFormFile? content = Request.Form.Files.GetFile("content");
+                Code = Random.Shared.Next().ToString(),
+                PersonDocument1 = projectRequest.personDocument1,
+                PersonDocument2 = projectRequest.personDocument2,
+                Content = GetBytesFromStream(content.OpenReadStream()),
+                Status = projectRequest.status,
+                Score = projectRequest.score,
+                ProposalCode = projectRequest.proposalCode
+            };
 
-                Entities.Project? newProject = new()
-                {
-                    Code = Random.Shared.Next().ToString(),
-                    PersonDocument1 = projectRequest.personDocument1,
-                    PersonDocument2 = projectRequest.personDocument2,
-                    Content = GetBytesFromStream(content.OpenReadStream()),
-                    Status = projectRequest.status,
-                    Score = projectRequest.score,
-                    ProposalCode = projectRequest.proposalCode
-                };
-
-                Entities.Project oldProject = _projectService.SearchProject(newProject.ProposalCode);
-                if (newProject.ProposalCode == oldProject?.ProposalCode)
-                {
-                    newProject.Code = oldProject.Code;
-                    _projectService.UpdateProject(newProject);
-                }
-                else
-                {
-                    _projectService.SaveProject(newProject);
-                }
-
-                var newProposal = _proposalService.GetProposalCode(newProject.ProposalCode);
-                var toAdresses = _peopleService.GetInstitutionalEmailMultiple(newProposal.PersonDocument1, newProposal.PersonDocument2);
-                _emailService.SendEmailRegistration(toAdresses, "Proyecto", newProposal.Title);
-                return Ok(new Response<Void>("Se ha guardado con éxito el proyecto", false));
+            Entities.Project oldProject = _projectService.SearchProject(newProject.ProposalCode);
+            if (newProject.ProposalCode == oldProject?.ProposalCode)
+            {
+                newProject.Code = oldProject.Code;
+                _projectService.UpdateProject(newProject);
+            }
+            else
+            {
+                _projectService.SaveProject(newProject);
             }
 
-            return BadRequest(new Response<Void>("La propuesta ingresada ya tiene un proyecto asociado"));
-
+            var newProposal = _proposalService.GetProposalCode(newProject.ProposalCode);
+            var toAdresses = _peopleService.GetInstitutionalEmailMultiple(newProposal.PersonDocument1, newProposal.PersonDocument2);
+            _emailService.SendEmailRegistration(toAdresses, "Proyecto", newProposal.Title);
+            return Ok(new Response<Void>("Se ha guardado con éxito el proyecto", false));
         }
         catch (PersonExeption exception)
         {
@@ -82,6 +77,7 @@ public class ProjectController : ControllerBase
             return memoryStream.ToArray();
         }
     }
+
 
 
 
@@ -110,6 +106,31 @@ public class ProjectController : ControllerBase
             return BadRequest(new Response<Void>(e.Message));
         }
     }
+
+    [HttpGet("get-projects-by-proposal/{code}")]
+    [Authorize(Roles = "Estudiante,Docente,Administrador")]
+    public ActionResult GetProjectsByProposal([FromRoute] string code)
+    {
+        try
+        {
+            List<Entities.Project> projects =
+                _projectService.GetProjectsByProposalCode(code);
+            if (projects.Count == 0)
+            {
+                return Ok(
+                    new Response<Void>(
+                        "No se encontro ningún proyecto asociado a la propuesta",false));
+            }
+
+            return BadRequest(new Response<Void>("La propuesta ingresada ya tiene un proyecto asociado",true));
+
+        }
+        catch (PersonExeption e)
+        {
+            return BadRequest(new Response<Void>(e.Message));
+        }
+    }
+    
 
     private List<ProjectResponse> RefactorProjects(List<Entities.Project> projects)
     {

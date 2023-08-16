@@ -609,6 +609,28 @@
         }
       }
     },
+    "/Project/get-projects-by-proposal/{code}": {
+      "get": {
+        "tags": [
+          "Project"
+        ],
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/Project/get-projects-title/{title}": {
       "get": {
         "tags": [
