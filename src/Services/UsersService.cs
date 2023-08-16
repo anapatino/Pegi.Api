@@ -28,6 +28,12 @@ public class UsersService
         }
     }
 
+    public User SearchUser(string name)
+    {
+       return _usersRepository.Find(user => user.Name == name);
+
+    }
+
     public (string,bool?) AddPersonDocument(string document,string username)
     {
         try

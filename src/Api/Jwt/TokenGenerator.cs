@@ -1,4 +1,4 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Json.Nodes;
@@ -28,7 +28,7 @@ namespace Api.Jwt
 
             if (user.Person != null)
             {
-                claims = new []
+                claims = new[]
                 {
                     new Claim(ClaimTypes.NameIdentifier, user.Name!),
                     new Claim(ClaimTypes.Role, user.Role!),

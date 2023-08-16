@@ -12,7 +12,7 @@ public class EmailService
         _emailSender = emailSender;
 
     }
-
+    //STUDENT
     public void SendEmailRegistration(List<string>toAddresses,string type,string title)
     {
         _emailSender.ConfirmationOfRegistration(toAddresses,type,title);
@@ -38,6 +38,7 @@ public class EmailService
         _emailSender.ConfirmationQualificationStudent(toAddresses,"Proyecto",title);
     }
 
+    //DOCENT
     public void SendEmailAssignmentEvaluatorProposal(string toAdress,string title)
     {
         _emailSender.ConfirmationAssignmentDocent(toAdress,title,"Propuesta");
@@ -47,15 +48,24 @@ public class EmailService
     {
         _emailSender.ConfirmationAssignmentDocent(toAdress,title,"Propuesta");
     }
+    public void SendEmailAssignmentEvaluatorProject(string toAdress, string title)
+    {
+        _emailSender.ConfirmationAssignmentDocent(toAdress, title, "Proyecto");
+    }
+
+    public void SendEmailAssignmentTutorProject(string toAdress, string title)
+    {
+        _emailSender.ConfirmationAssignmentDocent(toAdress, title, "Proyecto");
+    }
+
+    public void SendEmailQualificationDocentProject(string toAdress, string title)
+    {
+        _emailSender.ConfirmationQualificationDocent(toAdress, title, "Proyecto");
+    }
 
     public void SendEmailQualificationDocentProposal(string toAdress,string title)
     {
         _emailSender.ConfirmationQualificationDocent(toAdress,title,"Propuesta");
-    }
-
-    public void SendEmailQualificationDocentProject(string toAdress,string title)
-    {
-        _emailSender.ConfirmationQualificationDocent(toAdress,title,"Proyecto");
     }
 
 }

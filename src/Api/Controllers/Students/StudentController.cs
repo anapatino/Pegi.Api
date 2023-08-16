@@ -15,7 +15,7 @@ public class StudentController : ControllerBase
     private readonly StudentsService _studentsService;
     private readonly PeopleService _peopleService;
 
-    public StudentController(StudentsService studentsService,PeopleService peopleService)
+    public StudentController(StudentsService studentsService, PeopleService peopleService)
     {
         _studentsService = studentsService;
         _peopleService = peopleService;
@@ -49,7 +49,7 @@ public class StudentController : ControllerBase
         try
         {
             Student? student = _studentsService.SearchStudent(document);
-            if(student == null)
+            if (student == null)
             {
                 return BadRequest(new Response<Void>("no se encontro a la estudiante"));
             }

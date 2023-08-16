@@ -26,7 +26,7 @@ public class ResearchSubLinesController : ControllerBase
     {
         try
         {
-            var    subline = createSublineRequest.Adapt<ResearchSubline>();
+            var subline = createSublineRequest.Adapt<ResearchSubline>();
             string message = _researchSubLineService.SaveSubline(subline);
             return Ok(new Response<Void>(message, false));
         }
@@ -67,8 +67,8 @@ public class ResearchSubLinesController : ControllerBase
         }
         catch (Exception e)
         {
-             return BadRequest(
-                            new Response<Void>("No se encontraron sublineas de investigacion"));
+            return BadRequest(
+                           new Response<Void>("No se encontraron sublineas de investigacion"));
         }
 
     }

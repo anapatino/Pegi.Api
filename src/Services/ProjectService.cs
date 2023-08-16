@@ -141,6 +141,11 @@ public class ProjectService
         return _projectRepository.Find(project => project.Code == code);
     }
 
+    public List<Project> GetProjectsByProposalCode(string code)
+    {
+        return _projectRepository.Filter(project => project.ProposalCode == code);
+    }
+
     public object filterListProject(List<Project> project)
     {
         int pendiente = 0, aprobado = 0, corregir = 0, rechazado = 0,total = 0;

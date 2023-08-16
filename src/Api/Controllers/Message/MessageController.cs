@@ -31,7 +31,7 @@ namespace Api.Controllers.Message
                 else
                 {
                     message.Code = Random.Shared.Next().ToString();
-                     var response = _messageService.SaveMessage(message);
+                    var response = _messageService.SaveMessage(message);
 
                 }
                 return Ok(new Response<Void>("Mensaje guardado exitosamente", false));

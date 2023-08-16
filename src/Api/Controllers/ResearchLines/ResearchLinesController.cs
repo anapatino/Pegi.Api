@@ -21,7 +21,7 @@ public class ResearchLinesController : ControllerBase
     {
         try
         {
-            var    line    = createLineRequest.Adapt<ResearchLine>();
+            var line = createLineRequest.Adapt<ResearchLine>();
             string message = _researchLineService.SaveLine(line);
             return Ok(new Response<Void>(message, false));
         }
@@ -40,7 +40,8 @@ public class ResearchLinesController : ControllerBase
         {
             return BadRequest(
                 new Response<Void>("No se encontro linea de investigacion con ese codigo "));
-        }else
+        }
+        else
         {
             return Ok(
                 new Response<ResearchLinesResponse>(researchLine?

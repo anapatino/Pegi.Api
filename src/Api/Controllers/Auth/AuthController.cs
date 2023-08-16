@@ -1,7 +1,8 @@
-    using Api.Jwt;
+using Api.Jwt;
 using Entities;
 using Entities.Exceptions;
 using Mapster;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services;
 
@@ -40,6 +41,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("sign-up")]
+    [Authorize(Roles = "Administrador")]
     public ActionResult SignUp([FromBody] SingUpRequest signUpRequest)
     {
         var user = signUpRequest.Adapt<User>();

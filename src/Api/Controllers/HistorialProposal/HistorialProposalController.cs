@@ -20,7 +20,7 @@ public class HistorialProposalController : ControllerBase
     public HistorialProposalController(
         HistoryProposalService historyProposalService,
         ProposalFeedBackService proposalFeedBackService,
-        ProposalService proposalService,EmailService emailService,PeopleService peopleService)
+        ProposalService proposalService, EmailService emailService, PeopleService peopleService)
     {
         _historyProposalService = historyProposalService;
         _proposalFeedBackService = proposalFeedBackService;
@@ -62,11 +62,11 @@ public class HistorialProposalController : ControllerBase
         string code)
     {
         var proposal = _proposalService.GetProposalCode(code);
-        var toAdresses =_peopleService.GetInstitutionalEmailMultiple(proposal.PersonDocument1,proposal.PersonDocument2);
+        var toAdresses = _peopleService.GetInstitutionalEmailMultiple(proposal.PersonDocument1, proposal.PersonDocument2);
         var toAdress =
-            _peopleService.GetInstitutionalEmail(proposal.EvaluatorDocument );
-        _emailService.SendEmailQualificationStudentProposal(toAdresses,proposal.Title);
-        _emailService.SendEmailQualificationDocentProposal(toAdress,proposal.Title);
+            _peopleService.GetInstitutionalEmail(proposal.EvaluatorDocument);
+        _emailService.SendEmailQualificationStudentProposal(toAdresses, proposal.Title);
+        _emailService.SendEmailQualificationDocentProposal(toAdress, proposal.Title);
     }
 
     [HttpGet("{proposalCode}")]

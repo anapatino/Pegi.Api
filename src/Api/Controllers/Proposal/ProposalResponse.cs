@@ -4,4 +4,4 @@ public record ProposalResponse(string? Code, string? PersonDocument1,string? Per
     string? Title, DateTime? Date,
     string? InvestigationGroup, string? Approach, string? Justification,
     string? GeneralObjective, string? SpecificObjective,
-    string? Bibliographical, string? Status);
+    string? Bibliographical, string? Status,string? ResearchLine, string? ResearchSubline, string? AreaThematic, string? InvestigationGroupName);

@@ -37,4 +37,10 @@ public class ThematicAreaService
         return _thematicAreasRepository.Filter(area  =>
             area.ResearchSublineCode == code);
     }
+
+    public ThematicArea SearchThematicAreaCode(string code)
+    {
+        return _thematicAreasRepository.Find(area =>
+            area.Code == code);
+    }
 }

@@ -39,5 +39,11 @@ public class ResearchSubLineService
             line.ResearchLineCode == code);
     }
 
+    public ResearchSubline SearchSubLineCode(string code)
+    {
+        return _researchSubLinesRepository.Find(line =>
+            line.Code == code);
+    }
+
 
 }

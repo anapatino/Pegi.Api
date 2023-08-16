@@ -1,9 +1,9 @@
-using Api.Controllers.People;
+
 using Entities.Exceptions;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using Services;
-using Entities;
+
 using Microsoft.AspNetCore.Authorization;
 
 namespace Api.Controllers.Proposal;
@@ -15,25 +15,35 @@ public class ProposalController : ControllerBase
     private readonly ProposalService _proposalService;
     private readonly EmailService _emailService;
     private readonly PeopleService _peopleService;
+    private readonly ResearchLineService _researchLine;
+    private readonly ResearchSubLineService _researchSubline;
+    private readonly ThematicAreaService _thematicArea;
+    private readonly ResearchGroupService _researchGroupService;
 
-    public ProposalController(ProposalService proposalService,EmailService emailService,PeopleService peopleService)
+    public ProposalController(ProposalService proposalService, EmailService emailService, PeopleService peopleService, ResearchLineService researchLine, ResearchSubLineService researchSubline, ThematicAreaService thematicArea, ResearchGroupService researchGroupService)
     {
         _proposalService = proposalService;
         _emailService = emailService;
         _peopleService = peopleService;
+        _researchLine = researchLine;
+        _researchSubline = researchSubline;
+        _thematicArea = thematicArea;
+        _researchGroupService = researchGroupService;
     }
 
     [HttpPost]
     [Authorize(Roles = ("Estudiante"))]
-    public ActionResult RegisterProposal([FromBody] ProposalRequest proposalRequest)
+    public ActionResult RegisterProposal(
+        [FromBody] ProposalRequest proposalRequest)
     {
         try
         {
-            Entities.Proposal newProposal = proposalRequest.Adapt<Entities.Proposal>();
+            Entities.Proposal? newProposal =
+                proposalRequest.Adapt<Entities.Proposal>();
 
-            Entities.Proposal oldProposal = _proposalService.GetProposalCode(newProposal.Code);
-
-            if (oldProposal != null && oldProposal.Code == newProposal.Code)
+            Entities.Proposal oldProposal =
+                _proposalService.GetProposalCode(newProposal.Code);
+            if (oldProposal != null && oldProposal.Code != null && newProposal.Code == oldProposal.Code)
             {
                 _proposalService.UpdateProposal(newProposal);
             }
@@ -42,15 +52,14 @@ public class ProposalController : ControllerBase
                 newProposal.Code = Random.Shared.Next().ToString();
                 _proposalService.SaveProposal(newProposal);
             }
-
-            var toAddresses = _peopleService.GetInstitutionalEmailMultiple(newProposal.PersonDocument1, newProposal.PersonDocument2);
-            _emailService.SendEmailRegistration(toAddresses, "Propuesta", newProposal.Title);
-
-            return Ok(new Response<Void>("Propuesta registrada con éxito", false));
+            var toAdresses = _peopleService.GetInstitutionalEmailMultiple(newProposal.PersonDocument1, newProposal.PersonDocument2);
+            _emailService.SendEmailRegistration(toAdresses, "Propuesta", newProposal.Title);
+            return Ok(new Response<Void>("Propuesta registrada con exito",
+                false));
         }
-        catch (PersonExeption exception)
+        catch (PersonExeption exeption)
         {
-            return BadRequest(new Response<Void>(exception.Message));
+            return BadRequest(new Response<Void>(exeption.Message));
         }
     }
 
@@ -89,21 +98,65 @@ public class ProposalController : ControllerBase
     {
         try
         {
-            List<Entities.Proposal> proposals =
-                _proposalService.GetProposalsDocument(document);
+            List<Entities.Proposal> proposals = _proposalService.GetProposalsDocument(document);
+
             if (proposals.Count < 0)
             {
-                return BadRequest(
-                    new Response<Void>("No existen propuestas registradas con ese documento"));
+                return BadRequest(new Response<Void>("No existen propuestas registradas con ese documento"));
             }
 
-            return Ok(new Response<List<ProposalResponse>>(
-                proposals?.Adapt<List<ProposalResponse>>()));
+            List<ProposalResponse> proposalsResponse = MapProposalsToResponse(proposals);
+
+            return Ok(new Response<List<ProposalResponse>>(proposalsResponse));
         }
         catch (PersonExeption e)
         {
             return BadRequest(new Response<Void>(e.Message));
         }
+    }
+
+    private List<ProposalResponse> MapProposalsToResponse(List<Entities.Proposal> proposals)
+    {
+        List<ProposalResponse> proposalsResponse = new List<ProposalResponse>();
+
+        foreach (var proposal in proposals)
+        {
+            var investigationGroup = _researchGroupService.SearchResearchGroup(proposal.InvestigationGroup);
+            var thematic = _thematicArea.SearchThematicAreaCode(proposal.ThematicAreaCode);
+            var researchSubline = _researchSubline.SearchSubLineCode(thematic.ResearchSublineCode);
+            var researchLine = _researchLine.SearchLine(researchSubline.ResearchLineCode);
+
+            var newProposal = MapToProposalResponse(proposal, researchLine?.Name, researchSubline?.Name, thematic?.Name, investigationGroup?.Name);
+
+            proposalsResponse.Add(newProposal);
+        }
+
+        return proposalsResponse;
+    }
+
+    private ProposalResponse MapToProposalResponse(Entities.Proposal proposal, string researchLine, string researchSubline, string areaThematic, string investigationGroup)
+    {
+        return new ProposalResponse
+        (
+            proposal.Code,
+            proposal.PersonDocument1,
+            proposal.PersonDocument2,
+            proposal.EvaluatorDocument,
+            proposal.TutorDocument,
+            proposal.Title,
+            proposal.Date,
+            proposal.InvestigationGroup,
+            proposal.Approach,
+            proposal.Justification,
+            proposal.GeneralObjective,
+            proposal.SpecificObjective,
+            proposal.Bibliographical,
+            proposal.Status,
+            researchLine,
+            researchSubline,
+            areaThematic,
+            investigationGroup
+        );
     }
 
     [HttpGet("get-proposals-professor/{document}")]
@@ -120,8 +173,9 @@ public class ProposalController : ControllerBase
                     new Response<Void>("No existen propuestas registradas con ese documento"));
             }
 
-            return Ok(new Response<List<ProposalResponse>>(
-                proposals?.Adapt<List<ProposalResponse>>()));
+            List<ProposalResponse> proposalsResponse = MapProposalsToResponse(proposals);
+
+            return Ok(new Response<List<ProposalResponse>>(proposalsResponse));
         }
         catch (PersonExeption e)
         {
@@ -135,8 +189,8 @@ public class ProposalController : ControllerBase
     {
         try
         {
-           object statistics =
-                _proposalService.GeneralStatisticsProposalProfessor(document);
+            object statistics =
+                 _proposalService.GeneralStatisticsProposalProfessor(document);
             if (statistics == null)
             {
                 return BadRequest(
@@ -210,9 +264,14 @@ public class ProposalController : ControllerBase
                     new Response<Void>("No existe propuesta registrada con ese codigo"));
             }
 
-            return Ok(
-                new Response<ProposalResponse>(
-                    proposal.Adapt<ProposalResponse>()));
+            var investigationGroup = _researchGroupService.SearchResearchGroup(proposal.InvestigationGroup);
+            var thematic = _thematicArea.SearchThematicAreaCode(proposal.ThematicAreaCode);
+            var researchSubline = _researchSubline.SearchSubLineCode(thematic.ResearchSublineCode);
+            var researchLine = _researchLine.SearchLine(researchSubline.ResearchLineCode);
+
+            var newProposal = MapToProposalResponse(proposal, researchLine?.Name, researchSubline?.Name, thematic?.Name, investigationGroup?.Name);
+
+            return Ok(new Response<ProposalResponse>(newProposal));
         }
         catch (PersonExeption e)
         {
@@ -226,7 +285,7 @@ public class ProposalController : ControllerBase
     {
         try
         {
-            List<Entities.Proposal> proposals= _proposalService.GetProposalsByTitle(title);
+            List<Entities.Proposal> proposals = _proposalService.GetProposalsByTitle(title);
 
             if (proposals == null)
             {
@@ -234,9 +293,9 @@ public class ProposalController : ControllerBase
                     new Response<Void>("No existe propuesta registrada con esa palabra"));
             }
 
-            return Ok(
-                new Response<ProposalResponse>(
-                    proposals.Adapt<ProposalResponse>()));
+            List<ProposalResponse> proposalsResponse = MapProposalsToResponse(proposals);
+
+            return Ok(new Response<List<ProposalResponse>>(proposalsResponse));
         }
         catch (PersonExeption e)
         {
@@ -250,15 +309,15 @@ public class ProposalController : ControllerBase
     {
         try
         {
-            var (message,response)= _proposalService.UpdateEvaluatorDocumentProposal(proposalUpdateRequest.code,proposalUpdateRequest.ProfessorDocument);
-            if (response == false )
+            var (message, response) = _proposalService.UpdateEvaluatorDocumentProposal(proposalUpdateRequest.code, proposalUpdateRequest.ProfessorDocument);
+            if (response == false)
             {
                 return BadRequest(
                     new Response<Void>(message));
             }
-            var (toAdresses, toAdress,title) = GetAdressesEmailStudentsAndDocent(proposalUpdateRequest.code,true);
-            _emailService.SendEmailAssignmentStudentProposal(toAdresses,"Evaluador",title);
-            _emailService.SendEmailAssignmentEvaluatorProposal(toAdress,title);
+            var (toAdresses, toAdress, title) = GetAdressesEmailStudentsAndDocent(proposalUpdateRequest.code, true);
+            _emailService.SendEmailAssignmentStudentProposal(toAdresses, "Evaluador", title);
+            _emailService.SendEmailAssignmentEvaluatorProposal(toAdress, title);
             return Ok(new Response<Void>(message));
 
         }
@@ -273,10 +332,10 @@ public class ProposalController : ControllerBase
     {
         var proposal =
             _proposalService.GetProposalCode(code);
-        var toAdresses =_peopleService.GetInstitutionalEmailMultiple(proposal.PersonDocument1,proposal.PersonDocument2);
+        var toAdresses = _peopleService.GetInstitutionalEmailMultiple(proposal.PersonDocument1, proposal.PersonDocument2);
         var toAdress =
             _peopleService.GetInstitutionalEmail(type ? proposal.EvaluatorDocument : proposal.TutorDocument);
-        return (toAdresses, toAdress,proposal.Title);
+        return (toAdresses, toAdress, proposal.Title);
     }
 
     [HttpPut("update-tutor-proposal/")]
@@ -285,16 +344,16 @@ public class ProposalController : ControllerBase
     {
         try
         {
-            var (message,response)= _proposalService.UpdateTutorDocumentProposal(proposalUpdateRequest.code,proposalUpdateRequest.ProfessorDocument);
-            if (response == false )
+            var (message, response) = _proposalService.UpdateTutorDocumentProposal(proposalUpdateRequest.code, proposalUpdateRequest.ProfessorDocument);
+            if (response == false)
             {
                 return BadRequest(
                     new Response<Void>(message));
 
             }
-            var (toAdresses, toAdress,title) = GetAdressesEmailStudentsAndDocent(proposalUpdateRequest.code,false);
-            _emailService.SendEmailAssignmentStudentProposal(toAdresses,"Tutor",title);
-            _emailService.SendEmailAssignmentTutorProposal(toAdress,title);
+            var (toAdresses, toAdress, title) = GetAdressesEmailStudentsAndDocent(proposalUpdateRequest.code, false);
+            _emailService.SendEmailAssignmentStudentProposal(toAdresses, "Tutor", title);
+            _emailService.SendEmailAssignmentTutorProposal(toAdress, title);
             return Ok(new Response<Void>(message));
 
         }
@@ -317,8 +376,9 @@ public class ProposalController : ControllerBase
                     new Response<Void>("No se pudo retornar una lista de propuesta"));
             }
 
-            return Ok(new Response<List<ProposalResponse>>(
-                proposals?.Adapt<List<ProposalResponse>>()));
+            List<ProposalResponse> proposalsResponse = MapProposalsToResponse(proposals);
+
+            return Ok(new Response<List<ProposalResponse>>(proposalsResponse));
         }
         catch (PersonExeption e)
         {
