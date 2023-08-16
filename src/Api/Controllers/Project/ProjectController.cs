@@ -1,6 +1,6 @@
-
+using Api.Controllers.People;
 using Api.Controllers.Project;
-
+using Entities;
 using Entities.Exceptions;
 using Mapster;
 using Microsoft.AspNetCore.Authorization;
@@ -107,6 +107,7 @@ public class ProjectController : ControllerBase
         }
     }
 
+
     [HttpGet("get-projects-by-proposal/{code}")]
     [Authorize(Roles = "Estudiante,Docente,Administrador")]
     public ActionResult GetProjectsByProposal([FromRoute] string code)
@@ -119,10 +120,10 @@ public class ProjectController : ControllerBase
             {
                 return Ok(
                     new Response<Void>(
-                        "No se encontro ningún proyecto asociado a la propuesta",false));
+                        "No se encontro ningún proyecto asociado a la propuesta", false));
             }
 
-            return BadRequest(new Response<Void>("La propuesta ingresada ya tiene un proyecto asociado",true));
+            return BadRequest(new Response<Void>("La propuesta ingresada ya tiene un proyecto asociado", true));
 
         }
         catch (PersonExeption e)
@@ -130,7 +131,7 @@ public class ProjectController : ControllerBase
             return BadRequest(new Response<Void>(e.Message));
         }
     }
-    
+
 
     private List<ProjectResponse> RefactorProjects(List<Entities.Project> projects)
     {
@@ -306,7 +307,7 @@ public class ProjectController : ControllerBase
             _proposalService.GetProposalCode(project.ProposalCode);
         var toAdresses = _peopleService.GetInstitutionalEmailMultiple(proposal.PersonDocument1, proposal.PersonDocument2);
         var toAdress =
-            _peopleService.GetInstitutionalEmail(type ? project.EvaluatorDocument : project.TutorDocument);
+            _peopleService.GetInstitutionalEmail(type ? proposal.EvaluatorDocument : proposal.TutorDocument);
         return (toAdresses, toAdress, proposal.Title);
     }
 
