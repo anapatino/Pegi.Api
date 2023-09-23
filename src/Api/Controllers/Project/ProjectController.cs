@@ -33,35 +33,40 @@ public class ProjectController : ControllerBase
     {
         try
         {
-
-            IFormFile? content = Request.Form.Files.GetFile("content");
-
-            Entities.Project? newProject = new()
+            List<Entities.Project> projects =
+                _projectService.GetProjectsByProposalCode(projectRequest.proposalCode);
+            if (projects.Count == 0)
             {
-                Code = Random.Shared.Next().ToString(),
-                PersonDocument1 = projectRequest.personDocument1,
-                PersonDocument2 = projectRequest.personDocument2,
-                Content = GetBytesFromStream(content.OpenReadStream()),
-                Status = projectRequest.status,
-                Score = projectRequest.score,
-                ProposalCode = projectRequest.proposalCode
-            };
+                IFormFile? content = Request.Form.Files.GetFile("content");
 
-            Entities.Project oldProject = _projectService.SearchProject(newProject.ProposalCode);
-            if (newProject.ProposalCode == oldProject?.ProposalCode)
-            {
-                newProject.Code = oldProject.Code;
-                _projectService.UpdateProject(newProject);
+                Entities.Project? newProject = new()
+                {
+                    Code = Random.Shared.Next().ToString(),
+                    PersonDocument1 = projectRequest.personDocument1,
+                    PersonDocument2 = projectRequest.personDocument2,
+                    Content = GetBytesFromStream(content.OpenReadStream()),
+                    Status = projectRequest.status,
+                    Score = projectRequest.score,
+                    ProposalCode = projectRequest.proposalCode
+                };
+
+                Entities.Project oldProject = _projectService.SearchProject(newProject.ProposalCode);
+                if (newProject.ProposalCode == oldProject?.ProposalCode)
+                {
+                    newProject.Code = oldProject.Code;
+                    _projectService.UpdateProject(newProject);
+                }
+                else
+                {
+                    _projectService.SaveProject(newProject);
+                }
+
+                var newProposal = _proposalService.GetProposalCode(newProject.ProposalCode);
+                var toAdresses = _peopleService.GetInstitutionalEmailMultiple(newProposal.PersonDocument1, newProposal.PersonDocument2);
+                _emailService.SendEmailRegistration(toAdresses, "Proyecto", newProposal.Title);
+                return Ok(new Response<Void>("Se ha guardado con éxito el proyecto", false));
             }
-            else
-            {
-                _projectService.SaveProject(newProject);
-            }
-
-            var newProposal = _proposalService.GetProposalCode(newProject.ProposalCode);
-            var toAdresses = _peopleService.GetInstitutionalEmailMultiple(newProposal.PersonDocument1, newProposal.PersonDocument2);
-            _emailService.SendEmailRegistration(toAdresses, "Proyecto", newProposal.Title);
-            return Ok(new Response<Void>("Se ha guardado con éxito el proyecto", false));
+            return BadRequest(new Response<Void>("La propuesta ingresada ya tiene un proyecto asociado", true));
         }
         catch (PersonExeption exception)
         {

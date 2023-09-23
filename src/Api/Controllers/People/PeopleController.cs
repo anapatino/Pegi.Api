@@ -16,14 +16,15 @@ public class PeopleController : ControllerBase
     private readonly LocationsService _locationsService;
     private readonly ProposalService _proposalService;
     private readonly StudentsService _studentService;
-
-    public PeopleController(PeopleService peopleService, UsersService usersService, LocationsService locationsService,ProposalService proposalService, StudentsService studentService)
+    private readonly ProfessorService _professorService;
+    public PeopleController(PeopleService peopleService, UsersService usersService, LocationsService locationsService,ProposalService proposalService, StudentsService studentService,ProfessorService professorService)
     {
         _peopleService = peopleService;
         _usersService = usersService;
         _locationsService = locationsService;
         _proposalService = proposalService;
         _studentService = studentService;
+        _professorService = professorService;
     }
 
     [HttpPost]
@@ -129,17 +130,26 @@ public class PeopleController : ControllerBase
     {
         try
         {
-            var proposals = _proposalService.GetProposalsDocument(document);
+            
             var student = _studentService.SearchStudent(document);
+            var professor = _professorService.SearchProfessor(document);
 
-            if(proposals.Count == 0)
+            var proposals = _proposalService.GetProposalsDocument(document);
+            if (proposals.Count == 0)
             {
                 _usersService.DeletePersonDocument(document);
-                string message = _peopleService.DeletePerson(document);
-                if(student != null)
+                if(student!=null)
                 {
                     (string messageStudent, bool response) = _studentService.DeleteStudent(student);
+
+                }else if (professor != null)
+                {
+                    (string messageStudent, bool response) = _professorService.DeleteProfessor(professor);
+
                 }
+
+                string message = _peopleService.DeletePerson(document);
+
                 return Ok(new Response<Void>(message, false));
             }
 

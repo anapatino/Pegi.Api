@@ -22,4 +22,9 @@ public class ResearchGroupService
         return _researchGroupRepository.Find(group =>
             group.Code == code);
     }
+    public ResearchGroup? SearchResearchGroupByResearchLine(string code)
+    {
+        return _researchGroupRepository.Find(group =>
+            group.ResearchLineCode == code);
+    }
 }

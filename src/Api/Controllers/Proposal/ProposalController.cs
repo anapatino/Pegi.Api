@@ -155,7 +155,8 @@ public class ProposalController : ControllerBase
             researchLine,
             researchSubline,
             areaThematic,
-            investigationGroup
+            investigationGroup,
+            proposal.ThematicAreaCode
         );
     }
 

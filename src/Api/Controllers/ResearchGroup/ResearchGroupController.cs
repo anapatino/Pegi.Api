@@ -18,7 +18,7 @@ namespace Api.Controllers.ResearchGroup
         [HttpGet("{code}")]
         public ActionResult GetResearchGroup(string code)
         {
-            Entities.ResearchGroup? group = _researchGroupService.SearchResearchGroup(code);
+            Entities.ResearchGroup? group = _researchGroupService.SearchResearchGroupByResearchLine(code);
             if (group == null || group.Code == null)
             {
                 return BadRequest(new Response<Void>("No se encontró un grupo de investigación con ese código."));

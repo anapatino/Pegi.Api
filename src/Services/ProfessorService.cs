@@ -1,3 +1,4 @@
+using Data.Repository;
 using Entities;
 using Entities.Exceptions;
 
@@ -43,6 +44,17 @@ public class ProfessorService
     {
         return _professorRepository.GetAll();
     }
-
+    public (string, bool) DeleteProfessor(Professor professor)
+    {
+        try
+        {
+            _professorRepository.Delete(professor);
+            return ("Se ha eliminado con exito al profesor", true);
+        }
+        catch (StudentException e)
+        {
+            return (e.Message, false);
+        }
+    }
 
 }

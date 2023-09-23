@@ -68,23 +68,25 @@ namespace Api
                     Description = "JWT Authorization header using the Bearer scheme.",
                     Name = "Authorization",
                     In = ParameterLocation.Header,
-                    Type = SecuritySchemeType.ApiKey
+                    Type = SecuritySchemeType.Http,
+                    BearerFormat = "JWT",
+                    Scheme = "Bearer"
                 });
 
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
                 {
-                    {
-                        new OpenApiSecurityScheme
-                        {
-                            Reference = new OpenApiReference
-                            {
                                 Type = ReferenceType.SecurityScheme,
                                 Id = "Bearer"
-                            }
-                        },
+                }
+            },
                         Array.Empty<string>()
-                    }
-                });
+        }
+    });
             });
 
             // Configura CORS para permitir peticiones desde cualquier origen
